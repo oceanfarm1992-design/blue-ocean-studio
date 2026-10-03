@@ -1,0 +1,62 @@
+{
+  "format": "short",
+  "topic": "Two-Minute Window Display Refresh That Doubles Walk-ins (Retail)",
+  "title": "Two-Minute Window Refresh That Can Boost Walk‑Ins",
+  "title_options": [
+    "Quick Window Refresh to Increase Walk‑Ins",
+    "2‑Minute Window Trick for More Customers",
+    "Simple Window Swap That Drives Foot Traffic"
+  ],
+  "thumbnail_text": "Swap One Item",
+  "description": "A tiny swap in your window can make curious people come inside. This short shows one practical tip you can do in under two minutes with almost no cost.\n\nExamples for a bakery, a plumber and a nail salon, plus exact wording and cost so you can copy it and try it today.",
+  "tags": [
+    "window display",
+    "retail marketing",
+    "walk ins",
+    "small business marketing",
+    "visual merchandising",
+    "retail tips",
+    "local marketing",
+    "storefront",
+    "impulse customers",
+    "low cost marketing"
+  ],
+  "scenes": [
+    {
+      "section": "HOOK",
+      "narration": "Double walk‑ins in two minutes?",
+      "visual_query": "retail storefront outside",
+      "on_screen_text": "Two‑minute trick?"
+    },
+    {
+      "section": "TIP",
+      "narration": "Swap one focal prop in your window. Add a clear reason to enter and a bold price or offer.",
+      "visual_query": "shop owner changing display",
+      "on_screen_text": "Swap one focal prop"
+    },
+    {
+      "section": "EXAMPLE - BAKERY",
+      "narration": "Bakery: put a chalkboard in the window reading 'Morning special: 2 croissants $5. Today only.' Cost: chalk $1.",
+      "visual_query": "baker writing chalkboard",
+      "on_screen_text": "Morning special $5"
+    },
+    {
+      "section": "EXAMPLE - PLUMBER",
+      "narration": "Plumber: place a bright card 'Free leak check today — $0' with a large phone number. One minute to print.",
+      "visual_query": "plumber holding sign outside",
+      "on_screen_text": "Free leak check"
+    },
+    {
+      "section": "EXAMPLE - NAIL SALON",
+      "narration": "Nail salon: swap décor for a printed card 'Walk‑in mani $25' on an easel. Takes two minutes, cost about $1 to print.",
+      "visual_query": "nail technician placing sign",
+      "on_screen_text": "Walk‑in mani $25"
+    },
+    {
+      "section": "CLOSE",
+      "narration": "Try it now: change one focal item, update clear price and reason to enter, then watch foot traffic. Follow Blue Ocean Marketing for one marketing fix every day.",
+      "visual_query": "shop owner watching customers enter",
+      "on_screen_text": "Try it now"
+    }
+  ]
+}
