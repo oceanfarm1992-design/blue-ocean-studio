@@ -1,0 +1,58 @@
+# Every Sunday: write next week's scripts and open a pull request for review.
+name: Week 1 - plan scripts
+
+on:
+  schedule:
+    - cron: "0 5 * * 0"   # Sunday 05:00 UTC = 09:00 Dubai
+  workflow_dispatch:
+    inputs:
+      focus:
+        description: "Optional topic focus, e.g. restaurants"
+        required: false
+        default: ""
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  plan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      # Secret names match .env.txt, uploaded with: gh secret set -f .env.txt
+      OPENAI_API_KEY: ${{ secrets.OPEN_AI_KEY }}
+      FOCUS: ${{ github.event.inputs.focus }}
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install -r requirements.txt
+
+      - name: Write scripts
+        run: python -m studio week plan --focus "$FOCUS"
+
+      - name: Open review pull request
+        run: |
+          week=$(ls projects/weeks/*.json | sort | tail -1 | xargs basename | sed 's/.json//')
+          branch="week/$week"
+          git config user.name "blue-ocean-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -b "$branch"
+          git add projects
+          git commit -m "content: scripts for week of $week"
+          git push -u origin "$branch"
+          {
+            echo "Scripts for the week of **$week** are ready for review."
+            echo
+            echo "**Before merging:**"
+            echo "1. Open **Files changed** and read each \`script.md\`."
+            echo "2. In each \`script.json\`, add one real example of your own and fix or remove every \`[CHECK: ...]\` sentence (tap ... then Edit file)."
+            echo "3. Merge. GitHub then renders 1 long video + 7 Shorts and puts dated drafts in Buffer (about 30 minutes)."
+            echo
+            echo "If a \`[CHECK\` marker is left, the build stops and tells you which file."
+          } > pr-body.md
+          gh pr create --title "Review scripts: week of $week" --body-file pr-body.md --base main --head "$branch"

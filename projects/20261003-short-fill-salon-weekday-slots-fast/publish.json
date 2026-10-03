@@ -1,0 +1,23 @@
+{
+  "posts": {
+    "6ac0bad4ea19ca0bde6172cf": {
+      "service": "facebook",
+      "post_id": "6ac0c33de22a2e5172b9ee76",
+      "due_at": null,
+      "draft": true
+    },
+    "6ac0ba76ea19ca0bde617039": {
+      "service": "youtube",
+      "post_id": "6ac0c33e9fdc9f926e71e4a6",
+      "due_at": null,
+      "draft": true
+    },
+    "6ac0bbbdea19ca0bde617904": {
+      "service": "linkedin",
+      "post_id": "6ac0c92a713b7277a0b327da",
+      "due_at": null,
+      "draft": true
+    }
+  },
+  "video_url": "https://res.cloudinary.com/lie7vhcl/video/upload/v1791017787/blue-ocean-marketing/20261003-short-fill-salon-weekday-slots-fast.mp4"
+}

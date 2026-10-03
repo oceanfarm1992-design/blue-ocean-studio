@@ -1,0 +1,59 @@
+# Blue Ocean Marketing - channel settings used by the studio tool.
+
+[channel]
+name = "Blue Ocean Marketing"
+niche = "Practical, low-budget marketing playbooks for every kind of small business: restaurants, cafes, salons, gyms, contractors, clinics, retail shops, e-commerce stores, real estate agents, local services and solo professionals."
+audience = "Small business owners in English-speaking countries who do their own marketing with little time and money."
+cta = "Want us to look at your marketing for free? Get a free audit from Blue Ocean Marketing, link in the description."
+follow_line = "Follow Blue Ocean Marketing for one marketing fix every day."
+
+[brand]
+primary = "#0A6A8A"
+accent = "#F2A93B"
+dark = "#0C151B"
+light = "#F4F6F7"
+font_bold = "C:/Windows/Fonts/segoeuib.ttf"
+font_regular = "C:/Windows/Fonts/segoeui.ttf"
+caption_font = "Segoe UI"
+
+[llm]
+# Cheap model is plenty for scripts. Change here if OpenAI renames it.
+model = "gpt-5-mini"
+# Less hidden "thinking" = cheaper scripts. Remove this line for models without reasoning.
+reasoning_effort = "low"
+
+[voice]
+# "edge" = free Microsoft neural voices (default)
+# "openai" = OpenAI TTS, about $0.015 per minute of audio
+provider = "edge"
+edge_voice = "en-US-AndrewNeural"
+edge_rate = "+4%"
+openai_model = "gpt-4o-mini-tts"
+openai_voice = "onyx"
+
+[publish]
+# Buffer services to post to by default (Buffer free plan: 3 channels).
+services = ["youtube", "facebook", "linkedin"]
+# YouTube category 27 = Education (others: 22 People & Blogs, 26 Howto & Style)
+youtube_category = "27"
+youtube_privacy = "public"
+# Times you type (and weekly schedule times) are in this time zone. Asia/Dubai = UTC+4.
+timezone = "Asia/Dubai"
+# Weekly schedule, local time. 18:00 Dubai = 15:00 London = 10:00 New York.
+long_time = "18:00"
+short_time = "19:00"
+# false = weekly batch lands in Buffer as dated drafts you approve; true = schedule directly.
+auto_schedule = false
+# Set true if a video shows realistic AI-generated people, places or events.
+disclose_ai = false
+max_hashtags = 5
+
+[video]
+fps = 30
+long_size = [1920, 1080]
+short_size = [1080, 1920]
+long_minutes = 8
+short_seconds = 50
+# Seconds of footage before cutting to the next stock clip
+long_clip_seconds = 6.0
+short_clip_seconds = 3.5

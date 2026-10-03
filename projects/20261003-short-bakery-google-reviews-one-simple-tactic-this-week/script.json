@@ -1,0 +1,64 @@
+{
+  "format": "short",
+  "topic": "How a local bakery can get more Google reviews this week",
+  "title": "Bakery Google Reviews: One Simple Tactic This Week",
+  "title_options": [
+    "Get More Google Reviews for Your Bakery Fast",
+    "One-Tap Google Reviews: Bakery Playbook",
+    "Easy Review Boost for Local Bakeries"
+  ],
+  "thumbnail_text": "Easy Review Boost",
+  "description": "You run a bakery. Make leaving a Google review one tap for customers. This video shows a low-cost setup and exact scripts your staff can use.\nNo ads, no tricks. Small print cost and a same-day text follow-up. Use the QR card, train your team to ask, and send a short reminder. Follow for daily marketing fixes.",
+  "tags": [
+    "bakery marketing",
+    "google reviews",
+    "local seo",
+    "small business",
+    "customer reviews",
+    "review request",
+    "local business marketing",
+    "checkout tips",
+    "sms marketing",
+    "google my business",
+    "low budget marketing",
+    "restaurant marketing"
+  ],
+  "scenes": [
+    {
+      "section": "HOOK",
+      "narration": "Want more Google reviews this week?",
+      "visual_query": "busy bakery counter",
+      "on_screen_text": "Want more reviews?"
+    },
+    {
+      "section": "TIP",
+      "narration": "One move: make leaving a review one tap. Put a QR review card at your register so customers leave reviews before they walk out.",
+      "visual_query": "cashier scanning items",
+      "on_screen_text": "One-tap QR at register"
+    },
+    {
+      "section": "STEP",
+      "narration": "[CHECK: You order 50 QR cards for about $8.] Put them on counters and tables where customers check out and near pastry displays.",
+      "visual_query": "stack of cards",
+      "on_screen_text": "Print QR cards"
+    },
+    {
+      "section": "SETUP",
+      "narration": "You create the one-tap link from Google 'write a review'. Shorten it, put a clear button on receipts, and include it in same-day SMS.",
+      "visual_query": "owner on phone",
+      "on_screen_text": "Put link on receipts"
+    },
+    {
+      "section": "SCRIPT",
+      "narration": "Train staff to ask at checkout. Script to copy: 'Thanks! Tap the QR to leave a quick review. It helps us a lot.'",
+      "visual_query": "cashier speaking customer",
+      "on_screen_text": "Script to copy"
+    },
+    {
+      "section": "FINAL",
+      "narration": "Next day, text: 'Loved baking for you—tap link to leave quick Google review.' Follow Blue Ocean Marketing for one marketing fix every day.",
+      "visual_query": "closeup QR card",
+      "on_screen_text": "Follow for daily fix"
+    }
+  ]
+}

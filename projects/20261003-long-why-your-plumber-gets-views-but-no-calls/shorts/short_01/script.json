@@ -1,0 +1,41 @@
+{
+  "format": "short",
+  "topic": "Why a plumber's Google listing gets views but no calls (Step 1)",
+  "title": "Clear CTA | Why Your Plumber Gets Views but No Calls",
+  "title_options": [],
+  "thumbnail_text": "Clear CTA",
+  "description": "Clear CTA. From our full video: Why Your Plumber Gets Views but No Calls.",
+  "tags": [
+    "google my business",
+    "local seo",
+    "plumber marketing",
+    "small business marketing",
+    "lead generation",
+    "google business profile",
+    "local leads",
+    "cheap marketing",
+    "restaurant marketing",
+    "service business marketing",
+    "shorts"
+  ],
+  "scenes": [
+    {
+      "section": "STEP 1",
+      "narration": "Step 1: Make the call-to-action impossible to miss. Replace vague 'Contact' buttons with 'Call Now for Same-Day Service' or 'Book Emergency Leak Repair.' On your Google profile title and short description repeat the CTA once.",
+      "visual_query": "typing call to action",
+      "on_screen_text": "Clear CTA"
+    },
+    {
+      "section": "STEP 1",
+      "narration": "Example: Plumber wording to copy: 'Call now for same-day leak repairs — licensed plumber, free quote over phone.' Put that as the first line in the business description. People scan quickly; lead with the ask.",
+      "visual_query": "plumber phone call",
+      "on_screen_text": "Copy this text"
+    },
+    {
+      "section": "FOLLOW",
+      "narration": "Follow Blue Ocean Marketing for one marketing fix every day.",
+      "visual_query": "plumber phone call",
+      "on_screen_text": "Follow for daily fixes"
+    }
+  ]
+}

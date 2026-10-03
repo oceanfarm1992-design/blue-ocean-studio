@@ -1,0 +1,62 @@
+{
+  "format": "short",
+  "topic": "How a small hair salon can fill empty weekday slots",
+  "title": "Fill salon weekday slots fast",
+  "title_options": [
+    "Weekday clients: simple salon tactic",
+    "How to pack weekday salon bookings",
+    "Cheap idea to fill weekdays"
+  ],
+  "thumbnail_text": "Fill Weekday Chairs",
+  "description": "Quick, low-cost marketing to book slow weekday hours. This short shows one simple offer you can run today.\nUse the exact words and steps here to set up a weekday express service, target local workers, and track bookings with minimal effort.",
+  "tags": [
+    "salon marketing",
+    "small business",
+    "beauty salon tips",
+    "weekend to weekday bookings",
+    "low cost marketing",
+    "local marketing",
+    "salon promotions",
+    "bookings",
+    "weekday clients",
+    "hair salon tips"
+  ],
+  "scenes": [
+    {
+      "section": "HOOK",
+      "narration": "Want weekday clients at your salon?",
+      "visual_query": "hairstylist waving client",
+      "on_screen_text": "Fill weekday chairs"
+    },
+    {
+      "section": "TIP",
+      "narration": "Create a Weekday Express: a 30-minute refresh at a reduced price for office workers nearby.",
+      "visual_query": "stylist quick haircut salon",
+      "on_screen_text": "Weekday Express"
+    },
+    {
+      "section": "EXAMPLE",
+      "narration": "Offer 'Weekday Express: 30-minute blowout or trim, $25, Tue–Thu 10am–2pm' — clear and specific.",
+      "visual_query": "stylist blowdrying client",
+      "on_screen_text": "$25 Weekday Deal"
+    },
+    {
+      "section": "DISTRIBUTION",
+      "narration": "Post the offer on your page, pin a post, and share a short reel showing the quick service.",
+      "visual_query": "woman filming salon reel",
+      "on_screen_text": "Post & Reel"
+    },
+    {
+      "section": "TARGETING",
+      "narration": "Text previous clients and message nearby offices: 'Quick mid-day refresh? Walk-ins welcome, or book by text.'",
+      "visual_query": "owner texting phone salon",
+      "on_screen_text": "Text nearby clients"
+    },
+    {
+      "section": "CLOSE",
+      "narration": "Track which days fill, keep the price for a month, tweak hours if needed. Follow Blue Ocean Marketing for one marketing fix every day.",
+      "visual_query": "salon owner checking calendar",
+      "on_screen_text": "One fix every day"
+    }
+  ]
+}

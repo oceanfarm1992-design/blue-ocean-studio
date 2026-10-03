@@ -1,0 +1,41 @@
+{
+  "format": "short",
+  "topic": "Why a plumber's Google listing gets views but no calls (Step 2)",
+  "title": "Easy to Call | Why Your Plumber Gets Views but No Calls",
+  "title_options": [],
+  "thumbnail_text": "Easy to Call",
+  "description": "Easy to Call. From our full video: Why Your Plumber Gets Views but No Calls.",
+  "tags": [
+    "google my business",
+    "local seo",
+    "plumber marketing",
+    "small business marketing",
+    "lead generation",
+    "google business profile",
+    "local leads",
+    "cheap marketing",
+    "restaurant marketing",
+    "service business marketing",
+    "shorts"
+  ],
+  "scenes": [
+    {
+      "section": "STEP 2",
+      "narration": "Step 2: Make calling frictionless. Use a single visible phone number and a click-to-call button. If you use a tracking number, route calls to your main line. Test the number from different phones to make sure it rings.",
+      "visual_query": "phone number on screen",
+      "on_screen_text": "Easy to Call"
+    },
+    {
+      "section": "STEP 2",
+      "narration": "Example: Bakery routine. Use the same number on Google, your site, and Facebook. If you add a local tracking number, expect a small monthly fee — around ten dollars a month [CHECK: price]. Make sure it forwards to your main phone.",
+      "visual_query": "bakery storefront phone",
+      "on_screen_text": "Single Number"
+    },
+    {
+      "section": "FOLLOW",
+      "narration": "Follow Blue Ocean Marketing for one marketing fix every day.",
+      "visual_query": "bakery storefront phone",
+      "on_screen_text": "Follow for daily fixes"
+    }
+  ]
+}

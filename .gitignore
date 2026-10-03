@@ -1,0 +1,18 @@
+# Secrets (in the cloud these come from GitHub Secrets instead)
+.env
+.env.txt
+.api.txt
+.Buffer.py
+
+# Environment
+.venv/
+__pycache__/
+.pytest_cache/
+
+# Generated media: rendered on demand, hosted on Cloudinary, never committed.
+# Scripts, batch files and publish.json records ARE committed so the cloud remembers them.
+projects/**/build/
+projects/**/*.mp4
+projects/**/*.jpg
+projects/**/*.png
+cache/
