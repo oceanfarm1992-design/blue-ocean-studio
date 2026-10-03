@@ -1,0 +1,25 @@
+{
+  "posts": {
+    "6ac0bbbdea19ca0bde617904": {
+      "service": "linkedin",
+      "post_id": "6ac11bae814d657011ca3fe7",
+      "due_at": "2026-10-05T14:00:00.000Z",
+      "draft": true
+    },
+    "6ac0bad4ea19ca0bde6172cf": {
+      "service": "facebook",
+      "post_id": "6ac11baeaa79e514b9f344aa",
+      "due_at": "2026-10-05T14:00:00.000Z",
+      "draft": true
+    },
+    "6ac0ba76ea19ca0bde617039": {
+      "service": "youtube",
+      "post_id": "6ac11baf3bfd38430fe63ea1",
+      "due_at": "2026-10-05T14:00:00.000Z",
+      "draft": true
+    }
+  },
+  "video_url": "https://res.cloudinary.com/lie7vhcl/video/upload/v1791040426/blue-ocean-marketing/20261003-long-4-instagram-reels-you-can-film-in-1-hour.mp4",
+  "public_id": "blue-ocean-marketing/20261003-long-4-instagram-reels-you-can-film-in-1-hour",
+  "hosting_deleted": false
+}

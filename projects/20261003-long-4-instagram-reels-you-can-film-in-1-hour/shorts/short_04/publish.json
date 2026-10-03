@@ -1,0 +1,25 @@
+{
+  "posts": {
+    "6ac0bbbdea19ca0bde617904": {
+      "service": "linkedin",
+      "post_id": "6ac11bbaad7fd83bc5f76aad",
+      "due_at": "2026-10-08T15:00:00.000Z",
+      "draft": true
+    },
+    "6ac0bad4ea19ca0bde6172cf": {
+      "service": "facebook",
+      "post_id": "6ac11bbafec59133947b6d7d",
+      "due_at": "2026-10-08T15:00:00.000Z",
+      "draft": true
+    },
+    "6ac0ba76ea19ca0bde617039": {
+      "service": "youtube",
+      "post_id": "6ac11bbbaa79e514b9f34586",
+      "due_at": "2026-10-08T15:00:00.000Z",
+      "draft": true
+    }
+  },
+  "video_url": "https://res.cloudinary.com/lie7vhcl/video/upload/v1791040440/blue-ocean-marketing/short_04.mp4",
+  "public_id": "blue-ocean-marketing/short_04",
+  "hosting_deleted": false
+}

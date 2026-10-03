@@ -1,0 +1,41 @@
+{
+  "format": "short",
+  "topic": "Weekly Instagram Reel Plan for Cafes: 4 Reels You Can Film in 1 Hour (Step 1 - Reel #1: Behind-The-Scenes)",
+  "title": "Behind-the-scenes | 4 Instagram Reels You Can Film in 1 Hour",
+  "title_options": [],
+  "thumbnail_text": "Behind-the-scenes",
+  "description": "Behind-the-scenes. From our full video: 4 Instagram Reels You Can Film in 1 Hour.",
+  "tags": [
+    "Instagram reels",
+    "cafe marketing",
+    "social media for cafes",
+    "small business marketing",
+    "content ideas",
+    "video marketing",
+    "coffee shop tips",
+    "low budget marketing",
+    "weekly content plan",
+    "reel ideas",
+    "shorts"
+  ],
+  "scenes": [
+    {
+      "section": "STEP 1 - REEL #1: BEHIND-THE-SCENES",
+      "narration": "Reel one is a 15 to 30 second behind-the-scenes. Show how you make a signature item. Example: the bakery-cafe — film pulling a baguette from the oven, sprinkling flour, and slicing. Say: 'Fresh all morning. Come grab this warm loaf.'",
+      "visual_query": "baker pulling bread oven",
+      "on_screen_text": "Behind-the-scenes"
+    },
+    {
+      "section": "STEP 1 - REEL #1: BEHIND-THE-SCENES",
+      "narration": "Shots: 3 to 5 clips — oven pull, close-up crust, cutting, plated loaf. Keep clips 2 to 4 seconds each. Sound: natural oven ambient and one line of voiceover recorded on your phone. Cost: zero. Tip: film during slow prep, not rush hour.",
+      "visual_query": "close-up slicing bread",
+      "on_screen_text": "3–5 short clips"
+    },
+    {
+      "section": "FOLLOW",
+      "narration": "Follow Blue Ocean Marketing for one marketing fix every day.",
+      "visual_query": "close-up slicing bread",
+      "on_screen_text": "Follow for daily fixes"
+    }
+  ]
+}
