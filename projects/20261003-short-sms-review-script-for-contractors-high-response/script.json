@@ -1,0 +1,61 @@
+{
+  "format": "short",
+  "topic": "SMS Review Request Script That Gets 70%+ Response for Local Contractors",
+  "title": "SMS Review Script for Contractors (High Response)",
+  "title_options": [
+    "Get More Reviews with One SMS",
+    "Contractor SMS That Gets Reviews",
+    "Simple Text to Boost Local Reviews"
+  ],
+  "thumbnail_text": "Text = More Reviews",
+  "description": "Short, ready-to-use SMS scripts local contractors can send after a job. Low-cost, quick, and written for real customers who will actually reply.\n\nOne clean process, one example for plumbers, and exact wording to copy. No fluff — try it after your next job and track results yourself.",
+  "tags": [
+    "local marketing",
+    "contractor marketing",
+    "get reviews",
+    "sms marketing",
+    "small business tips",
+    "plumber marketing",
+    "customer reviews",
+    "local SEO",
+    "cheap marketing"
+  ],
+  "scenes": [
+    {
+      "section": "HOOK",
+      "narration": "Want 70%+ review responses?",
+      "visual_query": "plumber finishing job",
+      "on_screen_text": "Want 70%+ responses?"
+    },
+    {
+      "section": "TIP",
+      "narration": "One tip: send a short, immediate SMS with a direct review link and a simple ask.",
+      "visual_query": "technician locking toolbox",
+      "on_screen_text": "One immediate SMS"
+    },
+    {
+      "section": "EXAMPLE",
+      "narration": "Example for a plumber: \"Hi Sam, thanks for today. If we did a good job, can you tap this quick review? [link]\"",
+      "visual_query": "plumber handing invoice",
+      "on_screen_text": "Copy this message"
+    },
+    {
+      "section": "TIMING",
+      "narration": "Send it within 30 minutes of finishing while the work is fresh and you’re still top of mind.",
+      "visual_query": "plumber waving goodbye",
+      "on_screen_text": "Send within 30 minutes"
+    },
+    {
+      "section": "SETUP",
+      "narration": "Use your business phone or a low-cost SMS provider to insert the direct Google or Facebook review link.",
+      "visual_query": "phone showing message",
+      "on_screen_text": "Use direct review link"
+    },
+    {
+      "section": "CLOSE",
+      "narration": "Keep it short, friendly, and clickable. Follow Blue Ocean Marketing for one marketing fix every day.",
+      "visual_query": "woman reading phone reviews",
+      "on_screen_text": "Short. Friendly. Clickable."
+    }
+  ]
+}
