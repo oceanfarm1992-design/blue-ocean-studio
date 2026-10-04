@@ -17,9 +17,20 @@
       "post_id": "6ac11bc1ad7fd83bc5f76b4f",
       "due_at": "2026-10-10T15:00:00.000Z",
       "draft": false
+    },
+    "6ac1f36c6a5c39ccb60ca907": {
+      "service": "instagram",
+      "post_id": "6ac21138814d657011ea7470",
+      "due_at": "2026-10-10T15:00:00.000Z",
+      "draft": false
     }
   },
   "video_url": "https://res.cloudinary.com/lie7vhcl/video/upload/v1791040446/blue-ocean-marketing/20261003-short-sms-review-script-for-contractors-high-response.mp4",
   "public_id": "blue-ocean-marketing/20261003-short-sms-review-script-for-contractors-high-response",
-  "hosting_deleted": false
+  "hosting_deleted": false,
+  "youtube_pending": {
+    "publish_at": "2026-10-10T15:00:00.000Z",
+    "public_now": false,
+    "draft": false
+  }
 }
