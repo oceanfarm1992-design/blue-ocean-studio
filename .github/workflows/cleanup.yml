@@ -1,5 +1,6 @@
-# Daily: delete hosted videos from Cloudinary once Buffer has posted them (keeps it free).
-name: Daily cleanup
+# Daily: upload YouTube videos due in the next 48 hours (spreads uploads to fit YouTube's
+# free quota), then delete hosted copies from Cloudinary once everything has posted.
+name: Daily - YouTube uploads and cleanup
 
 on:
   schedule:
@@ -9,28 +10,41 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: daily
+  cancel-in-progress: false
+
 jobs:
-  cleanup:
+  daily:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 60
     env:
-      # Secret names match .env.txt, uploaded with: gh secret set -f .env.txt
+      # Secret names match .env.txt and youtube.env
       BUFFER_API_KEY: ${{ secrets.BUFFER_API }}
       CLOUDINARY_URL: ${{ secrets.CLOUDINARY_URL }}
+      YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
+      YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
+      YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
     steps:
       - uses: actions/checkout@v4
+      - name: Install FFmpeg and fonts (for long-video thumbnails)
+        run: sudo apt-get update -q && sudo apt-get install -y -q ffmpeg fonts-dejavu-core
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
           cache: pip
       - run: pip install -r requirements.txt
-      - run: python -m studio cleanup
+      - name: Upload YouTube videos that are due
+        run: python -m studio youtube-sync
+      - name: Clean up hosted videos
+        run: python -m studio cleanup
       - name: Save records
+        if: always()
         run: |
           git config user.name "blue-ocean-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add projects
           if git diff --cached --quiet; then exit 0; fi
-          git commit -m "chore: cleanup hosted videos"
+          git commit -m "chore: daily YouTube uploads and cleanup"
           git pull --rebase
           git push

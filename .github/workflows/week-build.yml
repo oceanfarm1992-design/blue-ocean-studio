@@ -32,15 +32,20 @@ jobs:
       YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
       YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
       YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
+      # Read-only token for the private repo holding your voice sample
+      VOICE_REPO_PAT: ${{ secrets.VOICE_REPO_PAT }}
     steps:
       - uses: actions/checkout@v4
-      - name: Install FFmpeg and fonts
-        run: sudo apt-get update -q && sudo apt-get install -y -q ffmpeg fonts-dejavu-core
+      - name: Install FFmpeg, fonts and espeak-ng (voice phonemes)
+        run: sudo apt-get update -q && sudo apt-get install -y -q ffmpeg fonts-dejavu-core espeak-ng
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
           cache: pip
-      - run: pip install -r requirements.txt
+      - name: Install Python packages (CPU torch first, then your voice engine)
+        run: |
+          pip install torch==2.8.0+cpu torchaudio==2.8.0+cpu --index-url https://download.pytorch.org/whl/cpu
+          pip install -r requirements-cloud.txt
 
       - name: Render and send to Buffer
         run: python -m studio week auto

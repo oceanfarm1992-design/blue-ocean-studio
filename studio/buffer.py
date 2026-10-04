@@ -1,6 +1,8 @@
 """Minimal client for Buffer's GraphQL API (https://developers.buffer.com)."""
 from __future__ import annotations
 
+import time
+
 import httpx
 
 BUFFER_API_URL = "https://api.buffer.com"
@@ -40,10 +42,21 @@ class BufferError(RuntimeError):
     pass
 
 
+class RateLimited(Exception):
+    pass
+
+
+RETRY_DELAYS = (10, 30, 60)  # seconds to wait after Buffer says "too many requests"
+_CHANNEL_CACHE: dict[str, list[dict]] = {}
+
+
 class BufferClient:
-    def __init__(self, api_key: str, transport: httpx.BaseTransport | None = None):
+    def __init__(self, api_key: str, transport: httpx.BaseTransport | None = None,
+                 sleep=time.sleep):
         if not api_key:
             raise BufferError("No Buffer API key. Add BUFFER_API_KEY=... to .env or .env.txt.")
+        self._key = api_key
+        self._sleep = sleep
         self._http = httpx.Client(
             base_url=BUFFER_API_URL,
             headers={"Authorization": f"Bearer {api_key}"},
@@ -52,18 +65,34 @@ class BufferClient:
         )
 
     def _gql(self, query: str, variables: dict | None = None) -> dict:
+        """One GraphQL call, waiting and retrying when Buffer says there are too many requests."""
+        for delay in (*RETRY_DELAYS, None):
+            try:
+                return self._gql_once(query, variables)
+            except RateLimited:
+                if delay is None:
+                    raise BufferError("Buffer is limiting requests. Wait a few minutes and retry.")
+                print(f"  Buffer asked to slow down, waiting {delay} s...")
+                self._sleep(delay)
+        raise AssertionError("unreachable")
+
+    def _gql_once(self, query: str, variables: dict | None) -> dict:
         try:
             response = self._http.post("", json={"query": query, "variables": variables or {}})
         except httpx.HTTPError as exc:
             raise BufferError(f"Could not reach Buffer: {exc}") from exc
         if response.status_code == 401:
             raise BufferError("Buffer rejected the API key. Create a new one in Buffer > Settings > API.")
+        if response.status_code == 429:
+            raise RateLimited()
         try:
             body = response.json()
         except ValueError as exc:
             raise BufferError(f"Buffer returned HTTP {response.status_code} with no JSON.") from exc
         if body.get("errors"):
             messages = "; ".join(e.get("message", "unknown error") for e in body["errors"])
+            if "too many requests" in messages.lower():
+                raise RateLimited()
             raise BufferError(f"Buffer error: {messages}")
         return body.get("data") or {}
 
@@ -74,8 +103,14 @@ class BufferClient:
         return self._gql(CHANNELS_QUERY, {"orgId": org_id}).get("channels", [])
 
     def all_channels(self) -> list[dict]:
-        return [{**c, "organizationId": org["id"]}
-                for org in self.organizations() for c in self.channels(org["id"])]
+        """Every channel, fetched once per process: it rarely changes during a run."""
+        cached = _CHANNEL_CACHE.get(self._key)
+        if cached is not None:
+            return cached
+        channels = [{**c, "organizationId": org["id"]}
+                    for org in self.organizations() for c in self.channels(org["id"])]
+        _CHANNEL_CACHE[self._key] = channels
+        return channels
 
     def post(self, post_id: str) -> dict | None:
         """The post's id, status, dueAt and sentAt, or None if it no longer exists."""

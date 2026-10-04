@@ -47,6 +47,9 @@ def cleanup(cfg: Config, dry_run: bool = False) -> dict[str, int]:
         if not url or state.get("hosting_deleted"):
             continue
         name = state_path.parent.name
+        if state.get("youtube_pending"):
+            summary["waiting"] += 1  # the daily YouTube upload still needs this copy
+            continue
         try:
             decision = cleanup_decision(_statuses(client, state))
         except BufferError as exc:

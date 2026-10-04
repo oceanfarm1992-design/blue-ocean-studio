@@ -17,9 +17,21 @@
       "post_id": "6ac11bb2fec59133947b6c90",
       "due_at": "2026-10-05T15:00:00.000Z",
       "draft": false
+    },
+    "6ac1f36c6a5c39ccb60ca907": {
+      "service": "instagram",
+      "post_id": "6ac1f5c7aa79e514b90fb4a4",
+      "due_at": "2026-10-05T15:00:00.000Z",
+      "draft": false
     }
   },
   "video_url": "https://res.cloudinary.com/lie7vhcl/video/upload/v1791040432/blue-ocean-marketing/short_01.mp4",
   "public_id": "blue-ocean-marketing/short_01",
-  "hosting_deleted": false
+  "hosting_deleted": false,
+  "youtube_direct": {
+    "video_id": "xHsOtQ_2ZSc",
+    "url": "https://youtu.be/xHsOtQ_2ZSc",
+    "publish_at": "2026-10-05T15:00:00.000Z",
+    "public_now": false
+  }
 }

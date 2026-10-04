@@ -116,6 +116,29 @@ def test_buffer_mutation_error_and_graphql_errors_raise():
         broken.organizations()
 
 
+def test_buffer_retries_when_rate_limited_then_succeeds():
+    calls = []
+
+    def handler(request):
+        calls.append(1)
+        if len(calls) < 3:
+            return httpx.Response(200, json={"errors": [{"message": "Too many requests from this client."}]})
+        return httpx.Response(200, json={"data": {"account": {"organizations": [{"id": "o"}]}}})
+
+    waits = []
+    client = BufferClient("k", transport=httpx.MockTransport(handler), sleep=waits.append)
+
+    assert client.organizations() == [{"id": "o"}]
+    assert waits == [10, 30]
+
+
+def test_buffer_gives_up_after_retries():
+    client = BufferClient("k", transport=httpx.MockTransport(lambda r: httpx.Response(429)),
+                          sleep=lambda s: None)
+    with pytest.raises(BufferError, match="limiting requests"):
+        client.organizations()
+
+
 def test_buffer_bad_key_and_missing_key():
     with pytest.raises(BufferError, match="rejected the API key"):
         _client(lambda r: httpx.Response(401, json={})).organizations()

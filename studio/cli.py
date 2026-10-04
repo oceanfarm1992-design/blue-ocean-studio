@@ -22,6 +22,8 @@ from studio.config import load_config
 from studio.hosting import HostingError
 from studio.publish import PublishError, publish_project
 from studio.youtube import YouTubeError
+from studio.ytsync import SyncError
+from studio.ytsync import sync as youtube_sync
 from studio.youtube import login as youtube_login
 from studio.ideas import generate_ideas, ideas_to_markdown
 from studio.llm import LLMError
@@ -41,7 +43,8 @@ from studio.visuals import VisualsError
 from studio.voice import VoiceError
 
 KNOWN_ERRORS = (LLMError, ScriptError, RenderError, MediaError, VoiceError, VisualsError,
-                BufferError, HostingError, PublishError, YouTubeError, FileNotFoundError,
+                BufferError, HostingError, PublishError, YouTubeError, SyncError,
+                FileNotFoundError,
                 json.JSONDecodeError)  # e.g. a script.json broken while editing on GitHub
 
 
@@ -115,6 +118,16 @@ def _cmd_shorts(cfg, args) -> int:
     return 0
 
 
+def _cmd_youtube_sync(cfg, args) -> int:
+    print("Uploading YouTube videos due in the next 48 hours...")
+    uploaded = youtube_sync(cfg)
+    for name, record in uploaded:
+        when = f"publishes {record['publish_at']}" if record["publish_at"] else "public now"
+        print(f"  {name}: {when} · {record['url']}")
+    print(f"\nUploaded {len(uploaded)} video(s).")
+    return 0
+
+
 def _cmd_check(cfg, args) -> int:
     results = run_checks(cfg)
     for name, ok, detail in results:
@@ -151,6 +164,9 @@ def _cmd_publish(cfg, args) -> int:
         results = publish_project(cfg, Path(project), services, when, draft,
                                   dry_run=args.dry_run, again=args.again)
         for r in results:
+            if r.get("queued"):
+                print(f"  youtube: queued, the daily job uploads it within 48 h of {r['due_at']}")
+                continue
             if "url" in r:
                 when_text = f"publishes {r['due_at']}" if r["due_at"] else (
                     "private" if r["draft"] else "public now")
@@ -303,6 +319,9 @@ def build_parser() -> argparse.ArgumentParser:
 
     check = sub.add_parser("check", help="test every service connection (read-only)")
     check.set_defaults(func=_cmd_check)
+
+    yt_sync = sub.add_parser("youtube-sync", help="upload queued YouTube videos that are due")
+    yt_sync.set_defaults(func=_cmd_youtube_sync)
 
     yt_login = sub.add_parser("youtube-login", help="one-time Google sign-in for YouTube uploads")
     yt_login.set_defaults(func=_cmd_youtube_login)

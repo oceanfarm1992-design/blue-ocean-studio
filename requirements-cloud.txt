@@ -1,0 +1,8 @@
+# Extra packages for GitHub Actions: your cloned voice (StyleTTS2) with a Kokoro fallback.
+# Install the CPU-only torch wheel FIRST (see the workflows), or pip pulls the huge CUDA build.
+# Pins match the Countries-Video-Flows pipeline, where this combination is known to work.
+-r requirements.txt
+styletts2==0.1.6
+kokoro==0.9.4
+soundfile>=0.12.1,<0.13
+styletts2-voice-clone @ git+https://github.com/oceanfarm1992-design/styletts2-voice-clone.git

@@ -23,17 +23,24 @@ model = "gpt-5-mini"
 reasoning_effort = "low"
 
 [voice]
-# "edge" = free Microsoft neural voices (default)
+# "clone"  = your own voice (StyleTTS2), cloned from your private sample. Runs on GitHub
+#            (needs the VOICE_REPO_PAT secret); falls back to `fallback_provider` on the PC.
+# "edge"   = free Microsoft neural voices
 # "openai" = OpenAI TTS, about $0.015 per minute of audio
-provider = "edge"
+provider = "clone"
+fallback_provider = "edge"
+clone_repo = "oceanfarm1992-design/voice-reference-audio"
+clone_file = "reference_voice.mp3"
 edge_voice = "en-US-AndrewNeural"
 edge_rate = "+4%"
 openai_model = "gpt-4o-mini-tts"
 openai_voice = "onyx"
 
 [publish]
-# Buffer services to post to by default (Buffer free plan: 3 channels).
-services = ["youtube", "facebook", "linkedin"]
+# Where every video goes. YouTube uploads directly through its own API (long videos and
+# Shorts); the rest go through Buffer (free plan: 3 channels). Instagram gets Shorts only,
+# because long videos are landscape.
+services = ["youtube", "facebook", "linkedin", "instagram"]
 # YouTube category 27 = Education (others: 22 People & Blogs, 26 Howto & Style)
 youtube_category = "27"
 youtube_privacy = "public"

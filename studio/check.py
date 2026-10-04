@@ -33,7 +33,7 @@ def _pexels(cfg: Config) -> str:
 
 def _buffer(cfg: Config) -> str:
     channels = BufferClient(cfg.buffer_key or "").all_channels()
-    wanted = set((cfg.publish or {}).get("services", []))
+    wanted = set((cfg.publish or {}).get("services", [])) - {"youtube"}  # YouTube is direct
     found = {c["service"] for c in channels if not c.get("isDisconnected")}
     missing = wanted - found
     if missing:

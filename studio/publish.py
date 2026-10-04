@@ -1,13 +1,16 @@
-"""Sends a rendered project to Buffer: hosts the video, then creates one post per channel."""
+"""Publishes a rendered project: YouTube through its own API, other networks through Buffer.
+
+Buffer posts Facebook, LinkedIn and Instagram from a hosted copy of the video. YouTube
+uploads are queued and sent by studio.ytsync close to their publish time, because YouTube's
+free API quota only allows a few uploads a day.
+"""
 from __future__ import annotations
 
 import json
-import re
 from datetime import datetime, timezone
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
-from studio import youtube
 from studio.buffer import BufferClient
 from studio.config import Config
 from studio.hosting import (
@@ -17,15 +20,19 @@ from studio.hosting import (
     public_id_from_url,
     upload_video,
 )
-from studio.metadata import build_chapters
+from studio.posttext import (  # noqa: F401  (re-exported for callers and tests)
+    build_texts,
+    hashtags,
+    social_text,
+    youtube_text,
+    youtube_title,
+)
 from studio.project import load_script
 from studio.script import unchecked_scenes
-from studio.shorts import scene_durations
+from studio.ytsync import upload_pending
 
-YOUTUBE_TITLE_MAX = 100
-YOUTUBE_TEXT_MAX = 4900
-SOCIAL_TEXT_MAX = 2900  # LinkedIn's limit is 3000; Facebook allows far more
 SUPPORTED_SERVICES = ("youtube", "facebook", "linkedin", "instagram", "tiktok")
+VERTICAL_ONLY_SERVICES = {"instagram", "tiktok"}  # Reels-style networks skip landscape videos
 
 
 class PublishError(RuntimeError):
@@ -50,35 +57,6 @@ def parse_when(when: str, tz_name: str | None = None) -> tuple[str, str | None]:
         moment = moment.replace(tzinfo=ZoneInfo(tz_name)) if tz_name else moment.astimezone()
     utc = moment.astimezone(timezone.utc)
     return "customScheduled", utc.strftime("%Y-%m-%dT%H:%M:%S.000Z")
-
-
-def hashtags(tags: list[str], limit: int) -> str:
-    cleaned = []
-    for tag in tags:
-        word = re.sub(r"[^A-Za-z0-9]", "", tag.title())
-        if word and word.lower() not in {c.lower() for c in cleaned}:
-            cleaned.append(word)
-    return " ".join(f"#{word}" for word in cleaned[:limit])
-
-
-def youtube_title(script: dict) -> str:
-    title = script["title"]
-    if script["format"] == "short" and "#shorts" not in title.lower():
-        title = f"{title} #Shorts"
-    return title[:YOUTUBE_TITLE_MAX].rstrip()
-
-
-def youtube_text(script: dict, cta: str, chapters: list[str]) -> str:
-    parts = [script["description"], cta]
-    if chapters:
-        parts.append("Chapters:\n" + "\n".join(chapters))
-    return "\n\n".join(p for p in parts if p)[:YOUTUBE_TEXT_MAX]
-
-
-def social_text(script: dict, cta: str, tags_line: str) -> str:
-    first_paragraph = script["description"].split("\n")[0]
-    parts = [script["title"], first_paragraph, cta, tags_line]
-    return "\n\n".join(p for p in parts if p)[:SOCIAL_TEXT_MAX]
 
 
 def _service_metadata(service: str, script: dict, settings: dict) -> dict | None:
@@ -125,17 +103,20 @@ def build_post_input(service: str, channel_id: str, script: dict, texts: dict[st
     return post
 
 
-def build_texts(cfg: Config, project_dir: Path, script: dict) -> dict[str, str]:
-    settings = cfg.publish or {}
+def youtube_privacy(mode: str, due_at: str | None, draft: bool) -> tuple[str | None, bool]:
+    """(publishAt, public right away) for a direct YouTube upload."""
+    if draft:
+        return None, False
+    if mode == "customScheduled" and due_at:
+        return due_at, False
+    return None, True
+
+
+def buffer_services_for(script: dict, services: list[str]) -> list[str]:
+    """Services that go through Buffer for this video (YouTube never does)."""
     is_long = script["format"] == "long"
-    cta = cfg.channel["cta"] if is_long else cfg.channel["follow_line"]
-    chapters = []
-    if is_long:
-        durations = scene_durations(project_dir, script)
-        chapters = build_chapters([(s["section"], d) for s, d in zip(script["scenes"], durations)])
-    tags_line = hashtags(script["tags"], int(settings.get("max_hashtags", 5)))
-    return {"youtube": youtube_text(script, cta, chapters),
-            "social": social_text(script, cta, tags_line)}
+    return [s for s in services
+            if s != "youtube" and not (is_long and s in VERTICAL_ONLY_SERVICES)]
 
 
 def _load_state(path: Path) -> dict:
@@ -164,6 +145,8 @@ def _host_video(cfg: Config, project_dir: Path, state: dict) -> dict:
 
 
 def _targets(client: BufferClient, services: list[str], state: dict, again: bool) -> list[dict]:
+    if not services:
+        return []
     channels = [c for c in client.all_channels()
                 if c["service"] in services and not c.get("isDisconnected")]
     if not channels:
@@ -171,67 +154,56 @@ def _targets(client: BufferClient, services: list[str], state: dict, again: bool
     return [c for c in channels if again or c["id"] not in state["posts"]]
 
 
-def youtube_privacy(mode: str, due_at: str | None, draft: bool) -> tuple[str | None, bool]:
-    """(publishAt, public right away) for a direct YouTube upload."""
-    if draft:
-        return None, False
-    if mode == "customScheduled" and due_at:
-        return due_at, False
-    return None, True
+def _wants_youtube(services: list[str], state: dict, again: bool) -> bool:
+    queued = state.get("youtube_direct") or state.get("youtube_pending")
+    return "youtube" in services and (again or not queued)
 
 
-def _youtube_direct(cfg: Config, project_dir: Path, script: dict, texts: dict[str, str],
-                    mode: str, due_at: str | None, draft: bool) -> dict:
-    """Uploads a long video straight to YouTube, since Buffer only posts YouTube Shorts."""
-    if cfg.youtube is None:
-        raise PublishError("YouTube login missing. Run: python -m studio youtube-login")
-    settings = cfg.publish or {}
+def _queue_youtube(cfg: Config, project_dir: Path, state_path: Path, state: dict, mode: str,
+                   due_at: str | None, draft: bool) -> dict:
     publish_at, public_now = youtube_privacy(mode, due_at, draft)
-    metadata = youtube.build_metadata(
-        youtube_title(script), texts["youtube"], script["tags"],
-        str(settings.get("youtube_category", "27")), publish_at, public_now,
-        bool(settings.get("disclose_ai", False)))
-    print("  uploading long video to YouTube...")
-    video_id = youtube.upload(cfg.youtube, project_dir / "video.mp4", metadata)
-    thumbnail = project_dir / "thumbnail.jpg"
-    thumb_error = youtube.set_thumbnail(cfg.youtube, video_id, thumbnail) if thumbnail.is_file() else None
-    if thumb_error:
-        print(f"  note: custom thumbnail not set ({thumb_error[:120]})")
-    return {"video_id": video_id, "url": f"https://youtu.be/{video_id}",
-            "publish_at": publish_at, "public_now": public_now, "draft": draft}
+    queued = {k: v for k, v in state.items() if k != "youtube_direct"}
+    _save_state(state_path, {**queued, "youtube_pending": {
+        "publish_at": publish_at, "public_now": public_now, "draft": draft}})
+    record = upload_pending(cfg, project_dir, datetime.now(timezone.utc))
+    if record:
+        return {"service": "youtube", "post_id": record["video_id"],
+                "due_at": record["publish_at"], "draft": draft, "url": record["url"]}
+    return {"service": "youtube", "post_id": None, "due_at": publish_at, "draft": draft,
+            "queued": True}
 
 
-def _plan(client: BufferClient, script: dict, services: list[str], state: dict,
-          again: bool) -> tuple[list[dict], bool]:
-    """Buffer channels to post to, and whether a direct YouTube upload is needed."""
-    is_long = script["format"] == "long"
-    buffer_services = [s for s in services if not (is_long and s == "youtube")]
-    targets = _targets(client, buffer_services, state, again) if buffer_services else []
-    direct = is_long and "youtube" in services and (again or not state.get("youtube_direct"))
-    return targets, direct
+def _validate(project_dir: Path, script: dict, dry_run: bool) -> None:
+    if not (project_dir / "video.mp4").is_file():
+        raise PublishError("No video.mp4 yet. Render the project first.")
+    pending = unchecked_scenes(script)
+    if not pending:
+        return
+    message = (f"Scenes {pending} still contain [CHECK: ...]. "
+               "Verify the facts, edit script.json, re-render, then publish.")
+    if not dry_run:
+        raise PublishError(message)
+    print(f"  WARNING (a real run would stop here): {message}")
 
 
 def publish_project(cfg: Config, project_dir: Path, services: list[str], when: str,
                     draft: bool, dry_run: bool = False, again: bool = False) -> list[dict]:
     project_dir = project_dir.resolve()
     script = load_script(project_dir)
-    if not (project_dir / "video.mp4").is_file():
-        raise PublishError("No video.mp4 yet. Render the project first.")
-    if unchecked_scenes(script):
-        raise PublishError(f"Scenes {unchecked_scenes(script)} still contain [CHECK: ...]. "
-                           "Verify the facts, edit script.json, re-render, then publish.")
+    _validate(project_dir, script, dry_run)
     mode, due_at = parse_when(when, (cfg.publish or {}).get("timezone"))
     texts = build_texts(cfg, project_dir, script)
     state_path = project_dir / "publish.json"
     state = _load_state(state_path)
     client = BufferClient(cfg.buffer_key or "")
-    targets, direct = _plan(client, script, services, state, again)
-    if not targets and not direct:
+    targets = _targets(client, buffer_services_for(script, services), state, again)
+    wants_youtube = _wants_youtube(services, state, again)
+    if not targets and not wants_youtube:
         print("  already sent to every selected channel (use --again to repost)")
         return []
 
     label = "draft" if draft else mode
-    if direct:
+    if wants_youtube:
         print(f"  youtube · direct upload · {'private' if draft else label}")
     for channel in targets:
         print(f"  {channel['service']} · {channel['name']} · {label}")
@@ -239,17 +211,13 @@ def publish_project(cfg: Config, project_dir: Path, services: list[str], when: s
         print("\n--- YouTube text ---\n" + texts["youtube"] + "\n\n--- Social text ---\n" + texts["social"])
         return []
 
-    results = []
-    if direct:
-        record = _youtube_direct(cfg, project_dir, script, texts, mode, due_at, draft)
-        state = {**state, "youtube_direct": record}
-        _save_state(state_path, state)
-        results.append({"service": "youtube", "post_id": record["video_id"],
-                        "due_at": record["publish_at"], "draft": draft, "url": record["url"]})
-    if not targets:
-        return results
+    # Host first: Buffer needs the URL, and queued YouTube uploads download from it later.
     state = _host_video(cfg, project_dir, state)
     _save_state(state_path, state)
+    results = []
+    if wants_youtube:
+        results.append(_queue_youtube(cfg, project_dir, state_path, state, mode, due_at, draft))
+        state = _load_state(state_path)
     for channel in targets:
         post_input = build_post_input(channel["service"], channel["id"], script, texts,
                                       state["video_url"], mode, due_at, draft, cfg.publish or {})

@@ -14,7 +14,7 @@ from studio.metadata import build_chapters, build_metadata
 from studio.project import load_script
 from studio.script import unchecked_scenes
 from studio.visuals import ClipFinder
-from studio.voice import synthesize, voice_id
+from studio.voice import audio_filename, synthesize, voice_id
 
 SCENE_PAUSE_SECONDS = 0.35  # breathing room after each scene's narration
 
@@ -40,7 +40,7 @@ def _load_state(path: Path) -> dict:
 
 def _scene_voice(cfg: Config, scene: dict, scene_dir: Path, state: dict) -> dict:
     """Reuses cached audio when narration and voice settings are unchanged."""
-    audio = scene_dir / "voice.mp3"
+    audio = scene_dir / audio_filename(cfg)
     vid = voice_id(cfg)
     if (state.get("narration") == scene["narration"] and state.get("voice") == vid
             and audio.is_file()):
@@ -79,7 +79,7 @@ def _prepare_scene(cfg: Config, scene: dict, scene_dir: Path, finder: ClipFinder
     state = _scene_clips(cfg, scene, scene_dir, state, finder, duration, size, clip_seconds)
     state_path.write_text(json.dumps(state, indent=2), encoding="utf-8")
     words = tuple(Word(t, s, e) for t, s, e in state["words"])
-    return SceneAssets(scene_dir / "voice.mp3", duration, words,
+    return SceneAssets(scene_dir / audio_filename(cfg), duration, words,
                        tuple(Path(p).resolve() for p in state["clips"]))
 
 

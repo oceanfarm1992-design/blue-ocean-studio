@@ -16,7 +16,7 @@ permissions:
 jobs:
   test:
     runs-on: ubuntu-latest
-    timeout-minutes: 120
+    timeout-minutes: 150   # your cloned voice renders at roughly 4x real time on CPU
     env:
       # Secret names match .env.txt and youtube.env
       OPENAI_API_KEY: ${{ secrets.OPEN_AI_KEY }}
@@ -26,16 +26,20 @@ jobs:
       YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
       YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
       YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
+      VOICE_REPO_PAT: ${{ secrets.VOICE_REPO_PAT }}
       FOCUS: ${{ github.event.inputs.focus }}
     steps:
       - uses: actions/checkout@v4
-      - name: Install FFmpeg and fonts
-        run: sudo apt-get update -q && sudo apt-get install -y -q ffmpeg fonts-dejavu-core
+      - name: Install FFmpeg, fonts and espeak-ng (voice phonemes)
+        run: sudo apt-get update -q && sudo apt-get install -y -q ffmpeg fonts-dejavu-core espeak-ng
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
           cache: pip
-      - run: pip install -r requirements.txt
+      - name: Install Python packages (CPU torch first, then your voice engine)
+        run: |
+          pip install torch==2.8.0+cpu torchaudio==2.8.0+cpu --index-url https://download.pytorch.org/whl/cpu
+          pip install -r requirements-cloud.txt
 
       - name: 1. Unit tests
         run: python -m pytest -q
@@ -56,6 +60,7 @@ jobs:
         run: python -m studio week schedule "$BATCH" --schedule --dry-run
 
       - name: 6. Save videos for review
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: test-week-videos
