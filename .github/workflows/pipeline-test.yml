@@ -1,0 +1,67 @@
+# Manual end-to-end test. Writes scripts, renders a full week and previews publishing.
+# It posts NOTHING, commits nothing, and saves the videos as a downloadable artifact.
+name: Pipeline test (posts nothing)
+
+on:
+  workflow_dispatch:
+    inputs:
+      focus:
+        description: "Optional topic focus, e.g. restaurants"
+        required: false
+        default: ""
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    env:
+      # Secret names match .env.txt and youtube.env
+      OPENAI_API_KEY: ${{ secrets.OPEN_AI_KEY }}
+      PEXELS_API_KEY: ${{ secrets.PEXELS_API_KEY }}
+      BUFFER_API_KEY: ${{ secrets.BUFFER_API }}
+      CLOUDINARY_URL: ${{ secrets.CLOUDINARY_URL }}
+      YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
+      YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
+      YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
+      FOCUS: ${{ github.event.inputs.focus }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install FFmpeg and fonts
+        run: sudo apt-get update -q && sudo apt-get install -y -q ffmpeg fonts-dejavu-core
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install -r requirements.txt
+
+      - name: 1. Unit tests
+        run: python -m pytest -q
+
+      - name: 2. Check every service connection
+        run: python -m studio check
+
+      - name: 3. Write this week's scripts
+        run: python -m studio week plan --focus "$FOCUS"
+
+      - name: 4. Render the long video and 7 Shorts
+        run: |
+          batch=$(ls projects/weeks/*.json | sort | tail -1)
+          echo "BATCH=$batch" >> "$GITHUB_ENV"
+          python -m studio week build "$batch" --force
+
+      - name: 5. Preview publishing (nothing is posted)
+        run: python -m studio week schedule "$BATCH" --schedule --dry-run
+
+      - name: 6. Save videos for review
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-week-videos
+          retention-days: 3
+          path: |
+            projects/**/video.mp4
+            projects/**/thumbnail.jpg
+            projects/**/script.md
+            projects/**/upload.txt

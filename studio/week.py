@@ -150,7 +150,7 @@ def check_free_limit(cfg: Config, services: list[str], new_posts: int) -> None:
 
 
 def schedule_week(cfg: Config, batch_path: Path, start: date | None, long_at: time,
-                  short_at: time, draft: bool) -> None:
+                  short_at: time, draft: bool, dry_run: bool = False) -> None:
     batch = _load(batch_path)
     if not batch["cut_shorts"]:
         raise PublishError("Run 'week build' first so the Shorts exist.")
@@ -159,13 +159,20 @@ def schedule_week(cfg: Config, batch_path: Path, start: date | None, long_at: ti
     long_time, short_times = schedule_times(day_one, long_at, short_at, len(shorts))
     services = list((cfg.publish or {}).get("services", []))
     if not draft:
-        check_free_limit(cfg, services, 1 + len(shorts))
+        try:
+            check_free_limit(cfg, services, 1 + len(shorts))
+        except PublishError as exc:
+            if not dry_run:
+                raise
+            print(f"Note for a real run: {exc}")
 
     plan = [(batch["long"], long_time), *zip(shorts, short_times)]
     for project, when in plan:
         print(f"\n{when:%a %d %b %H:%M}  {Path(project).name}")
-        publish_project(cfg, _abs(cfg, project), services, when.isoformat(), draft)
-    _save(batch_path, {**batch, "scheduled_at": datetime.now().isoformat(timespec="seconds")})
+        publish_project(cfg, _abs(cfg, project), services, when.isoformat(), draft,
+                        dry_run=dry_run)
+    if not dry_run:
+        _save(batch_path, {**batch, "scheduled_at": datetime.now().isoformat(timespec="seconds")})
 
 
 def _post_content(cfg: Config, project_dir: Path, service: str, video_url: str) -> dict:

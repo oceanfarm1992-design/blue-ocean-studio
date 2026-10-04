@@ -8,6 +8,7 @@ from datetime import date, time
 from pathlib import Path
 
 from studio.buffer import BufferClient, BufferError
+from studio.check import run_checks
 from studio.cleanup import cleanup
 from studio.week import (
     auto_week,
@@ -114,6 +115,15 @@ def _cmd_shorts(cfg, args) -> int:
     return 0
 
 
+def _cmd_check(cfg, args) -> int:
+    results = run_checks(cfg)
+    for name, ok, detail in results:
+        print(f"{'OK  ' if ok else 'FAIL'} {name:<11} {detail}")
+    failed = [name for name, ok, _ in results if not ok]
+    print(f"\n{'All services OK.' if not failed else 'Failed: ' + ', '.join(failed)}")
+    return 1 if failed else 0
+
+
 def _cmd_youtube_login(cfg, args) -> int:
     print("A browser window will open. Sign in with the Google account that owns the "
           "Blue Ocean Marketing YouTube channel and allow upload access.")
@@ -213,8 +223,10 @@ def _cmd_week_schedule(cfg, args) -> int:
     long_time = args.long_time or settings.get("long_time", "18:00")
     short_time = args.short_time or settings.get("short_time", "19:00")
     schedule_week(cfg, Path(args.batch), start, _parse_clock(long_time),
-                  _parse_clock(short_time), draft=not args.schedule)
-    if args.schedule:
+                  _parse_clock(short_time), draft=not args.schedule, dry_run=args.dry_run)
+    if args.dry_run:
+        print("\nPreview only. Nothing was uploaded or posted.")
+    elif args.schedule:
         print("\nScheduled in Buffer.")
     else:
         print("\nSaved as dated drafts in Buffer. Approve them there, or rerun with --schedule.")
@@ -241,6 +253,8 @@ def _add_week_parser(sub) -> None:
     schedule.add_argument("--short-time", help="time for each Short (default channel.toml)")
     schedule.add_argument("--schedule", action="store_true",
                           help="really schedule (default saves dated drafts)")
+    schedule.add_argument("--dry-run", action="store_true",
+                          help="preview what would be posted; uploads and posts nothing")
     schedule.set_defaults(func=_cmd_week_schedule)
 
     auto = week_sub.add_parser("auto", help="build and send the pending batch (used by GitHub)")
@@ -286,6 +300,9 @@ def build_parser() -> argparse.ArgumentParser:
 
     channels = sub.add_parser("channels", help="list the social channels connected to Buffer")
     channels.set_defaults(func=_cmd_channels)
+
+    check = sub.add_parser("check", help="test every service connection (read-only)")
+    check.set_defaults(func=_cmd_check)
 
     yt_login = sub.add_parser("youtube-login", help="one-time Google sign-in for YouTube uploads")
     yt_login.set_defaults(func=_cmd_youtube_login)
