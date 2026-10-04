@@ -6,6 +6,8 @@ import tomllib
 from dataclasses import dataclass
 from pathlib import Path
 
+from studio.youtube import YouTubeCredentials, load_credentials
+
 ROOT = Path(__file__).resolve().parent.parent
 
 
@@ -22,6 +24,7 @@ class Config:
     buffer_key: str | None = None
     cloudinary_url: str | None = None
     publish: dict | None = None
+    youtube: YouTubeCredentials | None = None
 
     @property
     def projects_dir(self) -> Path:
@@ -77,4 +80,5 @@ def load_config(root: Path = ROOT) -> Config:
         buffer_key=buffer_key,
         cloudinary_url=cloudinary_url,
         publish=data.get("publish", {}),
+        youtube=load_credentials(root, env),
     )

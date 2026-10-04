@@ -43,7 +43,7 @@ timezone = "Asia/Dubai"
 long_time = "18:00"
 short_time = "19:00"
 # false = weekly batch lands in Buffer as dated drafts you approve; true = schedule directly.
-auto_schedule = false
+auto_schedule = true
 # Set true if a video shows realistic AI-generated people, places or events.
 disclose_ai = false
 max_hashtags = 5

@@ -7,6 +7,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
+from studio import youtube
 from studio.buffer import BufferClient
 from studio.config import Config
 from studio.hosting import (
@@ -170,6 +171,46 @@ def _targets(client: BufferClient, services: list[str], state: dict, again: bool
     return [c for c in channels if again or c["id"] not in state["posts"]]
 
 
+def youtube_privacy(mode: str, due_at: str | None, draft: bool) -> tuple[str | None, bool]:
+    """(publishAt, public right away) for a direct YouTube upload."""
+    if draft:
+        return None, False
+    if mode == "customScheduled" and due_at:
+        return due_at, False
+    return None, True
+
+
+def _youtube_direct(cfg: Config, project_dir: Path, script: dict, texts: dict[str, str],
+                    mode: str, due_at: str | None, draft: bool) -> dict:
+    """Uploads a long video straight to YouTube, since Buffer only posts YouTube Shorts."""
+    if cfg.youtube is None:
+        raise PublishError("YouTube login missing. Run: python -m studio youtube-login")
+    settings = cfg.publish or {}
+    publish_at, public_now = youtube_privacy(mode, due_at, draft)
+    metadata = youtube.build_metadata(
+        youtube_title(script), texts["youtube"], script["tags"],
+        str(settings.get("youtube_category", "27")), publish_at, public_now,
+        bool(settings.get("disclose_ai", False)))
+    print("  uploading long video to YouTube...")
+    video_id = youtube.upload(cfg.youtube, project_dir / "video.mp4", metadata)
+    thumbnail = project_dir / "thumbnail.jpg"
+    thumb_error = youtube.set_thumbnail(cfg.youtube, video_id, thumbnail) if thumbnail.is_file() else None
+    if thumb_error:
+        print(f"  note: custom thumbnail not set ({thumb_error[:120]})")
+    return {"video_id": video_id, "url": f"https://youtu.be/{video_id}",
+            "publish_at": publish_at, "public_now": public_now, "draft": draft}
+
+
+def _plan(client: BufferClient, script: dict, services: list[str], state: dict,
+          again: bool) -> tuple[list[dict], bool]:
+    """Buffer channels to post to, and whether a direct YouTube upload is needed."""
+    is_long = script["format"] == "long"
+    buffer_services = [s for s in services if not (is_long and s == "youtube")]
+    targets = _targets(client, buffer_services, state, again) if buffer_services else []
+    direct = is_long and "youtube" in services and (again or not state.get("youtube_direct"))
+    return targets, direct
+
+
 def publish_project(cfg: Config, project_dir: Path, services: list[str], when: str,
                     draft: bool, dry_run: bool = False, again: bool = False) -> list[dict]:
     project_dir = project_dir.resolve()
@@ -184,21 +225,31 @@ def publish_project(cfg: Config, project_dir: Path, services: list[str], when: s
     state_path = project_dir / "publish.json"
     state = _load_state(state_path)
     client = BufferClient(cfg.buffer_key or "")
-    targets = _targets(client, services, state, again)
-    if not targets:
+    targets, direct = _plan(client, script, services, state, again)
+    if not targets and not direct:
         print("  already sent to every selected channel (use --again to repost)")
         return []
 
     label = "draft" if draft else mode
+    if direct:
+        print(f"  youtube · direct upload · {'private' if draft else label}")
     for channel in targets:
         print(f"  {channel['service']} · {channel['name']} · {label}")
     if dry_run:
         print("\n--- YouTube text ---\n" + texts["youtube"] + "\n\n--- Social text ---\n" + texts["social"])
         return []
 
+    results = []
+    if direct:
+        record = _youtube_direct(cfg, project_dir, script, texts, mode, due_at, draft)
+        state = {**state, "youtube_direct": record}
+        _save_state(state_path, state)
+        results.append({"service": "youtube", "post_id": record["video_id"],
+                        "due_at": record["publish_at"], "draft": draft, "url": record["url"]})
+    if not targets:
+        return results
     state = _host_video(cfg, project_dir, state)
     _save_state(state_path, state)
-    results = []
     for channel in targets:
         post_input = build_post_input(channel["service"], channel["id"], script, texts,
                                       state["video_url"], mode, due_at, draft, cfg.publish or {})

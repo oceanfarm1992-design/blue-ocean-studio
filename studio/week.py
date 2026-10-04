@@ -11,12 +11,12 @@ from datetime import date, datetime, time, timedelta
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
-from studio.buffer import BufferClient
+from studio.buffer import BufferClient, BufferError
 from studio.config import Config
 from studio.ideas import generate_ideas
 from studio.pipeline import render_project
 from studio.project import load_script, new_project_dir, save_script
-from studio.publish import PublishError, publish_project
+from studio.publish import PublishError, build_post_input, build_texts, publish_project
 from studio.script import generate_script, unchecked_scenes
 from studio.shorts import plan_shorts, scene_durations
 
@@ -166,6 +166,59 @@ def schedule_week(cfg: Config, batch_path: Path, start: date | None, long_at: ti
         print(f"\n{when:%a %d %b %H:%M}  {Path(project).name}")
         publish_project(cfg, _abs(cfg, project), services, when.isoformat(), draft)
     _save(batch_path, {**batch, "scheduled_at": datetime.now().isoformat(timespec="seconds")})
+
+
+def _post_content(cfg: Config, project_dir: Path, service: str, video_url: str) -> dict:
+    """Text, video and network settings for an edit, rebuilt from the project files."""
+    script = load_script(project_dir)
+    full = build_post_input(service, "unused", script, build_texts(cfg, project_dir, script),
+                            video_url, "customScheduled", None, False, cfg.publish or {})
+    return {key: full[key] for key in ("text", "assets", "metadata") if key in full}
+
+
+def promote_project(cfg: Config, client: BufferClient, project_dir: Path,
+                    now: datetime) -> list[str]:
+    """Schedules a project's Buffer drafts at their saved times. Returns a line per post."""
+    state_path = project_dir / "publish.json"
+    state = json.loads(state_path.read_text(encoding="utf-8"))
+    lines = []
+    posts = dict(state.get("posts", {}))
+    for channel_id, record in posts.items():
+        post = client.post(record["post_id"])
+        if post is None:
+            lines.append(f"{record['service']}: deleted in Buffer, skipped")
+            continue
+        if post["status"] != "draft":
+            lines.append(f"{record['service']}: already {post['status']}")
+            continue
+        due = post.get("dueAt")
+        if not due or datetime.fromisoformat(due.replace("Z", "+00:00")) <= now:
+            lines.append(f"{record['service']}: its time has passed, left as a draft")
+            continue
+        content = _post_content(cfg, project_dir, record["service"], state["video_url"])
+        try:
+            scheduled = client.schedule_draft(record["post_id"], due, content)
+        except BufferError as exc:
+            lines.append(f"{record['service']}: NOT scheduled. {exc}")
+            continue
+        posts[channel_id] = {**record, "draft": False, "due_at": scheduled.get("dueAt", due)}
+        lines.append(f"{record['service']}: scheduled for {due}")
+    state_path.write_text(json.dumps({**state, "posts": posts}, indent=2), encoding="utf-8")
+    return lines
+
+
+def promote_week(cfg: Config, batch_path: Path) -> None:
+    """Turns a week's dated Buffer drafts into scheduled posts."""
+    batch = _load(batch_path)
+    projects = [batch["long"], *batch["cut_shorts"], *batch["standalone_shorts"]]
+    services = list((cfg.publish or {}).get("services", []))
+    check_free_limit(cfg, services, len(projects))
+    client = BufferClient(cfg.buffer_key or "")
+    now = datetime.now(ZoneInfo("UTC"))
+    for project in projects:
+        print(Path(project).name)
+        for line in promote_project(cfg, client, _abs(cfg, project), now):
+            print(f"  {line}")
 
 
 def pending_batch(cfg: Config) -> Path | None:

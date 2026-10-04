@@ -28,6 +28,10 @@ jobs:
       PEXELS_API_KEY: ${{ secrets.PEXELS_API_KEY }}
       BUFFER_API_KEY: ${{ secrets.BUFFER_API }}
       CLOUDINARY_URL: ${{ secrets.CLOUDINARY_URL }}
+      # Long videos go straight to YouTube (uploaded with: gh secret set -f youtube.env)
+      YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
+      YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
+      YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
     steps:
       - uses: actions/checkout@v4
       - name: Install FFmpeg and fonts

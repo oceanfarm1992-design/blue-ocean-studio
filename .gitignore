@@ -3,6 +3,9 @@
 .env.txt
 .api.txt
 .Buffer.py
+client_secret.json
+youtube_token.json
+youtube.env
 
 # Environment
 .venv/
@@ -16,3 +19,6 @@ projects/**/*.mp4
 projects/**/*.jpg
 projects/**/*.png
 cache/
+
+# Public website (published from its own repository)
+site/

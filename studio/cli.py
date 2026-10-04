@@ -9,10 +9,19 @@ from pathlib import Path
 
 from studio.buffer import BufferClient, BufferError
 from studio.cleanup import cleanup
-from studio.week import auto_week, build_week, plan_week, schedule_week, unchecked_projects
+from studio.week import (
+    auto_week,
+    build_week,
+    plan_week,
+    promote_week,
+    schedule_week,
+    unchecked_projects,
+)
 from studio.config import load_config
 from studio.hosting import HostingError
 from studio.publish import PublishError, publish_project
+from studio.youtube import YouTubeError
+from studio.youtube import login as youtube_login
 from studio.ideas import generate_ideas, ideas_to_markdown
 from studio.llm import LLMError
 from studio.media import MediaError
@@ -31,7 +40,7 @@ from studio.visuals import VisualsError
 from studio.voice import VoiceError
 
 KNOWN_ERRORS = (LLMError, ScriptError, RenderError, MediaError, VoiceError, VisualsError,
-                BufferError, HostingError, PublishError, FileNotFoundError,
+                BufferError, HostingError, PublishError, YouTubeError, FileNotFoundError,
                 json.JSONDecodeError)  # e.g. a script.json broken while editing on GitHub
 
 
@@ -105,6 +114,16 @@ def _cmd_shorts(cfg, args) -> int:
     return 0
 
 
+def _cmd_youtube_login(cfg, args) -> int:
+    print("A browser window will open. Sign in with the Google account that owns the "
+          "Blue Ocean Marketing YouTube channel and allow upload access.")
+    env_file = youtube_login(cfg.root)
+    print("\nYouTube login saved on this PC.")
+    print("To let GitHub upload too, run this once in PowerShell:")
+    print(f"  gh secret set -f {env_file.name} --repo oceanfarm1992-design/blue-ocean-studio")
+    return 0
+
+
 def _cmd_channels(cfg, args) -> int:
     client = BufferClient(cfg.buffer_key or "")
     for channel in client.all_channels():
@@ -122,6 +141,11 @@ def _cmd_publish(cfg, args) -> int:
         results = publish_project(cfg, Path(project), services, when, draft,
                                   dry_run=args.dry_run, again=args.again)
         for r in results:
+            if "url" in r:
+                when_text = f"publishes {r['due_at']}" if r["due_at"] else (
+                    "private" if r["draft"] else "public now")
+                print(f"  youtube: uploaded, {when_text} · {r['url']}")
+                continue
             where = "saved as a draft in Buffer" if r["draft"] else f"scheduled for {r['due_at']}"
             print(f"  {r['service']}: {where}")
     if draft and not args.dry_run:
@@ -177,6 +201,12 @@ def _cmd_week_auto(cfg, args) -> int:
     return 0
 
 
+def _cmd_week_promote(cfg, args) -> int:
+    promote_week(cfg, Path(args.batch))
+    print("\nDone. Scheduled posts will go out on their own at the times shown.")
+    return 0
+
+
 def _cmd_week_schedule(cfg, args) -> int:
     start = date.fromisoformat(args.start) if args.start else None
     settings = cfg.publish or {}
@@ -216,6 +246,10 @@ def _add_week_parser(sub) -> None:
     auto = week_sub.add_parser("auto", help="build and send the pending batch (used by GitHub)")
     auto.set_defaults(func=_cmd_week_auto)
 
+    promote = week_sub.add_parser("promote", help="turn a week's Buffer drafts into scheduled posts")
+    promote.add_argument("batch")
+    promote.set_defaults(func=_cmd_week_promote)
+
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="studio", description="Blue Ocean Marketing video studio")
@@ -252,6 +286,9 @@ def build_parser() -> argparse.ArgumentParser:
 
     channels = sub.add_parser("channels", help="list the social channels connected to Buffer")
     channels.set_defaults(func=_cmd_channels)
+
+    yt_login = sub.add_parser("youtube-login", help="one-time Google sign-in for YouTube uploads")
+    yt_login.set_defaults(func=_cmd_youtube_login)
 
     publish = sub.add_parser("publish", help="send rendered videos to Buffer (drafts by default)")
     publish.add_argument("projects", nargs="+", help="one or more project folders")

@@ -20,6 +20,13 @@ query Scheduled($orgId: OrganizationId!, $channelIds: [ChannelId!]) {
     edges { node { id channelId } }
   }
 }"""
+EDIT_POST_MUTATION = """
+mutation EditPost($input: EditPostInput!) {
+  editPost(input: $input) {
+    ... on PostActionSuccess { post { id status dueAt } }
+    ... on MutationError { message }
+  }
+}"""
 CREATE_POST_MUTATION = """
 mutation CreatePost($input: CreatePostInput!) {
   createPost(input: $input) {
@@ -81,6 +88,19 @@ class BufferClient:
             cid = edge["node"]["channelId"]
             counts[cid] = counts.get(cid, 0) + 1
         return counts
+
+    def schedule_draft(self, post_id: str, due_at: str, content: dict) -> dict:
+        """Turns an existing draft into a scheduled post at due_at (ISO UTC).
+
+        Buffer rejects the edit unless the content (text, assets, metadata) is sent again.
+        """
+        edit = {**content, "id": post_id, "saveToDraft": False, "mode": "customScheduled",
+                "schedulingType": "automatic", "dueAt": due_at}
+        result = self._gql(EDIT_POST_MUTATION, {"input": edit}).get("editPost") or {}
+        if "post" in result:
+            return result["post"]
+        raise BufferError(f"Buffer refused to schedule {post_id}: "
+                          f"{result.get('message', 'no reason given')}")
 
     def create_post(self, post_input: dict) -> dict:
         result = self._gql(CREATE_POST_MUTATION, {"input": post_input}).get("createPost") or {}

@@ -21,5 +21,12 @@
   },
   "video_url": "https://res.cloudinary.com/lie7vhcl/video/upload/v1791040426/blue-ocean-marketing/20261003-long-4-instagram-reels-you-can-film-in-1-hour.mp4",
   "public_id": "blue-ocean-marketing/20261003-long-4-instagram-reels-you-can-film-in-1-hour",
-  "hosting_deleted": false
+  "hosting_deleted": false,
+  "youtube_direct": {
+    "video_id": "g3Kk8C4H_7M",
+    "url": "https://youtu.be/g3Kk8C4H_7M",
+    "publish_at": "2026-10-05T14:00:00.000Z",
+    "public_now": false,
+    "draft": false
+  }
 }
