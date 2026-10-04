@@ -43,10 +43,20 @@ class BufferError(RuntimeError):
 
 
 class RateLimited(Exception):
-    pass
+    def __init__(self, retry_after: int | None = None):
+        super().__init__(retry_after)
+        self.retry_after = retry_after
 
 
-RETRY_DELAYS = (10, 30, 60)  # seconds to wait after Buffer says "too many requests"
+RETRY_DELAYS = (10, 30, 60)  # fallback waits when Buffer sends no Retry-After header
+MAX_WAIT_SECONDS = 120       # longer than this (e.g. the daily limit), stop and report
+
+
+def _retry_after(response: httpx.Response) -> int | None:
+    try:
+        return int(response.headers.get("retry-after", ""))
+    except ValueError:
+        return None
 _CHANNEL_CACHE: dict[str, list[dict]] = {}
 
 
@@ -65,15 +75,18 @@ class BufferClient:
         )
 
     def _gql(self, query: str, variables: dict | None = None) -> dict:
-        """One GraphQL call, waiting and retrying when Buffer says there are too many requests."""
-        for delay in (*RETRY_DELAYS, None):
+        """One GraphQL call. On a rate limit, waits Buffer's Retry-After if it is short."""
+        for attempt in range(len(RETRY_DELAYS) + 1):
             try:
                 return self._gql_once(query, variables)
-            except RateLimited:
-                if delay is None:
-                    raise BufferError("Buffer is limiting requests. Wait a few minutes and retry.")
-                print(f"  Buffer asked to slow down, waiting {delay} s...")
-                self._sleep(delay)
+            except RateLimited as limited:
+                wait = limited.retry_after or RETRY_DELAYS[min(attempt, len(RETRY_DELAYS) - 1)]
+                if attempt == len(RETRY_DELAYS) or wait > MAX_WAIT_SECONDS:
+                    minutes = max(1, round(wait / 60))
+                    raise BufferError(f"Buffer's request limit is used up (free plan: 100 per "
+                                      f"15 min, 250 per day). It resets in about {minutes} min.")
+                print(f"  Buffer asked to slow down, waiting {wait} s...")
+                self._sleep(wait)
         raise AssertionError("unreachable")
 
     def _gql_once(self, query: str, variables: dict | None) -> dict:
@@ -84,7 +97,7 @@ class BufferClient:
         if response.status_code == 401:
             raise BufferError("Buffer rejected the API key. Create a new one in Buffer > Settings > API.")
         if response.status_code == 429:
-            raise RateLimited()
+            raise RateLimited(_retry_after(response))
         try:
             body = response.json()
         except ValueError as exc:
@@ -92,7 +105,7 @@ class BufferClient:
         if body.get("errors"):
             messages = "; ".join(e.get("message", "unknown error") for e in body["errors"])
             if "too many requests" in messages.lower():
-                raise RateLimited()
+                raise RateLimited(_retry_after(response))
             raise BufferError(f"Buffer error: {messages}")
         return body.get("data") or {}
 

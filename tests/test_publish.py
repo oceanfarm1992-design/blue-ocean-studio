@@ -135,8 +135,19 @@ def test_buffer_retries_when_rate_limited_then_succeeds():
 def test_buffer_gives_up_after_retries():
     client = BufferClient("k", transport=httpx.MockTransport(lambda r: httpx.Response(429)),
                           sleep=lambda s: None)
-    with pytest.raises(BufferError, match="limiting requests"):
+    with pytest.raises(BufferError, match="request limit is used up"):
         client.organizations()
+
+
+def test_buffer_stops_immediately_when_reset_is_far_away():
+    waits = []
+    client = BufferClient(
+        "k", transport=httpx.MockTransport(
+            lambda r: httpx.Response(429, headers={"retry-after": "5438"})),
+        sleep=waits.append)
+    with pytest.raises(BufferError, match="about 91 min"):
+        client.organizations()
+    assert waits == []
 
 
 def test_buffer_bad_key_and_missing_key():

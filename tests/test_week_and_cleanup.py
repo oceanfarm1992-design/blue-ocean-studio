@@ -2,7 +2,7 @@ from datetime import date, datetime, time
 
 import pytest
 
-from studio.cleanup import cleanup_decision
+from studio.cleanup import cleanup_decision, not_due_yet
 from studio.hosting import public_id_from_url
 from studio.publish import PublishError
 from studio.week import next_monday, pick_ideas, schedule_times
@@ -51,6 +51,16 @@ def test_schedule_times_one_short_per_day():
 ])
 def test_cleanup_decision(statuses, expected):
     assert cleanup_decision(statuses) == expected
+
+
+def test_not_due_yet_skips_future_posts():
+    now = datetime(2026, 10, 6, 12, tzinfo=__import__("datetime").timezone.utc)
+    future = {"posts": {"a": {"due_at": "2026-10-07T15:00:00.000Z"}}}
+    past = {"posts": {"a": {"due_at": "2026-10-05T15:00:00.000Z"}}}
+
+    assert not_due_yet(future, now)
+    assert not not_due_yet(past, now)
+    assert not not_due_yet({"posts": {"a": {"due_at": None}}}, now)
 
 
 def test_public_id_from_url():

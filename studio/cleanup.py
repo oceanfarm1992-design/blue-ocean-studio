@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import json
+from datetime import datetime, timezone
 from pathlib import Path
 
 from studio.buffer import BufferClient, BufferError
@@ -23,6 +24,15 @@ def cleanup_decision(statuses: list[str | None]) -> str:
     return "keep"
 
 
+def not_due_yet(state: dict, now: datetime) -> bool:
+    """True if any Buffer post in this project is scheduled after `now`."""
+    for record in state.get("posts", {}).values():
+        due = record.get("due_at")
+        if due and datetime.fromisoformat(due.replace("Z", "+00:00")) > now:
+            return True
+    return False
+
+
 def find_published(projects_dir: Path) -> list[Path]:
     return sorted(projects_dir.rglob("publish.json"))
 
@@ -41,14 +51,17 @@ def cleanup(cfg: Config, dry_run: bool = False) -> dict[str, int]:
         raise HostingError("No valid CLOUDINARY_URL found in .env.txt.")
     client = BufferClient(cfg.buffer_key or "")
     summary = {"deleted": 0, "waiting": 0, "failed_posts": 0}
+    now = datetime.now(timezone.utc)
     for state_path in find_published(cfg.projects_dir):
         state = json.loads(state_path.read_text(encoding="utf-8"))
         url = state.get("video_url")
         if not url or state.get("hosting_deleted"):
             continue
         name = state_path.parent.name
-        if state.get("youtube_pending"):
-            summary["waiting"] += 1  # the daily YouTube upload still needs this copy
+        if state.get("youtube_pending") or not_due_yet(state, now):
+            # Still needed (queued YouTube upload, or posts not due yet): skip without
+            # spending any of Buffer's free-plan request allowance.
+            summary["waiting"] += 1
             continue
         try:
             decision = cleanup_decision(_statuses(client, state))
