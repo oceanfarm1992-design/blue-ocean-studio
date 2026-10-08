@@ -28,9 +28,10 @@
   "video_url": "https://res.cloudinary.com/lie7vhcl/video/upload/v1791040443/blue-ocean-marketing/short_05.mp4",
   "public_id": "blue-ocean-marketing/short_05",
   "hosting_deleted": false,
-  "youtube_pending": {
+  "youtube_direct": {
+    "video_id": "7i8xuu18r-4",
+    "url": "https://youtu.be/7i8xuu18r-4",
     "publish_at": "2026-10-09T15:00:00.000Z",
-    "public_now": false,
-    "draft": false
+    "public_now": false
   }
 }
