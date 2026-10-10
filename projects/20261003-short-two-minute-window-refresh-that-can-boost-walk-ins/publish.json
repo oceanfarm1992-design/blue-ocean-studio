@@ -28,9 +28,10 @@
   "video_url": "https://res.cloudinary.com/lie7vhcl/video/upload/v1791040450/blue-ocean-marketing/20261003-short-two-minute-window-refresh-that-can-boost-walk-ins.mp4",
   "public_id": "blue-ocean-marketing/20261003-short-two-minute-window-refresh-that-can-boost-walk-ins",
   "hosting_deleted": false,
-  "youtube_pending": {
+  "youtube_direct": {
+    "video_id": "9A3i9zFzeBs",
+    "url": "https://youtu.be/9A3i9zFzeBs",
     "publish_at": "2026-10-11T15:00:00.000Z",
-    "public_now": false,
-    "draft": false
+    "public_now": false
   }
 }
