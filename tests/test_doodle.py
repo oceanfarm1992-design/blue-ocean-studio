@@ -56,15 +56,19 @@ def test_scene_prompt_falls_back_to_visual_query():
     assert doodle.scene_prompt({"doodle_prompt": "", "visual_query": "salon"}) == "salon"
 
 
-def test_timing_enforces_minimum_hold_and_draw_cap():
-    cfg = _cfg(min_scene_seconds=5.0, hold_seconds=1.0, max_draw_seconds=8.0)
+def test_timing_follows_the_voice_without_silent_padding():
+    cfg = _cfg(min_scene_seconds=3.0, hold_seconds=0.2, max_draw_seconds=8.0)
 
-    short = doodle.timing(cfg, 2.0)
-    assert short.total == 6.0
-    assert short.draw == pytest.approx(5.0 - doodle.EXIT_SECONDS)
+    normal = doodle.timing(cfg, 7.7)
+    assert normal.total == pytest.approx(7.9)                 # voice + small hold only
+    assert normal.draw + doodle.EXIT_SECONDS < 7.7           # finished while still speaking
+
+    short = doodle.timing(cfg, 2.7)
+    assert short.total == 3.0                                 # minimum for a readable drawing
+    assert short.draw == pytest.approx(2.7 * doodle.DRAW_SHARE)
 
     long = doodle.timing(cfg, 20.0)
-    assert long.total == 21.0
+    assert long.total == pytest.approx(20.2)
     assert long.draw == 8.0
 
 

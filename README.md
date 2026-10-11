@@ -123,7 +123,8 @@ drawn; keep it free of words and numbers, those belong in `on_screen_text`).
 - If a drawing fails (no key, quota), the scene falls back to stock footage.
 - Settings live under `[doodle]` in `channel.toml`: `mode` (`mix`, `all`, `off`), image
   `quality` (`low` costs about a quarter of `medium`), and the pace
-  (`min_scene_seconds`, `hold_seconds`).
+  (`min_scene_seconds`, `hold_seconds`). Doodle scenes follow the voice: the drawing is
+  finished by 75% of the spoken line, so there is no silent wait before the next scene.
 
 A typical week (1 long video + 2 standalone Shorts) needs about 20–25 drawings in `mix`
 mode: roughly $1.50 a week at medium quality, $0.40 at low.

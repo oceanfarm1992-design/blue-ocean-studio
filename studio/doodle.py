@@ -32,8 +32,8 @@ DEFAULTS = {
     "mode": "mix",
     "image_model": "gpt-image-1",
     "quality": "medium",
-    "min_scene_seconds": 5.0,
-    "hold_seconds": 1.2,
+    "min_scene_seconds": 3.0,
+    "hold_seconds": 0.2,
     "max_draw_seconds": 10.0,
     "replace_weak_stock": True,
 }
@@ -41,6 +41,7 @@ CELL = 14                 # reveal grid in pixels
 INK_THRESHOLD = 215       # grey levels below this count as ink
 EXIT_SECONDS = 0.6        # hand slides off after drawing
 MIN_DRAW_SECONDS = 0.5
+DRAW_SHARE = 0.75         # drawing takes the first 75% of the spoken line
 NEAR_WHITE = 235          # AI "white" backgrounds are slightly grey; snap them to pure white
 FFMPEG_TIMEOUT = 600      # seconds to finish encoding after the last frame
 HAND_SCALE = 0.32         # hand width as a share of the frame's longer side
@@ -89,13 +90,13 @@ def scene_prompt(scene: dict) -> str:
 
 
 def timing(cfg: Config, spoken_seconds: float) -> Timing:
-    """Slow enough to watch the drawing form, even when the narration is short."""
+    """The scene follows the voice like a stock scene: the drawing finishes while the line
+    is still being spoken, so there is no silent wait. Very short lines get a minimum length
+    so the drawing is not rushed."""
     s = settings(cfg)
-    hold = float(s["hold_seconds"])
-    total = max(spoken_seconds, float(s["min_scene_seconds"])) + hold
-    # Always leave time to finish drawing and move the hand away before the cut
-    total = max(total, hold + EXIT_SECONDS + MIN_DRAW_SECONDS)
-    draw = min(total - hold - EXIT_SECONDS, float(s["max_draw_seconds"]))
+    total = max(spoken_seconds + float(s["hold_seconds"]), float(s["min_scene_seconds"]),
+                MIN_DRAW_SECONDS + EXIT_SECONDS)
+    draw = min(spoken_seconds * DRAW_SHARE, float(s["max_draw_seconds"]), total - EXIT_SECONDS)
     return Timing(round(total, 3), round(max(draw, MIN_DRAW_SECONDS), 3))
 
 

@@ -116,15 +116,15 @@ def test_quality_change_invalidates_visual_cache(tmp_path):
 def test_doodle_scene_assets_get_doodle_timing(tmp_path, drawing, monkeypatch):
     monkeypatch.setattr(pipeline, "_scene_voice", lambda cfg, scene, d, state: {
         **state, "duration": 2.0, "words": [["Try", 0.0, 0.4]]})
-    cfg = _cfg(min_scene_seconds=5.0, hold_seconds=1.0)
+    cfg = _cfg(min_scene_seconds=3.0, hold_seconds=0.2)
 
     assets = pipeline._prepare_scene(cfg, _scene("doodle"), tmp_path / "s1",
                                      FakeFinder(tmp_path, []), SIZE, 3.5)
 
     assert assets.kind == "doodle"
-    assert assets.duration == 6.0 and assets.draw_seconds > 0
+    assert assets.duration == 3.0 and assets.draw_seconds > 0
     state = json.loads((tmp_path / "s1" / "state.json").read_text(encoding="utf-8"))
-    assert state["scene_seconds"] == 6.0
+    assert state["scene_seconds"] == 3.0
 
 
 def test_short_planning_uses_padded_scene_length(tmp_path):
