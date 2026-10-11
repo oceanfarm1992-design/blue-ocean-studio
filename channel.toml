@@ -64,3 +64,25 @@ short_seconds = 50
 # Seconds of footage before cutting to the next stock clip
 long_clip_seconds = 6.0
 short_clip_seconds = 3.5
+# Let the script model look at each stock clip's preview and skip unrelated footage
+# (a fraction of a cent per video). Needs the OpenAI key.
+check_stock_with_ai = true
+
+[doodle]
+# Whiteboard doodle scenes: an AI line drawing that a hand draws on screen.
+# "mix" = the script writer picks doodle or stock footage per scene (ideas, offers, steps
+#         become doodles; real people doing real things stay stock footage)
+# "all" = every scene is a doodle   "off" = stock footage only
+mode = "mix"
+image_model = "gpt-image-1"
+# low ~$0.016, medium ~$0.063, high ~$0.25 per drawing. Drawings are cached per prompt,
+# so Shorts cut from the long video reuse its drawings for free.
+quality = "medium"
+# Pace: doodle scenes follow the voice (drawing done by 75% of the line, no silent wait).
+# Very short lines last at least min_scene_seconds; hold_seconds is the gap before the cut.
+min_scene_seconds = 3.0
+hold_seconds = 0.2
+max_draw_seconds = 10.0
+# Skip stock clips whose Pexels title shares no words with the search, and draw a doodle
+# when nothing relevant is left (instead of a plain text card).
+replace_weak_stock = true

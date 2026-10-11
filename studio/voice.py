@@ -27,6 +27,7 @@ CLONE_ENGINE = "styletts2"      # the engine that actually uses the owner's voic
 # voices the first scene is pinned for the rest of the run so a video never mixes voices.
 _pinned_clone_engine: str | None = None
 _warned_fallback = False
+_edge_blocked = False  # set when Microsoft rejects edge-tts; OpenAI voices the rest of the run
 
 
 class VoiceError(RuntimeError):
@@ -49,7 +50,9 @@ def effective_provider(cfg: Config) -> str:
     """The provider that will really be used on this machine."""
     provider = cfg.voice["provider"]
     if provider == "clone" and not clone_available():
-        return cfg.voice.get("fallback_provider", "edge")
+        provider = cfg.voice.get("fallback_provider", "edge")
+    if provider == "edge" and _edge_blocked and cfg.openai_key:
+        return "openai"
     return provider
 
 
@@ -95,6 +98,21 @@ def _edge(cfg: Config, text: str, out_path: Path) -> list[Word]:
         )
     except Exception as exc:  # edge-tts raises several unrelated network error types
         raise VoiceError(f"Edge voice failed: {exc}") from exc
+
+
+def _edge_or_openai(cfg: Config, text: str, out_path: Path) -> list[Word]:
+    """Edge is free but unofficial: Microsoft sometimes rejects it (HTTP 403) for hours.
+    OpenAI TTS then takes over for the rest of the run (about $0.015 per minute of audio);
+    voice_id() changes with it, so the pipeline re-voices earlier scenes to match."""
+    global _edge_blocked
+    try:
+        return _edge(cfg, text, out_path)
+    except VoiceError as exc:
+        if not cfg.openai_key:
+            raise
+        print(f"  warning: {exc}\n  switching to the OpenAI voice for the rest of this run")
+        _edge_blocked = True
+        return _openai(cfg, text, out_path)
 
 
 def _openai(cfg: Config, text: str, out_path: Path) -> list[Word]:
@@ -146,7 +164,7 @@ def synthesize(cfg: Config, text: str, out_path: Path) -> VoiceResult:
     if provider == "clone":
         words = _clone(cfg, text, out_path)
     elif provider == "edge":
-        words = _edge(cfg, text, out_path)
+        words = _edge_or_openai(cfg, text, out_path)
     elif provider == "openai":
         words = _openai(cfg, text, out_path)
     else:

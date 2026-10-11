@@ -2,9 +2,11 @@
 from __future__ import annotations
 
 from studio.config import Config
+from studio.doodle import settings as doodle_settings
 from studio.llm import LLMError, complete_json
 
 FORMATS = ("long", "short")
+VISUALS = ("stock", "doodle")
 CHECK_MARKER = "[CHECK"
 WORDS_PER_MINUTE = 150
 
@@ -37,8 +39,30 @@ def _format_rules(cfg: Config, fmt: str) -> str:
     )
 
 
+def _visual_rules(cfg: Config) -> tuple[str, str]:
+    """Extra scene keys and rules when doodle scenes are mixed with stock footage."""
+    if doodle_settings(cfg)["mode"] != "mix":
+        return "", ""
+    keys = ', "visual": "stock or doodle", "doodle_prompt": "what to draw"'
+    rules = (
+        "\n\nvisual rules: each scene is either \"stock\" (real stock footage) or \"doodle\" "
+        "(a whiteboard drawing sketched on screen). Use doodle for the hook, ideas, offers, "
+        "prices, numbers, steps, before/after and anything a camera cannot film well. Use "
+        "stock for real people doing real things (a stylist blow-drying hair, a baker at the "
+        "counter). Make roughly half the scenes doodles and avoid more than two of the same "
+        "kind in a row.\n"
+        "doodle_prompt rules (required for doodle scenes, empty for stock): one simple picture "
+        "a whiteboard artist could sketch in 10 seconds, 1 to 3 people or objects with a clear "
+        "action, e.g. \"stylist next to an empty salon chair, wall clock\" or \"phone sending "
+        "messages to nearby houses, map pin\". Never ask for words, numbers, prices or logos "
+        "in the picture: those go in on_screen_text."
+    )
+    return keys, rules
+
+
 def build_prompt(cfg: Config, topic: str, fmt: str) -> tuple[str, str]:
     ch = cfg.channel
+    visual_keys, visual_rules = _visual_rules(cfg)
     system = (
         f"You are the head writer for \"{ch['name']}\", a faceless YouTube channel.\n"
         f"Niche: {ch['niche']}\nAudience: {ch['audience']}\n\n"
@@ -64,7 +88,8 @@ def build_prompt(cfg: Config, topic: str, fmt: str) -> tuple[str, str]:
         '  "tags": ["8 to 15 search tags"],\n'
         '  "scenes": [\n'
         '    {"section": "HOOK", "narration": "spoken words", '
-        '"visual_query": "stock footage search", "on_screen_text": "key point, max 6 words"}\n'
+        '"visual_query": "stock footage search", "on_screen_text": "key point, max 6 words"'
+        f'{visual_keys}}}\n'
         "  ]\n"
         "}\n\n"
         "visual_query rules: 2 to 5 words describing a scene a camera could film: who, doing "
@@ -72,6 +97,7 @@ def build_prompt(cfg: Config, topic: str, fmt: str) -> tuple[str, str]:
         "\"baker handing customer box\", \"woman reading phone reviews\". Never use abstract "
         "concepts (strategy, call to action, SEO, routing, growth), screens of code, or brand "
         "names. Vary the scenes so consecutive ones look different."
+        f"{visual_rules}"
     )
     return system, user
 
@@ -88,11 +114,14 @@ def _validate_scene(index: int, scene: object, fallback_query: str) -> dict:
     narration = str(scene.get("narration", "")).strip()
     if not narration:
         raise ScriptError(f"Scene {index} has no narration.")
+    visual = str(scene.get("visual", "")).strip().lower()
     return {
         "section": str(scene.get("section", "")).strip().upper() or "MAIN",
         "narration": narration,
         "visual_query": str(scene.get("visual_query", "")).strip() or fallback_query,
         "on_screen_text": str(scene.get("on_screen_text", "")).strip(),
+        "visual": visual if visual in VISUALS else "stock",
+        "doodle_prompt": str(scene.get("doodle_prompt", "")).strip(),
     }
 
 
@@ -144,6 +173,14 @@ def word_count(script: dict) -> int:
     return sum(len(s["narration"].split()) for s in script["scenes"])
 
 
+def _visual_line(scene: dict) -> str:
+    if scene.get("visual") == "doodle":
+        shown = f"*Doodle:* {scene.get('doodle_prompt') or scene['visual_query']}"
+    else:
+        shown = f"*Footage:* {scene['visual_query']}"
+    return f"{shown} · *On screen:* {scene['on_screen_text']}"
+
+
 def to_markdown(script: dict) -> str:
     minutes = word_count(script) / WORDS_PER_MINUTE
     lines = [
@@ -163,7 +200,7 @@ def to_markdown(script: dict) -> str:
             "",
             f"### {i:02d} · {scene['section']}",
             scene["narration"],
-            f"*Footage:* {scene['visual_query']} · *On screen:* {scene['on_screen_text']}",
+            _visual_line(scene),
         ]
     lines += ["", "## Description", script["description"], "", "## Tags", ", ".join(script["tags"])]
     return "\n".join(lines) + "\n"

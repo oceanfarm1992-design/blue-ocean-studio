@@ -27,7 +27,8 @@ def scene_durations(project_dir: Path, script: dict) -> list[float]:
             try:
                 state = json.loads(state_path.read_text(encoding="utf-8"))
                 if state.get("narration") == scene["narration"]:
-                    duration = float(state["duration"])
+                    # scene_seconds includes doodle padding; older builds only have duration
+                    duration = float(state.get("scene_seconds", state["duration"]))
             except (json.JSONDecodeError, KeyError, ValueError):
                 duration = None
         durations.append(duration if duration is not None else estimate_duration(scene["narration"]))
@@ -67,6 +68,7 @@ def plan_shorts(script: dict, durations: list[float], follow_line: str,
             "narration": follow_line,
             "visual_query": scenes[-1]["visual_query"],
             "on_screen_text": "Follow for daily fixes",
+            "visual": "stock",  # a fresh drawing here would cost money and repeat the last one
         })
         shorts.append(validate_script({
             "topic": f"{script['topic']} ({section.title()})",

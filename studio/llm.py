@@ -10,8 +10,17 @@ class LLMError(RuntimeError):
     pass
 
 
-def complete_json(cfg: Config, system: str, user: str) -> dict:
-    """Sends one request and returns the parsed JSON object."""
+def _user_content(text: str, image_url: str | None) -> str | list[dict]:
+    if not image_url:
+        return text
+    return [{"type": "text", "text": text},
+            {"type": "image_url", "image_url": {"url": image_url, "detail": "low"}}]
+
+
+def complete_json(cfg: Config, system: str, user: str, image_url: str | None = None,
+                  quiet: bool = False) -> dict:
+    """Sends one request and returns the parsed JSON object. With image_url the model also
+    sees that picture (low detail, which is cheap)."""
     if not cfg.openai_key:
         raise LLMError("No OpenAI key found. Add OPENAI_API_KEY=... to the .env file.")
 
@@ -26,7 +35,7 @@ def complete_json(cfg: Config, system: str, user: str) -> dict:
             model=cfg.llm["model"],
             messages=[
                 {"role": "system", "content": system},
-                {"role": "user", "content": user},
+                {"role": "user", "content": _user_content(user, image_url)},
             ],
             response_format={"type": "json_object"},
             **extra,
@@ -35,7 +44,7 @@ def complete_json(cfg: Config, system: str, user: str) -> dict:
         raise LLMError(f"OpenAI request failed: {exc}") from exc
 
     usage = response.usage
-    if usage is not None:
+    if usage is not None and not quiet:
         print(f"  tokens: {usage.prompt_tokens} in / {usage.completion_tokens} out")
 
     content = response.choices[0].message.content or ""

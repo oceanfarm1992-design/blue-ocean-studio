@@ -8,6 +8,8 @@ VIDEO_SUFFIXES = {".mp4", ".mov", ".webm", ".mkv"}
 VIDEO_CRF = "23"
 AUDIO_BITRATE = "160k"
 AUDIO_RATE = "48000"
+# Same colour tags on every scene, so scenes join cleanly and colours match on HD players
+BT709_FLAGS = ("-colorspace", "bt709", "-color_primaries", "bt709", "-color_trc", "bt709")
 
 
 class MediaError(RuntimeError):
@@ -35,11 +37,12 @@ def probe_duration(path: Path) -> float:
 
 
 def build_scene_cmd(clips: list[Path], audio: Path, duration: float, size: tuple[int, int],
-                    fps: int, subs_name: str, out: Path) -> list[str]:
+                    fps: int, subs_name: str, out: Path, white_in: float = 0.0) -> list[str]:
     """One scene: clips share the duration equally, captions burned in, voice padded.
 
     subs_name must be a plain file name in the working directory, which avoids
     FFmpeg's awkward escaping of Windows paths inside the subtitles filter.
+    white_in fades in from white, which smooths the cut from a whiteboard doodle scene.
     """
     if not clips:
         raise MediaError("A scene needs at least one clip or image.")
@@ -60,7 +63,9 @@ def build_scene_cmd(clips: list[Path], audio: Path, duration: float, size: tuple
         for i in range(len(clips))
     ]
     labels = "".join(f"[v{i}]" for i in range(len(clips)))
-    filters.append(f"{labels}concat=n={len(clips)}:v=1:a=0,format=yuv420p,"
+    fade = f"fade=t=in:st=0:d={white_in:.2f}:color=white," if white_in > 0 else ""
+    filters.append(f"{labels}concat=n={len(clips)}:v=1:a=0,{fade}"
+                   f"scale=out_color_matrix=bt709:out_range=tv,format=yuv420p,"
                    f"subtitles={subs_name}[vout]")
     filters.append(f"[{len(clips)}:a]apad=whole_dur={duration:.3f},aresample={AUDIO_RATE}[aout]")
 
@@ -68,7 +73,7 @@ def build_scene_cmd(clips: list[Path], audio: Path, duration: float, size: tuple
         "-filter_complex", ";".join(filters),
         "-map", "[vout]", "-map", "[aout]", "-t", f"{duration:.3f}",
         "-c:v", "libx264", "-preset", "veryfast", "-crf", VIDEO_CRF, "-r", str(fps),
-        "-c:a", "aac", "-b:a", AUDIO_BITRATE, "-ac", "2", str(out),
+        *BT709_FLAGS, "-c:a", "aac", "-b:a", AUDIO_BITRATE, "-ac", "2", str(out),
     ]
 
 
