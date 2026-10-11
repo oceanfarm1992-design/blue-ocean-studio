@@ -18,6 +18,11 @@ def _cfg(key: str | None = "sk-test", **doodle_settings):
     return replace(CFG, openai_key=key, doodle={**doodle.DEFAULTS, **doodle_settings})
 
 
+@pytest.fixture(autouse=True)
+def no_network_review(monkeypatch):
+    monkeypatch.setattr(doodle, "review", lambda cfg, image, prompt: (True, ""))
+
+
 def _white(height: int, width: int) -> np.ndarray:
     return np.full((height, width, 3), 255, dtype=np.uint8)
 

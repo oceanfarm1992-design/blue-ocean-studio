@@ -10,17 +10,17 @@ class LLMError(RuntimeError):
     pass
 
 
-def _user_content(text: str, image_url: str | None) -> str | list[dict]:
+def _user_content(text: str, image_url: str | None, detail: str = "low") -> str | list[dict]:
     if not image_url:
         return text
     return [{"type": "text", "text": text},
-            {"type": "image_url", "image_url": {"url": image_url, "detail": "low"}}]
+            {"type": "image_url", "image_url": {"url": image_url, "detail": detail}}]
 
 
 def complete_json(cfg: Config, system: str, user: str, image_url: str | None = None,
-                  quiet: bool = False) -> dict:
+                  quiet: bool = False, detail: str = "low") -> dict:
     """Sends one request and returns the parsed JSON object. With image_url the model also
-    sees that picture (low detail, which is cheap)."""
+    sees that picture ("low" detail is cheapest; "high" sees small flaws)."""
     if not cfg.openai_key:
         raise LLMError("No OpenAI key found. Add OPENAI_API_KEY=... to the .env file.")
 
@@ -35,7 +35,7 @@ def complete_json(cfg: Config, system: str, user: str, image_url: str | None = N
             model=cfg.llm["model"],
             messages=[
                 {"role": "system", "content": system},
-                {"role": "user", "content": _user_content(user, image_url)},
+                {"role": "user", "content": _user_content(user, image_url, detail)},
             ],
             response_format={"type": "json_object"},
             **extra,

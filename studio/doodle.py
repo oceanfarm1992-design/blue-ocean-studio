@@ -19,19 +19,25 @@ import numpy as np
 from PIL import Image, UnidentifiedImageError
 
 from studio.config import Config
+from studio.doodle_enhance import enhance
+from studio.doodle_review import review
 from studio.media import AUDIO_BITRATE, AUDIO_RATE, BT709_FLAGS, VIDEO_CRF, MediaError
 
 HAND_PATH = Path(__file__).resolve().parent / "assets" / "hand.png"
 STYLE = (
     "Whiteboard doodle illustration, hand-drawn black marker line art on a pure white "
     "background, simple clean outlines, no shading, no gradients, minimal, one small accent "
-    "of blue, lots of empty white space, no text, no letters, no numbers."
+    "of blue, lots of empty white space, no text, no letters, no numbers; any board, sign "
+    "or screen is left blank."
 )
 MODES = ("off", "mix", "all")
 DEFAULTS = {
     "mode": "mix",
     "image_model": "gpt-image-1",
-    "quality": "medium",
+    "quality": "low",
+    "enhance": True,       # crisp lines, no haze, one accent colour (studio.doodle_enhance)
+    "review": True,        # AI look at each drawing; one redraw if it has writing or smears
+    "max_attempts": 2,
     "min_scene_seconds": 3.0,
     "hold_seconds": 0.2,
     "max_draw_seconds": 10.0,
@@ -43,6 +49,8 @@ EXIT_SECONDS = 0.6        # hand slides off after drawing
 MIN_DRAW_SECONDS = 0.5
 DRAW_SHARE = 0.75         # drawing takes the first 75% of the spoken line
 NEAR_WHITE = 235          # AI "white" backgrounds are slightly grey; snap them to pure white
+MAX_UPSCALE = 1.6          # a cropped drawing is enlarged at most this much (stays sharp)
+CROP_MARGIN = 0.04        # paper kept around a cropped drawing, as a share of its size
 FFMPEG_TIMEOUT = 600      # seconds to finish encoding after the last frame
 HAND_SCALE = 0.32         # hand width as a share of the frame's longer side
 BOX_WIDTH = 0.89          # drawing area as a share of the frame
@@ -103,7 +111,8 @@ def timing(cfg: Config, spoken_seconds: float) -> Timing:
 # ---------- drawings ----------
 
 def _cache_key(s: dict, prompt: str) -> str:
-    raw = f"{s['image_model']}|{s['quality']}|{STYLE}|{prompt.strip().lower()}"
+    raw = (f"{s['image_model']}|{s['quality']}|{STYLE}|enhance={bool(s['enhance'])}|"
+           f"{prompt.strip().lower()}")
     return hashlib.sha256(raw.encode("utf-8")).hexdigest()[:16]
 
 
@@ -139,13 +148,37 @@ def doodle_image(cfg: Config, prompt: str, size: tuple[int, int], cache_dir: Pat
         if path.is_file() and _valid_cached(path):
             return path
     cache_dir.mkdir(parents=True, exist_ok=True)
-    data = _generate(cfg, s, f"{prompt.rstrip('.')}. {STYLE}", size)
-    if not _is_image(data):
-        raise DoodleError("Doodle image API returned data that is not an image.")
+    data = _best_drawing(cfg, s, prompt, size)
     partial = wanted.with_suffix(".part")
     partial.write_bytes(data)
     partial.replace(wanted)
     return wanted
+
+
+def _best_drawing(cfg: Config, s: dict, prompt: str, size: tuple[int, int]) -> bytes:
+    """Draw, clean up, review; redraw when the review finds writing or a smeared area.
+    The last attempt is used even if it is not perfect, so the build never stops here."""
+    attempts = max(1, int(s["max_attempts"]))
+    for attempt in range(1, attempts + 1):
+        data = _generate(cfg, s, f"{prompt.rstrip('.')}. {STYLE}", size)
+        if not _is_image(data):
+            raise DoodleError("Doodle image API returned data that is not an image.")
+        image = Image.open(io.BytesIO(data))
+        if s["enhance"]:
+            image = enhance(image)
+        if not s["review"] or attempt == attempts:
+            return _png(image)
+        ok, problem = review(cfg, image, prompt)
+        if ok:
+            return _png(image)
+        print(f"  redrawing doodle ({problem})")
+    raise AssertionError("unreachable")
+
+
+def _png(image: Image.Image) -> bytes:
+    buffer = io.BytesIO()
+    image.save(buffer, format="PNG", optimize=True)
+    return buffer.getvalue()
 
 
 def _generate(cfg: Config, s: dict, prompt: str, size: tuple[int, int]) -> bytes:
@@ -169,14 +202,25 @@ def fit_box(image_size: tuple[int, int], frame: tuple[int, int]) -> tuple[int, i
     fw, fh = frame
     box_w = fw * BOX_WIDTH
     box_h = fh * (BOX_HEIGHT_PORTRAIT if fh > fw else BOX_HEIGHT_LANDSCAPE)
-    scale = min(box_w / image_size[0], box_h / image_size[1])
+    scale = min(box_w / image_size[0], box_h / image_size[1], MAX_UPSCALE)
     w, h = round(image_size[0] * scale), round(image_size[1] * scale)
     return w, h, (fw - w) // 2, round(fh * TOP_MARGIN + (box_h - h) / 2)
 
 
+def crop_to_drawing(image: Image.Image) -> Image.Image:
+    """Trims the empty paper the image model leaves around a drawing, so it fills the frame."""
+    ys, xs = np.nonzero(np.asarray(image.convert("L")) < NEAR_WHITE)
+    if len(xs) == 0:
+        return image
+    margin = round(CROP_MARGIN * max(image.size))
+    box = (max(int(xs.min()) - margin, 0), max(int(ys.min()) - margin, 0),
+           min(int(xs.max()) + margin + 1, image.width), min(int(ys.max()) + margin + 1, image.height))
+    return image.crop(box)
+
+
 def compose(image_path: Path, frame: tuple[int, int]) -> np.ndarray:
     """The finished drawing on a white frame, as an RGB array."""
-    image = Image.open(image_path).convert("RGB")
+    image = crop_to_drawing(Image.open(image_path).convert("RGB"))
     w, h, x, y = fit_box(image.size, frame)
     canvas = Image.new("RGB", frame, "white")
     canvas.paste(image.resize((w, h), Image.LANCZOS), (x, y))

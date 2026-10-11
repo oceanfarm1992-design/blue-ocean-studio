@@ -77,7 +77,13 @@ mode = "mix"
 image_model = "gpt-image-1"
 # low ~$0.016, medium ~$0.063, high ~$0.25 per drawing. Drawings are cached per prompt,
 # so Shorts cut from the long video reuse its drawings for free.
-quality = "medium"
+quality = "low"
+# Python clean-up that makes low-quality drawings crisp: solid marker lines, no grey haze
+# or smudges, one consistent blue accent.
+enhance = true
+# AI look at each finished drawing (~$0.0003); writing or a smeared face gets one redraw.
+review = true
+max_attempts = 2
 # Pace: doodle scenes follow the voice (drawing done by 75% of the line, no silent wait).
 # Very short lines last at least min_scene_seconds; hold_seconds is the gap before the cut.
 min_scene_seconds = 3.0
