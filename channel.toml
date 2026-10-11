@@ -64,6 +64,9 @@ short_seconds = 50
 # Seconds of footage before cutting to the next stock clip
 long_clip_seconds = 6.0
 short_clip_seconds = 3.5
+# Let the script model look at each stock clip's preview and skip unrelated footage
+# (a fraction of a cent per video). Needs the OpenAI key.
+check_stock_with_ai = true
 
 [doodle]
 # Whiteboard doodle scenes: an AI line drawing that a hand draws on screen.

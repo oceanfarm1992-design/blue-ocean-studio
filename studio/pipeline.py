@@ -7,6 +7,7 @@ from dataclasses import dataclass, replace
 from pathlib import Path
 
 from studio import doodle
+from studio.clipcheck import make_checker
 from studio.captions import LONG_STYLE, SHORT_STYLE, CaptionStyle, Word, to_ass
 from studio.cards import make_card, make_thumbnail
 from studio.config import Config
@@ -78,6 +79,7 @@ def _visual_key(cfg: Config, scene: dict, finder: ClipFinder) -> list:
     s = doodle.settings(cfg)
     drawing = [s["mode"], s["image_model"], s["quality"]] if doodle.available(cfg) else ["off"]
     return [scene["visual_query"], scene["on_screen_text"], finder.enabled, finder.strict,
+            finder.checker is not None,
             scene.get("visual", "stock"), scene.get("doodle_prompt", ""), *drawing]
 
 
@@ -88,6 +90,7 @@ def _scene_clips(cfg: Config, scene: dict, scene_dir: Path, state: dict, finder:
     if (state.get("visual_key") == visual_key and not state.get("doodle_failed")
             and cached and all(p.is_file() for p in cached)):
         finder.used_ids.update(state.get("clip_ids", []))
+        finder.credits.extend(state.get("credits", []))  # cached clips still need credit
         return state
     wanted_doodle = doodle.wants_doodle(cfg, scene)
     image = _try_doodle(cfg, scene, size) if wanted_doodle else None
@@ -103,8 +106,9 @@ def _scene_clips(cfg: Config, scene: dict, scene_dir: Path, state: dict, finder:
         card_text = scene["on_screen_text"] or scene["narration"][:60]
         clips = [make_card(card_text, size, cfg.brand, scene_dir / "card.png")]
     ids = [int(p.stem.split("_")[0]) for p in clips if p.suffix in VIDEO_SUFFIXES]
+    credits = [finder.credit_for[str(p)] for p in clips if str(p) in finder.credit_for]
     return {**state, "visual_key": visual_key, "kind": "stock", "doodle_failed": wanted_doodle,
-            "clips": [str(p) for p in clips], "clip_ids": ids}
+            "clips": [str(p) for p in clips], "clip_ids": ids, "credits": credits}
 
 
 def _prepare_scene(cfg: Config, scene: dict, scene_dir: Path, finder: ClipFinder,
@@ -192,6 +196,7 @@ def _prepare_all(cfg: Config, script: dict, scene_dirs: list[Path], finder: Clip
         return assets
     print("  voice changed during this run, re-voicing earlier scenes to match")
     finder.used_ids.clear()
+    finder.credits.clear()
     return [_prepare_scene(cfg, scene, scene_dir, finder, size, clip_seconds)
             for scene, scene_dir in zip(script["scenes"], scene_dirs)]
 
@@ -208,7 +213,7 @@ def render_project(cfg: Config, project_dir: Path, force: bool = False) -> Path:
         )
     size, clip_seconds = _video_settings(cfg, script["format"])
     finder = ClipFinder(cfg.pexels_key, cfg.cache_dir / "pexels", size,
-                        strict=doodle.replaces_weak_stock(cfg))
+                        strict=doodle.replaces_weak_stock(cfg), checker=make_checker(cfg))
     if not finder.enabled:
         print("  note: no PEXELS_API_KEY, using branded text cards instead of stock footage")
 

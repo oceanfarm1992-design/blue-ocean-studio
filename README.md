@@ -121,6 +121,10 @@ drawn; keep it free of words and numbers, those belong in `on_screen_text`).
 - A stock clip whose Pexels title shares no words with the search is skipped. If nothing
   relevant is left, the scene becomes a doodle instead of a plain text card.
 - If a drawing fails (no key, quota), the scene falls back to stock footage.
+- Stock clips are ranked by how well their Pexels title matches the search, then the
+  script model looks at each clip's preview image and skips unrelated footage (a woman
+  packing a suitcase for "baker packing bag"). A scene uses fewer good clips rather than
+  padding with bad ones. Turn it off with `check_stock_with_ai = false` under `[video]`.
 - Settings live under `[doodle]` in `channel.toml`: `mode` (`mix`, `all`, `off`), image
   `quality` (`low` costs about a quarter of `medium`), and the pace
   (`min_scene_seconds`, `hold_seconds`). Doodle scenes follow the voice: the drawing is
