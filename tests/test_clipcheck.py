@@ -2,7 +2,7 @@
 from dataclasses import replace
 from pathlib import Path
 
-from studio import clipcheck, pipeline
+from studio import clipcheck, pipeline, visuals
 from studio.config import load_config
 from studio.llm import LLMError, _user_content
 from studio.visuals import ClipFinder, match_score
@@ -77,7 +77,7 @@ def test_checker_calls_are_capped(tmp_path):
     finder = OfflineFinder(tmp_path, videos, lambda q, v: calls.append(v) and False)
 
     assert finder.find("baker", 2) == []
-    assert len(calls) == 8
+    assert len(calls) == visuals.MAX_AI_CHECKS
 
 
 def test_user_content_adds_low_detail_image():

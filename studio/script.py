@@ -9,6 +9,8 @@ FORMATS = ("long", "short")
 VISUALS = ("stock", "doodle")
 CHECK_MARKER = "[CHECK"
 WORDS_PER_MINUTE = 150
+LENGTH_MARGIN = 1.1  # ask for 10% more than the minimum: models tend to write short
+LONG_ATTEMPTS = 3
 
 
 class ScriptError(ValueError):
@@ -17,7 +19,7 @@ class ScriptError(ValueError):
 
 def _format_rules(cfg: Config, fmt: str) -> str:
     if fmt == "long":
-        words = int(cfg.video["long_minutes"] * WORDS_PER_MINUTE)
+        words = int(min_long_words(cfg) * LENGTH_MARGIN)
         return (
             f"FORMAT: long-form YouTube video, at least {words} spoken words in total "
             f"(this is required: videos under {cfg.video['long_minutes']} minutes lose mid-roll ads).\n"
@@ -157,15 +159,39 @@ def unchecked_scenes(script: dict) -> list[int]:
     return [i + 1 for i, s in enumerate(script["scenes"]) if CHECK_MARKER in s["narration"]]
 
 
+def min_long_words(cfg: Config) -> int:
+    """Spoken words a long video needs to reach long_minutes (mid-roll ads need 8+)."""
+    return int(cfg.video["long_minutes"] * WORDS_PER_MINUTE)
+
+
 def generate_script(cfg: Config, topic: str, fmt: str, attempts: int = 2) -> dict:
+    """A long script that comes back too short is sent back with its real word count;
+    after the last attempt the longest draft is used, with a warning."""
     system, user = build_prompt(cfg, topic, fmt)
+    attempts = max(attempts, LONG_ATTEMPTS) if fmt == "long" else attempts
     last_error: Exception | None = None
+    longest: dict | None = None
+    request = user
     for _ in range(attempts):
         try:
-            return validate_script(complete_json(cfg, system, user), fmt, topic)
+            script = validate_script(complete_json(cfg, system, request), fmt, topic)
         except (ScriptError, LLMError) as exc:
             last_error = exc
             print(f"  retrying: {exc}")
+            continue
+        if fmt != "long" or word_count(script) >= min_long_words(cfg):
+            return script
+        if longest is None or word_count(script) > word_count(longest):
+            longest = script
+        needed = int(min_long_words(cfg) * LENGTH_MARGIN)
+        print(f"  script too short ({word_count(script)} words), asking for {needed}")
+        request = (f"{user}\n\nYour previous draft had only {word_count(script)} spoken words. "
+                   f"Write at least {needed}: add scenes and concrete examples, do not pad.")
+    if longest is not None:
+        print(f"  WARNING: long script has {word_count(longest)} words, under "
+              f"{min_long_words(cfg)}; the video may be shorter than "
+              f"{cfg.video['long_minutes']} minutes")
+        return longest
     raise ScriptError(f"Could not get a valid script: {last_error}")
 
 

@@ -12,7 +12,7 @@ RESULTS_PER_SEARCH = 15
 REQUEST_TIMEOUT = 30.0
 DOWNLOAD_TIMEOUT = 120.0
 MIN_SHORT_SIDE_RATIO = 0.66  # accept files at least 2/3 of the target's short side
-MAX_AI_CHECKS = 8           # preview images checked per scene before giving up
+MAX_AI_CHECKS = 12          # preview images checked per scene before giving up
 STEM_LENGTH = 4              # "filming" and "filmmaking" share the stem "film"
 # Words too generic to prove a clip matches ("woman" alone would accept a glucose test)
 GENERIC_WORDS = {

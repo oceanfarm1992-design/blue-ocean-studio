@@ -65,7 +65,8 @@ def voice_id(cfg: Config) -> str:
     v = cfg.voice
     provider = effective_provider(cfg)
     if provider == "clone":
-        return f"clone:{v['clone_repo']}/{v['clone_file']}:{v.get('clone_style', 'default')}"
+        return (f"clone:{v['clone_repo']}/{v['clone_file']}:{v.get('clone_style', 'default')}"
+                f"{':rvc-' + v['clone_rvc'] if v.get('clone_rvc', 'off') != 'off' else ''}")
     if provider == "openai":
         return f"openai:{v['openai_model']}:{v['openai_voice']}"
     return f"edge:{v['edge_voice']}:{v['edge_rate']}"
@@ -144,6 +145,7 @@ def _clone(cfg: Config, text: str, out_path: Path) -> list[Word]:
         used = clone_synthesize(
             text, str(out_path), engine=_pinned_clone_engine or "auto",
             style=v.get("clone_style", "default"),  # a style block in the repo's profile.json
+            rvc=v.get("clone_rvc", "off"),
             voice_ref_repo=v["clone_repo"], voice_ref_file=v["clone_file"],
             voice_ref_cache=str(cfg.cache_dir / "voice_reference.mp3"))
     except AllEnginesFailedError as exc:
