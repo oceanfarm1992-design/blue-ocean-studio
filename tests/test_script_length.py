@@ -3,9 +3,12 @@ import sys
 import types
 from dataclasses import replace
 
+import pytest
+
 from studio import script as script_module
 from studio import voice
 from studio.config import load_config
+from studio.llm import LLMError
 from studio.script import generate_script, min_long_words, word_count
 
 CFG = load_config()
@@ -20,18 +23,42 @@ def _fake_llm(monkeypatch, lengths: list[int]) -> list[str]:
 
     def fake(cfg, system, user):
         requests.append(user)
-        return _draft(lengths[len(requests) - 1])
+        answer = lengths[len(requests) - 1]
+        if isinstance(answer, Exception):
+            raise answer
+        return _draft(answer)
 
     monkeypatch.setattr(script_module, "complete_json", fake)
     return requests
 
 
-def test_prompt_asks_for_more_than_the_minimum():
+def test_prompt_asks_for_enough_scenes_not_just_words():
     _, user = script_module.build_prompt(CFG, "reviews", "long")
-    asked = int(min_long_words(CFG) * script_module.LENGTH_MARGIN)
+    scenes = script_module.min_long_scenes(CFG)
 
-    assert f"at least {asked} spoken words" in user
-    assert asked > min_long_words(CFG)
+    low, _ = script_module.LONG_SCENE_WORDS
+
+    assert f"At least {scenes} scenes" in user
+    assert scenes * low >= min_long_words(CFG)    # even the shortest allowed scenes suffice
+    assert min_long_words(CFG) >= CFG.video["long_minutes"] * 151   # measured pace on GitHub
+    assert "HOOK (1 scene, under 40 words" in user
+
+
+def test_doodle_rules_avoid_objects_with_writing():
+    cfg = replace(CFG, doodle={**(CFG.doodle or {}), "mode": "mix"})
+    _, user = script_module.build_prompt(cfg, "menus", "short")
+
+    assert "menus, receipts, price tags" in user
+
+
+def test_short_long_video_is_warned_about(capsys):
+    from studio import pipeline
+
+    assets = [pipeline.SceneAssets(None, 200.0, (), ()), pipeline.SceneAssets(None, 230.0, (), ())]
+    pipeline._warn_if_short(CFG, {"format": "long"}, assets)
+    pipeline._warn_if_short(CFG, {"format": "short"}, assets)
+
+    assert capsys.readouterr().out.count("WARNING: long video is 7.2 min") == 1
 
 
 def test_short_long_script_is_sent_back_with_its_word_count(monkeypatch):
@@ -41,7 +68,8 @@ def test_short_long_script_is_sent_back_with_its_word_count(monkeypatch):
     script = generate_script(CFG, "reviews", "long")
 
     assert word_count(script) == enough
-    assert len(requests) == 2 and "only 600 spoken words" in requests[1]
+    assert len(requests) == 2 and "600 spoken words" in requests[1]
+    assert f"at least {script_module.min_long_scenes(CFG)} scenes" in requests[1]
 
 
 def test_longest_draft_used_when_every_attempt_is_short(monkeypatch, capsys):
@@ -51,6 +79,23 @@ def test_longest_draft_used_when_every_attempt_is_short(monkeypatch, capsys):
 
     assert word_count(script) == 900 and len(requests) == script_module.LONG_ATTEMPTS
     assert "WARNING" in capsys.readouterr().out
+
+
+def test_errors_between_short_drafts_keep_the_longest(monkeypatch, capsys):
+    requests = _fake_llm(monkeypatch, [600, LLMError("timeout"), 500])
+
+    script = generate_script(CFG, "reviews", "long")
+
+    assert word_count(script) == 600
+    assert requests[2].count("Topic: reviews") == 1     # retry text does not pile up
+    assert "an attempt failed (timeout)" in capsys.readouterr().out
+
+
+def test_every_attempt_failing_raises(monkeypatch):
+    _fake_llm(monkeypatch, [LLMError("down")] * 3)
+
+    with pytest.raises(script_module.ScriptError):
+        generate_script(CFG, "reviews", "long")
 
 
 def test_short_format_is_not_length_checked(monkeypatch):

@@ -181,6 +181,17 @@ def _finish(cfg: Config, project_dir: Path, script: dict, assets: list[SceneAsse
         build_metadata(script, cta, chapters, credits), encoding="utf-8")
 
 
+def _warn_if_short(cfg: Config, script: dict, assets: list[SceneAssets]) -> None:
+    """Long videos under long_minutes lose YouTube mid-roll ads; say so loudly."""
+    if script["format"] != "long":
+        return
+    seconds = sum(a.duration for a in assets)
+    target = float(cfg.video["long_minutes"]) * 60
+    if seconds < target:
+        print(f"  WARNING: long video is {seconds / 60:.1f} min, under "
+              f"{cfg.video['long_minutes']} min (no mid-roll ads). Add scenes to script.json.")
+
+
 def _prepare_all(cfg: Config, script: dict, scene_dirs: list[Path], finder: ClipFinder,
                  size: tuple[int, int], clip_seconds: float) -> list[SceneAssets]:
     """Voice and visuals for every scene. If the voice changes part-way (edge-tts blocked,
@@ -227,6 +238,7 @@ def render_project(cfg: Config, project_dir: Path, force: bool = False) -> Path:
         segments.append(_render_scene(cfg, scene_assets, scene_dir, size, script["format"],
                                       after_doodle))
 
+    _warn_if_short(cfg, script, assets)
     final = project_dir / "video.mp4"
     concat_segments(segments, project_dir / "build", final)
     _finish(cfg, project_dir, script, assets, finder.credits)

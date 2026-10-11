@@ -34,6 +34,7 @@ from studio.shorts import DEFAULT_MAX_SHORTS, plan_shorts, scene_durations
 from studio.script import (
     FORMATS,
     WORDS_PER_MINUTE,
+    min_long_words,
     ScriptError,
     generate_script,
     unchecked_scenes,
@@ -67,7 +68,7 @@ def _write_script(cfg, topic: str, fmt: str) -> Path:
     save_script(project_dir, script)
     print(f"Script saved: {project_dir / 'script.md'}")
     minutes = word_count(script) / WORDS_PER_MINUTE
-    if fmt == "long" and minutes < cfg.video["long_minutes"]:
+    if fmt == "long" and word_count(script) < min_long_words(cfg):
         print(f"Warning: script is about {minutes:.1f} min, under the "
               f"{cfg.video['long_minutes']} min target. Add a step or example before rendering.")
     pending = unchecked_scenes(script)

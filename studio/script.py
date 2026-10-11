@@ -1,6 +1,8 @@
 """Writes, validates and formats video scripts."""
 from __future__ import annotations
 
+import math
+
 from studio.config import Config
 from studio.doodle import settings as doodle_settings
 from studio.llm import LLMError, complete_json
@@ -11,6 +13,11 @@ CHECK_MARKER = "[CHECK"
 WORDS_PER_MINUTE = 150
 LENGTH_MARGIN = 1.1  # ask for 10% more than the minimum: models tend to write short
 LONG_ATTEMPTS = 3
+# Measured on GitHub: the cloned voice plus scene pauses runs at ~151 spoken words a
+# minute, so the minimum uses a slightly faster pace to be sure of reaching long_minutes.
+LONG_WORDS_PER_MINUTE = 156
+# The model ignores word counts but follows scene counts, so length is asked as scenes.
+LONG_SCENE_WORDS = (35, 45)
 
 
 class ScriptError(ValueError):
@@ -20,11 +27,13 @@ class ScriptError(ValueError):
 def _format_rules(cfg: Config, fmt: str) -> str:
     if fmt == "long":
         words = int(min_long_words(cfg) * LENGTH_MARGIN)
+        low, high = LONG_SCENE_WORDS
         return (
-            f"FORMAT: long-form YouTube video, at least {words} spoken words in total "
+            f"FORMAT: long-form YouTube video, about {words} spoken words in total "
             f"(this is required: videos under {cfg.video['long_minutes']} minutes lose mid-roll ads).\n"
-            "- 25 to 40 scenes, each 25 to 55 words of narration.\n"
-            "- Structure: HOOK (1-2 scenes, under 20 seconds, open with a concrete problem or "
+            f"- At least {min_long_scenes(cfg)} scenes (required, count them). Every scene "
+            f"except the HOOK has {low} to {high} words of narration.\n"
+            "- Structure: HOOK (1 scene, under 40 words, open with a concrete problem or "
             "surprising number), STAKES, 3 to 6 numbered STEP sections with a real example each, "
             "a MISTAKE section, RECAP, CTA.\n"
             f"- The final scene must end with this call to action: \"{cfg.channel['cta']}\""
@@ -49,7 +58,8 @@ def _visual_rules(cfg: Config) -> tuple[str, str]:
     rules = (
         "\n\nvisual rules: each scene is either \"stock\" (real stock footage) or \"doodle\" "
         "(a whiteboard drawing sketched on screen). Use doodle for the hook, ideas, offers, "
-        "prices, numbers, steps, before/after and anything a camera cannot film well. Use "
+        "prices (shown only through on_screen_text), numbers, steps, before/after and "
+        "anything a camera cannot film well. Use "
         "stock for real people doing real things (a stylist blow-drying hair, a baker at the "
         "counter). Make roughly half the scenes doodles and avoid more than two of the same "
         "kind in a row.\n"
@@ -57,7 +67,9 @@ def _visual_rules(cfg: Config) -> tuple[str, str]:
         "a whiteboard artist could sketch in 10 seconds, 1 to 3 people or objects with a clear "
         "action, e.g. \"stylist next to an empty salon chair, wall clock\" or \"phone sending "
         "messages to nearby houses, map pin\". Never ask for words, numbers, prices or logos "
-        "in the picture: those go in on_screen_text."
+        "in the picture: those go in on_screen_text. Avoid things that normally carry writing "
+        "(menus, receipts, price tags, signs, screens full of text); show them closed, blank or "
+        "from the back, or pick a different object."
     )
     return keys, rules
 
@@ -161,7 +173,13 @@ def unchecked_scenes(script: dict) -> list[int]:
 
 def min_long_words(cfg: Config) -> int:
     """Spoken words a long video needs to reach long_minutes (mid-roll ads need 8+)."""
-    return int(cfg.video["long_minutes"] * WORDS_PER_MINUTE)
+    return int(cfg.video["long_minutes"] * LONG_WORDS_PER_MINUTE)
+
+
+def min_long_scenes(cfg: Config) -> int:
+    """Enough scenes that even the shortest allowed scenes reach the minimum; scenes of
+    average length then land comfortably above it (about 9 minutes for 8)."""
+    return math.ceil(min_long_words(cfg) / LONG_SCENE_WORDS[0])
 
 
 def generate_script(cfg: Config, topic: str, fmt: str, attempts: int = 2) -> dict:
@@ -183,11 +201,17 @@ def generate_script(cfg: Config, topic: str, fmt: str, attempts: int = 2) -> dic
             return script
         if longest is None or word_count(script) > word_count(longest):
             longest = script
-        needed = int(min_long_words(cfg) * LENGTH_MARGIN)
-        print(f"  script too short ({word_count(script)} words), asking for {needed}")
-        request = (f"{user}\n\nYour previous draft had only {word_count(script)} spoken words. "
-                   f"Write at least {needed}: add scenes and concrete examples, do not pad.")
+        scenes, words = len(script["scenes"]), word_count(script)
+        print(f"  script too short ({scenes} scenes, {words} words), asking for "
+              f"{min_long_scenes(cfg)} scenes")
+        low, high = LONG_SCENE_WORDS
+        request = (f"{user}\n\nYour previous draft had only {scenes} scenes and {words} "
+                   f"spoken words, which makes the video too short. Write at least "
+                   f"{min_long_scenes(cfg)} scenes of {low} to {high} words each: add steps "
+                   "and concrete examples, do not pad.")
     if longest is not None:
+        if last_error is not None:
+            print(f"  note: an attempt failed ({last_error})")
         print(f"  WARNING: long script has {word_count(longest)} words, under "
               f"{min_long_words(cfg)}; the video may be shorter than "
               f"{cfg.video['long_minutes']} minutes")
