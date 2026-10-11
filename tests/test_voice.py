@@ -26,7 +26,8 @@ def test_clone_used_when_package_and_token_present(monkeypatch):
 
     assert voice.effective_provider(cfg) == "clone"
     assert voice.audio_filename(cfg) == "voice.wav"
-    assert voice.voice_id(cfg) == f"clone:{cfg.voice['clone_repo']}/{cfg.voice['clone_file']}"
+    assert voice.voice_id(cfg) == (f"clone:{cfg.voice['clone_repo']}/{cfg.voice['clone_file']}"
+                                   f":{cfg.voice['clone_style']}")
 
 
 def test_other_providers_unchanged():
