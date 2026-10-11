@@ -155,3 +155,36 @@ def test_buffer_bad_key_and_missing_key():
         _client(lambda r: httpx.Response(401, json={})).organizations()
     with pytest.raises(BufferError, match="No Buffer API key"):
         BufferClient("")
+
+
+def _project(tmp_path, kinds):
+    from pathlib import Path
+
+    (tmp_path / "video.mp4").write_bytes(b"")
+    for i, kind in enumerate(kinds, start=1):
+        scene = tmp_path / "build" / f"scene_{i:02d}"
+        scene.mkdir(parents=True)
+        state = {"kind": kind} if kind else {"clips": ["a.mp4"]}  # old renders had no kind
+        (scene / "state.json").write_text(json.dumps(state), encoding="utf-8")
+    return Path(tmp_path)
+
+
+def test_new_style_video_passes_publish_check(tmp_path):
+    from studio.publish import _validate, doodle_scene_count
+
+    project = _project(tmp_path, ["doodle", "stock", "doodle"])
+
+    assert doodle_scene_count(project) == 2
+    _validate(project, SHORT, dry_run=False)
+
+
+@pytest.mark.parametrize("kinds", [["stock", "stock"], [None, None], []])
+def test_old_stock_only_video_is_never_published(tmp_path, kinds, capsys):
+    from studio.publish import _validate
+
+    project = _project(tmp_path, kinds)
+
+    with pytest.raises(PublishError, match="no doodle scenes"):
+        _validate(project, SHORT, dry_run=False)
+    _validate(project, SHORT, dry_run=True)  # preview only warns
+    assert "no doodle scenes" in capsys.readouterr().out

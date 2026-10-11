@@ -173,17 +173,39 @@ def _queue_youtube(cfg: Config, project_dir: Path, state_path: Path, state: dict
             "queued": True}
 
 
+def doodle_scene_count(project_dir: Path) -> int:
+    """Doodle scenes in the project's last render, read from build/scene_*/state.json."""
+    count = 0
+    for path in sorted((project_dir / "build").glob("scene_*/state.json")):
+        try:
+            count += json.loads(path.read_text(encoding="utf-8")).get("kind") == "doodle"
+        except (OSError, json.JSONDecodeError):
+            continue
+    return count
+
+
+def _problems(project_dir: Path, script: dict) -> list[str]:
+    problems = []
+    pending = unchecked_scenes(script)
+    if pending:
+        problems.append(f"Scenes {pending} still contain [CHECK: ...]. "
+                        "Verify the facts, edit script.json, re-render, then publish.")
+    if doodle_scene_count(project_dir) == 0:
+        # Channel rule: only the doodle + stock style goes live, never old stock-only videos
+        problems.append("This video has no doodle scenes (old stock-only style). Only the "
+                        "doodle + stock style may go live: re-render it with [doodle] "
+                        "mode = \"mix\", then publish.")
+    return problems
+
+
 def _validate(project_dir: Path, script: dict, dry_run: bool) -> None:
     if not (project_dir / "video.mp4").is_file():
         raise PublishError("No video.mp4 yet. Render the project first.")
-    pending = unchecked_scenes(script)
-    if not pending:
-        return
-    message = (f"Scenes {pending} still contain [CHECK: ...]. "
-               "Verify the facts, edit script.json, re-render, then publish.")
-    if not dry_run:
-        raise PublishError(message)
-    print(f"  WARNING (a real run would stop here): {message}")
+    problems = _problems(project_dir, script)
+    if problems and not dry_run:
+        raise PublishError("\n".join(problems))
+    for message in problems:
+        print(f"  WARNING (a real run would stop here): {message}")
 
 
 def publish_project(cfg: Config, project_dir: Path, services: list[str], when: str,
