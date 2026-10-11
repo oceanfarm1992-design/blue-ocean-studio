@@ -64,3 +64,21 @@ short_seconds = 50
 # Seconds of footage before cutting to the next stock clip
 long_clip_seconds = 6.0
 short_clip_seconds = 3.5
+
+[doodle]
+# Whiteboard doodle scenes: an AI line drawing that a hand draws on screen.
+# "mix" = the script writer picks doodle or stock footage per scene (ideas, offers, steps
+#         become doodles; real people doing real things stay stock footage)
+# "all" = every scene is a doodle   "off" = stock footage only
+mode = "mix"
+image_model = "gpt-image-1"
+# low ~$0.016, medium ~$0.063, high ~$0.25 per drawing. Drawings are cached per prompt,
+# so Shorts cut from the long video reuse its drawings for free.
+quality = "medium"
+# Pace: each doodle scene lasts at least this long, then holds the finished drawing.
+min_scene_seconds = 5.0
+hold_seconds = 1.2
+max_draw_seconds = 10.0
+# Skip stock clips whose Pexels title shares no words with the search, and draw a doodle
+# when nothing relevant is left (instead of a plain text card).
+replace_weak_stock = true

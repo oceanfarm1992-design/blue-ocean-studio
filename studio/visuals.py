@@ -1,6 +1,7 @@
 """Free stock footage from the Pexels API, cached on disk."""
 from __future__ import annotations
 
+import re
 from pathlib import Path
 
 import httpx
@@ -10,6 +11,13 @@ RESULTS_PER_SEARCH = 15
 REQUEST_TIMEOUT = 30.0
 DOWNLOAD_TIMEOUT = 120.0
 MIN_SHORT_SIDE_RATIO = 0.66  # accept files at least 2/3 of the target's short side
+STEM_LENGTH = 4              # "filming" and "filmmaking" share the stem "film"
+# Words too generic to prove a clip matches ("woman" alone would accept a glucose test)
+GENERIC_WORDS = {
+    "a", "an", "the", "and", "or", "of", "in", "on", "at", "to", "with", "for", "by", "from",
+    "video", "footage", "man", "men", "woman", "women", "person", "people", "guy", "girl",
+    "boy", "young", "small", "business", "using", "doing", "holding", "looking",
+}
 
 
 class VisualsError(RuntimeError):
@@ -27,6 +35,25 @@ def pick_video_file(files: list[dict], width: int, height: int) -> dict | None:
     if sharp:
         return min(sharp, key=lambda f: f["width"] * f["height"])
     return max(mp4s, key=lambda f: f["width"] * f["height"])
+
+
+def _stems(text: str) -> set[str]:
+    words = re.findall(r"[a-z]+", text.lower())
+    return {w[:STEM_LENGTH] for w in words if len(w) >= 3 and w not in GENERIC_WORDS}
+
+
+def is_relevant(query: str, video: dict) -> bool:
+    """True when the clip's Pexels page title shares a meaningful word with the search.
+
+    Pexels titles live in the page URL (".../video/woman-blow-drying-hair-123/"). A clip
+    without a readable title is given the benefit of the doubt.
+    """
+    slug = str(video.get("url", "")).rstrip("/").rsplit("/", 1)[-1]
+    title = re.sub(r"-?\d+$", "", slug)
+    wanted = _stems(query)
+    if not wanted or not re.search(r"[a-z]", title):
+        return True
+    return bool(wanted & _stems(title.replace("-", " ")))
 
 
 def search_pexels(api_key: str, query: str, orientation: str) -> list[dict]:
@@ -64,8 +91,10 @@ def download(url: str, dest: Path) -> Path:
 class ClipFinder:
     """Finds clips for a project without repeating the same footage."""
 
-    def __init__(self, api_key: str | None, cache_dir: Path, size: tuple[int, int]):
+    def __init__(self, api_key: str | None, cache_dir: Path, size: tuple[int, int],
+                 strict: bool = False):
         self.api_key = api_key
+        self.strict = strict  # skip clips whose title does not match the search
         self.cache_dir = cache_dir
         self.size = size
         self.orientation = "portrait" if size[1] > size[0] else "landscape"
@@ -89,6 +118,8 @@ class ClipFinder:
             if len(clips) >= count:
                 break
             if video.get("id") in self.used_ids:
+                continue
+            if self.strict and not is_relevant(query, video):
                 continue
             clip = self._fetch(video)
             if clip is not None:

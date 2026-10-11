@@ -9,6 +9,7 @@ captions, footage, finished MP4, thumbnail and upload text. Cost per video is ab
 | Ideas and scripts | OpenAI (`gpt-5-mini`, low reasoning) | ~$0.003–0.02 per script |
 | Voiceover + word timings | Microsoft Edge neural voices (edge-tts) | free |
 | Stock footage | Pexels API | free |
+| Whiteboard doodle scenes | OpenAI `gpt-image-1` | ~$0.06 per drawing (medium) |
 | Captions, editing, thumbnail | FFmpeg + Pillow, on your PC | free |
 
 ## Setup (once)
@@ -106,6 +107,26 @@ Run it once a week. Videos still in drafts, scheduled or failed are kept.
 Everything about the channel lives in `channel.toml`: niche, call to action, brand colors,
 fonts, voice, video length, model. To use OpenAI's voice instead of the free one, set
 `provider = "openai"` under `[voice]` (about $0.015 per minute of audio).
+
+## Doodle scenes
+
+Videos mix stock footage with whiteboard doodles: a line drawing that a hand draws on
+screen. The script writer marks each scene `"visual": "doodle"` or `"stock"`. Doodles go to
+hooks, ideas, offers, numbers and steps; stock footage to real people doing real things.
+You can change any scene in `script.json` before rendering (`doodle_prompt` is what gets
+drawn; keep it free of words and numbers, those belong in `on_screen_text`).
+
+- Drawings are cached in `cache/doodles` by prompt, so Shorts cut from the long video reuse
+  the long video's drawings for free.
+- A stock clip whose Pexels title shares no words with the search is skipped. If nothing
+  relevant is left, the scene becomes a doodle instead of a plain text card.
+- If a drawing fails (no key, quota), the scene falls back to stock footage.
+- Settings live under `[doodle]` in `channel.toml`: `mode` (`mix`, `all`, `off`), image
+  `quality` (`low` costs about a quarter of `medium`), and the pace
+  (`min_scene_seconds`, `hold_seconds`).
+
+A typical week (1 long video + 2 standalone Shorts) needs about 20–25 drawings in `mix`
+mode: roughly $1.50 a week at medium quality, $0.40 at low.
 
 ## Tests
 
