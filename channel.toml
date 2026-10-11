@@ -31,6 +31,9 @@ provider = "clone"
 fallback_provider = "edge"
 clone_repo = "oceanfarm1992-design/voice-reference-audio"
 clone_file = "reference_voice.mp3"
+# Speaking style from profile.json in the voice repo: default, talking, comedy or
+# presentation (facts narration, stronger delivery).
+clone_style = "presentation"
 edge_voice = "en-US-AndrewNeural"
 edge_rate = "+4%"
 openai_model = "gpt-4o-mini-tts"
