@@ -63,11 +63,11 @@ max_hashtags = 5
 
 [publish.channel_names]
 # Exact Buffer page names this channel may post to. Buffer picks pages by type, so any
-# other page of the same type in the account (e.g. premium-aqua-product on LinkedIn) is
-# skipped, and so is a service listed in `services` but missing here.
+# other page of the same type in the account is skipped, and so is a service listed in
+# `services` but missing here.
 facebook = "Blue Ocean Marketing"
 instagram = "boma.rketing"
-linkedin = "Blue Ocean Marketing"
+linkedin = "premium-aqua-product"  # the Blue Ocean LinkedIn page, as Buffer names it
 
 [video]
 fps = 30
