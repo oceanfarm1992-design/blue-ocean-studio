@@ -1,0 +1,39 @@
+{
+  "format": "short",
+  "topic": "Turn QR Menu Scans into $5–$10 Upsells for Restaurants (Step 3 - How To Implement)",
+  "title": "Single checkout page | Turn QR Menu Scans into $5–$10 Restaurant Upsells",
+  "title_options": [],
+  "thumbnail_text": "Single checkout page",
+  "description": "Single checkout page. From our full video: Turn QR Menu Scans into $5–$10 Restaurant Upsells.",
+  "tags": [
+    "restaurant marketing",
+    "QR menu",
+    "upsell tactics",
+    "small business marketing",
+    "low budget marketing",
+    "menu engineering",
+    "increase check size",
+    "food business tips",
+    "local marketing",
+    "blue ocean marketing",
+    "shorts"
+  ],
+  "scenes": [
+    {
+      "section": "STEP 3 - HOW TO IMPLEMENT",
+      "narration": "If your menu platform can’t do one-tap adds, use a simple form button that writes an order note. Alternatively print a small QR sticker for add-ons that opens a single-item checkout page for quick payment and instant kitchen notice.",
+      "visual_query": "owner typing on tablet behind counter",
+      "on_screen_text": "Single checkout page",
+      "visual": "stock",
+      "doodle_prompt": ""
+    },
+    {
+      "section": "FOLLOW",
+      "narration": "Follow Blue Ocean Marketing for one marketing fix every day.",
+      "visual_query": "owner typing on tablet behind counter",
+      "on_screen_text": "Follow for daily fixes",
+      "visual": "stock",
+      "doodle_prompt": ""
+    }
+  ]
+}

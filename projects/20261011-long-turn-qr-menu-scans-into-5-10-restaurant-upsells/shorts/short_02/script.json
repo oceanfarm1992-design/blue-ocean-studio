@@ -1,0 +1,39 @@
+{
+  "format": "short",
+  "topic": "Turn QR Menu Scans into $5–$10 Upsells for Restaurants (Step 2 - Choose Native Fits)",
+  "title": "Match the main item | Turn QR Menu Scans into $5–$10 Restaurant Upsells",
+  "title_options": [],
+  "thumbnail_text": "Match the main item",
+  "description": "Match the main item. From our full video: Turn QR Menu Scans into $5–$10 Restaurant Upsells.",
+  "tags": [
+    "restaurant marketing",
+    "QR menu",
+    "upsell tactics",
+    "small business marketing",
+    "low budget marketing",
+    "menu engineering",
+    "increase check size",
+    "food business tips",
+    "local marketing",
+    "blue ocean marketing",
+    "shorts"
+  ],
+  "scenes": [
+    {
+      "section": "STEP 2 - CHOOSE NATIVE FITS",
+      "narration": "Step two: pick offers that naturally match existing menu items. Think like a guest. If they order a steak, suggest a $6 garlic butter or a side salad. If coffee, suggest a pastry. Keep price small, perceived value high.",
+      "visual_query": "doodle: plates with arrows to add-ons",
+      "on_screen_text": "Match the main item",
+      "visual": "doodle",
+      "doodle_prompt": "three plates with arrows pointing to small add-on plates"
+    },
+    {
+      "section": "FOLLOW",
+      "narration": "Follow Blue Ocean Marketing for one marketing fix every day.",
+      "visual_query": "doodle: plates with arrows to add-ons",
+      "on_screen_text": "Follow for daily fixes",
+      "visual": "stock",
+      "doodle_prompt": ""
+    }
+  ]
+}

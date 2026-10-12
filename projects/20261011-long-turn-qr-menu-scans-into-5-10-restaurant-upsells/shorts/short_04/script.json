@@ -1,0 +1,39 @@
+{
+  "format": "short",
+  "topic": "Turn QR Menu Scans into $5–$10 Upsells for Restaurants (Step 2 - Wording To Copy)",
+  "title": "Creamy garlic butter $6 | Turn QR Menu Scans into $5–$10 Restaurant Upsells",
+  "title_options": [],
+  "thumbnail_text": "Creamy garlic butter $6",
+  "description": "Creamy garlic butter $6. From our full video: Turn QR Menu Scans into $5–$10 Restaurant Upsells.",
+  "tags": [
+    "restaurant marketing",
+    "QR menu",
+    "upsell tactics",
+    "small business marketing",
+    "low budget marketing",
+    "menu engineering",
+    "increase check size",
+    "food business tips",
+    "local marketing",
+    "blue ocean marketing",
+    "shorts"
+  ],
+  "scenes": [
+    {
+      "section": "STEP 2 - WORDING TO COPY",
+      "narration": "Use three words of benefit plus price. Example: “Creamy garlic butter — $6,” or “Extra crunch topping — $4.” Guests skim; short, clear benefits convert best. Avoid long descriptions that dilute the instant add decision.",
+      "visual_query": "doodle: short phrase tag pointing at food",
+      "on_screen_text": "Creamy garlic butter $6",
+      "visual": "doodle",
+      "doodle_prompt": "small butter pat on a spoon next to a plate"
+    },
+    {
+      "section": "FOLLOW",
+      "narration": "Follow Blue Ocean Marketing for one marketing fix every day.",
+      "visual_query": "doodle: short phrase tag pointing at food",
+      "on_screen_text": "Follow for daily fixes",
+      "visual": "stock",
+      "doodle_prompt": ""
+    }
+  ]
+}

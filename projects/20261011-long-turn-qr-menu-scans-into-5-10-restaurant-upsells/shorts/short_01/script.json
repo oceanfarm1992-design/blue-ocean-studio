@@ -1,0 +1,39 @@
+{
+  "format": "short",
+  "topic": "Turn QR Menu Scans into $5–$10 Upsells for Restaurants (Step 1 - Explain The Idea)",
+  "title": "One-tap add-on | Turn QR Menu Scans into $5–$10 Restaurant Upsells",
+  "title_options": [],
+  "thumbnail_text": "One-tap add-on",
+  "description": "One-tap add-on. From our full video: Turn QR Menu Scans into $5–$10 Restaurant Upsells.",
+  "tags": [
+    "restaurant marketing",
+    "QR menu",
+    "upsell tactics",
+    "small business marketing",
+    "low budget marketing",
+    "menu engineering",
+    "increase check size",
+    "food business tips",
+    "local marketing",
+    "blue ocean marketing",
+    "shorts"
+  ],
+  "scenes": [
+    {
+      "section": "STEP 1 - EXPLAIN THE IDEA",
+      "narration": "Step one: treat every QR scan like a micro-opportunity. Add one clear, low-friction offer at the top of your menu page that guests can add with one tap. Keep it cheap, useful, and relevant to the dish they already picked.",
+      "visual_query": "doodle: phone screen showing simple offer",
+      "on_screen_text": "One-tap add-on",
+      "visual": "doodle",
+      "doodle_prompt": "phone with a big button labeled as an add-on (no text shown), plate beside phone"
+    },
+    {
+      "section": "FOLLOW",
+      "narration": "Follow Blue Ocean Marketing for one marketing fix every day.",
+      "visual_query": "doodle: phone screen showing simple offer",
+      "on_screen_text": "Follow for daily fixes",
+      "visual": "stock",
+      "doodle_prompt": ""
+    }
+  ]
+}

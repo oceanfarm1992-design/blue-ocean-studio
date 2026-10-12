@@ -1,0 +1,39 @@
+{
+  "format": "short",
+  "topic": "Turn QR Menu Scans into $5–$10 Upsells for Restaurants (Step 2 - How To Implement)",
+  "title": "Map top five items | Turn QR Menu Scans into $5–$10 Restaurant Upsells",
+  "title_options": [],
+  "thumbnail_text": "Map top five items",
+  "description": "Map top five items. From our full video: Turn QR Menu Scans into $5–$10 Restaurant Upsells.",
+  "tags": [
+    "restaurant marketing",
+    "QR menu",
+    "upsell tactics",
+    "small business marketing",
+    "low budget marketing",
+    "menu engineering",
+    "increase check size",
+    "food business tips",
+    "local marketing",
+    "blue ocean marketing",
+    "shorts"
+  ],
+  "scenes": [
+    {
+      "section": "STEP 2 - HOW TO IMPLEMENT",
+      "narration": "Map your top five menu items. Give each a single relevant add-on priced between $3 and $10. Add the suggestion into the QR menu near each item and in the cart stage. One suggestion per item keeps choices simple.",
+      "visual_query": "chef writing menu on notepad",
+      "on_screen_text": "Map top five items",
+      "visual": "stock",
+      "doodle_prompt": ""
+    },
+    {
+      "section": "FOLLOW",
+      "narration": "Follow Blue Ocean Marketing for one marketing fix every day.",
+      "visual_query": "chef writing menu on notepad",
+      "on_screen_text": "Follow for daily fixes",
+      "visual": "stock",
+      "doodle_prompt": ""
+    }
+  ]
+}
