@@ -100,7 +100,7 @@ review = true
 max_attempts = 2
 # Pace: doodle scenes follow the voice (drawing done by 75% of the line, no silent wait).
 # Very short lines last at least min_scene_seconds; hold_seconds is the gap before the cut.
-min_scene_seconds = 3.0
+min_scene_seconds = 2.5
 hold_seconds = 0.2
 max_draw_seconds = 10.0
 # Skip stock clips whose Pexels title shares no words with the search, and draw a doodle

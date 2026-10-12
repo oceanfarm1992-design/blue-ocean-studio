@@ -18,9 +18,11 @@ from pathlib import Path
 
 from studio.captions import Word, estimate_word_timings, restore_punctuation
 from studio.config import Config
-from studio.media import probe_duration
+from studio.media import probe_duration, silence_edges, trim_audio
 
 TICKS_PER_SECOND = 10_000_000  # edge-tts reports offsets in 100 ns units
+EDGE_KEEP_SECONDS = 0.08       # natural breath kept at each end of a trimmed line
+AUDIO_VERSION = "trim1"        # bump when voice post-processing changes: re-voices cached audio
 CLONE_ENGINE = "styletts2"      # the engine that actually uses the owner's voice
 
 # The clone package falls back through other engines if StyleTTS2 fails. Whichever engine
@@ -66,10 +68,11 @@ def voice_id(cfg: Config) -> str:
     provider = effective_provider(cfg)
     if provider == "clone":
         return (f"clone:{v['clone_repo']}/{v['clone_file']}:{v.get('clone_style', 'default')}"
-                f"{':rvc-' + v['clone_rvc'] if v.get('clone_rvc', 'off') != 'off' else ''}")
+                f"{':rvc-' + v['clone_rvc'] if v.get('clone_rvc', 'off') != 'off' else ''}"
+                f":{AUDIO_VERSION}")
     if provider == "openai":
-        return f"openai:{v['openai_model']}:{v['openai_voice']}"
-    return f"edge:{v['edge_voice']}:{v['edge_rate']}"
+        return f"openai:{v['openai_model']}:{v['openai_voice']}:{AUDIO_VERSION}"
+    return f"edge:{v['edge_voice']}:{v['edge_rate']}:{AUDIO_VERSION}"
 
 
 async def _edge_stream(text: str, voice: str, rate: str, out_path: Path) -> list[Word]:
@@ -175,6 +178,21 @@ def synthesize(cfg: Config, text: str, out_path: Path) -> VoiceResult:
 
     if not out_path.is_file() or out_path.stat().st_size == 0:
         raise VoiceError("Voice provider returned no audio.")
-    duration = probe_duration(out_path)
+    duration, words = _trim_edges(out_path, words)
     timed = restore_punctuation(tuple(words), text) if words else estimate_word_timings(text, duration)
     return VoiceResult(out_path, duration, timed)
+
+
+def _trim_edges(path: Path, words: list[Word]) -> tuple[float, list[Word]]:
+    """Cuts the silence voices leave before and after a line (OpenAI adds up to ~1.7 s),
+    which otherwise adds up to dead air at every scene change. Word times move with it."""
+    duration = probe_duration(path)
+    lead, trail = silence_edges(path)
+    cut_lead = max(lead - EDGE_KEEP_SECONDS, 0.0)
+    cut_trail = max(trail - EDGE_KEEP_SECONDS, 0.0)
+    if cut_lead + cut_trail < 0.05:
+        return duration, words
+    trim_audio(path, cut_lead, duration - cut_lead - cut_trail)
+    shifted = [Word(w.text, max(round(w.start - cut_lead, 3), 0.0),
+                    max(round(w.end - cut_lead, 3), 0.0)) for w in words]
+    return probe_duration(path), shifted

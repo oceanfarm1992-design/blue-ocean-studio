@@ -1,6 +1,7 @@
 """FFmpeg helpers: probing, scene rendering and concatenation."""
 from __future__ import annotations
 
+import re
 import subprocess
 from pathlib import Path
 
@@ -25,6 +26,38 @@ def run(cmd: list[str], cwd: Path | None = None) -> str:
     if result.returncode != 0:
         raise MediaError(f"{cmd[0]} failed:\n{result.stderr.strip()[-2000:]}")
     return result.stdout
+
+
+SILENCE_DB = "-45dB"        # quieter than this counts as silence at the edges of a line
+MIN_EDGE_SILENCE = 0.05      # shorter quiet edges are left alone
+
+
+def silence_edges(path: Path) -> tuple[float, float]:
+    """(leading, trailing) seconds of silence in an audio file."""
+    duration = probe_duration(path)
+    log = subprocess.run(
+        ["ffmpeg", "-hide_banner", "-nostats", "-i", str(path), "-af",
+         f"silencedetect=noise={SILENCE_DB}:d={MIN_EDGE_SILENCE}", "-f", "null", "-"],
+        capture_output=True, text=True, encoding="utf-8", errors="replace").stderr
+    starts = [float(m) for m in re.findall(r"silence_start: (-?[\d.]+)", log)]
+    ends = [float(m) for m in re.findall(r"silence_end: ([\d.]+)", log)]
+    lead = ends[0] if starts and starts[0] <= 0.01 and ends else 0.0
+    # A trailing silence either has no end (EOF) or ends at the end of the file
+    trail = 0.0
+    if starts and (len(ends) < len(starts) or ends[-1] >= duration - 0.02):
+        trail = max(duration - starts[-1], 0.0)
+    if lead >= duration:
+        return 0.0, 0.0  # all silence: leave the file alone
+    return lead, trail
+
+
+def trim_audio(path: Path, start: float, length: float) -> None:
+    """Keeps [start, start + length) of the file, re-encoded in its own format."""
+    codec = ["-c:a", "pcm_s16le"] if path.suffix.lower() == ".wav" else ["-c:a", "libmp3lame", "-q:a", "2"]
+    trimmed = path.with_name(f"trimmed{path.suffix}")
+    run(["ffmpeg", "-y", "-hide_banner", "-loglevel", "error", "-ss", f"{start:.3f}",
+         "-t", f"{length:.3f}", "-i", str(path), *codec, str(trimmed)])
+    trimmed.replace(path)
 
 
 def probe_duration(path: Path) -> float:

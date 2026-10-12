@@ -38,7 +38,7 @@ DEFAULTS = {
     "enhance": True,       # crisp lines, no haze, one accent colour (studio.doodle_enhance)
     "review": True,        # AI look at each drawing; one redraw if it has writing or smears
     "max_attempts": 2,
-    "min_scene_seconds": 3.0,
+    "min_scene_seconds": 2.5,
     "hold_seconds": 0.2,
     "max_draw_seconds": 10.0,
     "replace_weak_stock": True,

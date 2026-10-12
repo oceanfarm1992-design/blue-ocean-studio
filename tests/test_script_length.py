@@ -120,4 +120,4 @@ def test_rvc_off_by_default_and_part_of_voice_id_when_on(monkeypatch, tmp_path):
 
     assert calls["rvc"] == "off"
     assert CFG.voice["clone_rvc"] == "off"
-    assert "rvc" not in voice.voice_id(off) and voice.voice_id(on).endswith(":rvc-auto")
+    assert "rvc" not in voice.voice_id(off) and ":rvc-auto:" in voice.voice_id(on)
