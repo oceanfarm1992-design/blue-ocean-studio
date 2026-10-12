@@ -1,0 +1,66 @@
+{
+  "format": "short",
+  "topic": "Fill Last-Minute Salon Slots Using an Instagram DM Automation (No Appointments App)",
+  "title": "Fill Last-Minute Salon Slots With One Instagram DM Trick",
+  "title_options": [
+    "Fill Tonight's Salon Slots With Instagram DMs",
+    "Last-Minute Salon Bookings Using One DM Auto-Reply",
+    "How to Fill Empty Salon Chairs Fast With Instagram"
+  ],
+  "thumbnail_text": "Fill Last-Minute Slots",
+  "description": "A quick, low-cost way to turn empty salon slots into bookings using Instagram DMs. No booking app needed — just one automated reply and a simple booking flow.\n\nIncludes a word-for-word DM template you can copy, plus a real example for a nail salon. Works for stylists, barbers, massage therapists, and more.",
+  "tags": [
+    "salon marketing",
+    "instagram tips",
+    "small business marketing",
+    "last minute bookings",
+    "hair salon marketing",
+    "beauty salon tips",
+    "social media for salons",
+    "booking hacks",
+    "low budget marketing",
+    "blue ocean marketing"
+  ],
+  "scenes": [
+    {
+      "section": "HOOK",
+      "narration": "Empty salon tonight?",
+      "visual_query": "stylist looking at empty chair",
+      "on_screen_text": "Empty salon tonight?",
+      "visual": "doodle",
+      "doodle_prompt": "stylist next to an empty salon chair, wall clock"
+    },
+    {
+      "section": "TIP",
+      "narration": "Set one Instagram DM auto-reply for the word 'OPEN' that lists two live slots and asks them to reply to hold.",
+      "visual_query": "woman typing on phone at salon",
+      "on_screen_text": "Auto-reply: 'OPEN'",
+      "visual": "stock",
+      "doodle_prompt": ""
+    },
+    {
+      "section": "EXAMPLE",
+      "narration": "Example for a nail salon: auto-reply says, 'Hi! We have 5:30PM gel or 7PM manicure. Reply 1 for 5:30 or 2 for 7 to hold.'",
+      "visual_query": "manicurist prepping nails, smiling",
+      "on_screen_text": "Reply 1 or 2 to hold",
+      "visual": "stock",
+      "doodle_prompt": ""
+    },
+    {
+      "section": "HOW-TO",
+      "narration": "When they reply '1' type a quick saved reply: 'Held for you — arrive 10 minutes early. Confirm with a card on arrival.'",
+      "visual_query": "phone showing message thread in hand",
+      "on_screen_text": "Saved reply: 'Held for you'",
+      "visual": "doodle",
+      "doodle_prompt": "phone sending messages to nearby houses, map pin"
+    },
+    {
+      "section": "FINAL",
+      "narration": "Cost: zero if you use built-in auto-replies. Result: faster confirmations and fewer empty chairs. Follow Blue Ocean Marketing for one marketing fix every day.",
+      "visual_query": "happy stylist high-fiving customer",
+      "on_screen_text": "Fill empty chairs",
+      "visual": "doodle",
+      "doodle_prompt": "stylist high-fiving a client in chair, calendar page"
+    }
+  ]
+}

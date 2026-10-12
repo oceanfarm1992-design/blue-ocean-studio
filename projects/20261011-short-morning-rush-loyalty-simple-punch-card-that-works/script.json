@@ -1,0 +1,76 @@
+{
+  "format": "short",
+  "topic": "Morning Coffee Rush: 2 Low-Cost Loyalty Triggers That Actually Work",
+  "title": "Morning Rush Loyalty: Simple Punch Card That Works",
+  "title_options": [
+    "Easy Morning Loyalty Hack for Cafes",
+    "Get More Repeat Coffee Customers Fast",
+    "Cheap Punch Card Trick for Morning Rush"
+  ],
+  "thumbnail_text": "Morning Rush Hack",
+  "description": "A tiny, low-cost loyalty trigger you can set up in one morning. Use a paper punch card that also gives a small, immediate upgrade halfway through the card to lock in repeat visits.\n\nThis short shows exact wording, staffing script, and a bakery example with rough cost so you can implement today. No fancy tech needed — just a stamp and a trained team member.",
+  "tags": [
+    "coffee shop marketing",
+    "cafe loyalty",
+    "small business marketing",
+    "repeat customers",
+    "low cost marketing",
+    "local business tips",
+    "punch card",
+    "morning rush",
+    "bakery marketing",
+    "customer retention",
+    "marketing for cafes",
+    "Blue Ocean Marketing"
+  ],
+  "scenes": [
+    {
+      "section": "HOOK",
+      "narration": "Double your morning regulars? Try this.",
+      "visual_query": "hand drawing punch card",
+      "on_screen_text": "Morning Rush Hack",
+      "visual": "doodle",
+      "doodle_prompt": "hand holding small punch card, single stamp hole"
+    },
+    {
+      "section": "SCENE 2",
+      "narration": "You get shoppers in the morning, but many don't come back within a week.",
+      "visual_query": "barista serving coffee counter",
+      "on_screen_text": "Customers leave too soon",
+      "visual": "stock",
+      "doodle_prompt": ""
+    },
+    {
+      "section": "SCENE 3",
+      "narration": "Tip: use a cheap punch card that also gives a small, immediate reward mid-card.",
+      "visual_query": "closeup drawing punch card",
+      "on_screen_text": "Punch + Mid Reward",
+      "visual": "doodle",
+      "doodle_prompt": "punch card with a mid stamp highlighted, arrow pointing to reward"
+    },
+    {
+      "section": "SCENE 4",
+      "narration": "Example — bakery: stamp 7, 8th coffee free. After three stamps hand a free pastry upgrade (~$0.30 cost).",
+      "visual_query": "baker stamping card counter",
+      "on_screen_text": "Buy 7, 8th Free",
+      "visual": "doodle",
+      "doodle_prompt": "baker hand stamping card, small croissant next to card"
+    },
+    {
+      "section": "SCENE 5",
+      "narration": "Barista script to use: 'You're on your third stamp — want a free croissant upgrade today?'",
+      "visual_query": "barista smiling handing coffee",
+      "on_screen_text": "Try: \"Free upgrade?\"",
+      "visual": "stock",
+      "doodle_prompt": ""
+    },
+    {
+      "section": "FINAL",
+      "narration": "Follow Blue Ocean Marketing for one marketing fix every day.",
+      "visual_query": "small business owner smiling",
+      "on_screen_text": "Follow for daily fixes",
+      "visual": "stock",
+      "doodle_prompt": ""
+    }
+  ]
+}
