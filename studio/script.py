@@ -1,12 +1,23 @@
 """Writes, validates and formats video scripts."""
 from __future__ import annotations
 
+import math
+
 from studio.config import Config
+from studio.doodle import settings as doodle_settings
 from studio.llm import LLMError, complete_json
 
 FORMATS = ("long", "short")
+VISUALS = ("stock", "doodle")
 CHECK_MARKER = "[CHECK"
 WORDS_PER_MINUTE = 150
+LENGTH_MARGIN = 1.1  # ask for 10% more than the minimum: models tend to write short
+LONG_ATTEMPTS = 3
+# Measured on GitHub: the cloned voice plus scene pauses runs at ~151 spoken words a
+# minute, so the minimum uses a slightly faster pace to be sure of reaching long_minutes.
+LONG_WORDS_PER_MINUTE = 156
+# The model ignores word counts but follows scene counts, so length is asked as scenes.
+LONG_SCENE_WORDS = (35, 45)
 
 
 class ScriptError(ValueError):
@@ -15,12 +26,14 @@ class ScriptError(ValueError):
 
 def _format_rules(cfg: Config, fmt: str) -> str:
     if fmt == "long":
-        words = int(cfg.video["long_minutes"] * WORDS_PER_MINUTE)
+        words = int(min_long_words(cfg) * LENGTH_MARGIN)
+        low, high = LONG_SCENE_WORDS
         return (
-            f"FORMAT: long-form YouTube video, at least {words} spoken words in total "
+            f"FORMAT: long-form YouTube video, about {words} spoken words in total "
             f"(this is required: videos under {cfg.video['long_minutes']} minutes lose mid-roll ads).\n"
-            "- 25 to 40 scenes, each 25 to 55 words of narration.\n"
-            "- Structure: HOOK (1-2 scenes, under 20 seconds, open with a concrete problem or "
+            f"- At least {min_long_scenes(cfg)} scenes (required, count them). Every scene "
+            f"except the HOOK has {low} to {high} words of narration.\n"
+            "- Structure: HOOK (1 scene, under 40 words, open with a concrete problem or "
             "surprising number), STAKES, 3 to 6 numbered STEP sections with a real example each, "
             "a MISTAKE section, RECAP, CTA.\n"
             f"- The final scene must end with this call to action: \"{cfg.channel['cta']}\""
@@ -37,8 +50,33 @@ def _format_rules(cfg: Config, fmt: str) -> str:
     )
 
 
+def _visual_rules(cfg: Config) -> tuple[str, str]:
+    """Extra scene keys and rules when doodle scenes are mixed with stock footage."""
+    if doodle_settings(cfg)["mode"] != "mix":
+        return "", ""
+    keys = ', "visual": "stock or doodle", "doodle_prompt": "what to draw"'
+    rules = (
+        "\n\nvisual rules: each scene is either \"stock\" (real stock footage) or \"doodle\" "
+        "(a whiteboard drawing sketched on screen). Use doodle for the hook, ideas, offers, "
+        "prices (shown only through on_screen_text), numbers, steps, before/after and "
+        "anything a camera cannot film well. Use "
+        "stock for real people doing real things (a stylist blow-drying hair, a baker at the "
+        "counter). Make roughly half the scenes doodles and avoid more than two of the same "
+        "kind in a row.\n"
+        "doodle_prompt rules (required for doodle scenes, empty for stock): one simple picture "
+        "a whiteboard artist could sketch in 10 seconds, 1 to 3 people or objects with a clear "
+        "action, e.g. \"stylist next to an empty salon chair, wall clock\" or \"phone sending "
+        "messages to nearby houses, map pin\". Never ask for words, numbers, prices or logos "
+        "in the picture: those go in on_screen_text. Avoid things that normally carry writing "
+        "(menus, receipts, price tags, signs, screens full of text); show them closed, blank or "
+        "from the back, or pick a different object."
+    )
+    return keys, rules
+
+
 def build_prompt(cfg: Config, topic: str, fmt: str) -> tuple[str, str]:
     ch = cfg.channel
+    visual_keys, visual_rules = _visual_rules(cfg)
     system = (
         f"You are the head writer for \"{ch['name']}\", a faceless YouTube channel.\n"
         f"Niche: {ch['niche']}\nAudience: {ch['audience']}\n\n"
@@ -64,7 +102,8 @@ def build_prompt(cfg: Config, topic: str, fmt: str) -> tuple[str, str]:
         '  "tags": ["8 to 15 search tags"],\n'
         '  "scenes": [\n'
         '    {"section": "HOOK", "narration": "spoken words", '
-        '"visual_query": "stock footage search", "on_screen_text": "key point, max 6 words"}\n'
+        '"visual_query": "stock footage search", "on_screen_text": "key point, max 6 words"'
+        f'{visual_keys}}}\n'
         "  ]\n"
         "}\n\n"
         "visual_query rules: 2 to 5 words describing a scene a camera could film: who, doing "
@@ -72,6 +111,7 @@ def build_prompt(cfg: Config, topic: str, fmt: str) -> tuple[str, str]:
         "\"baker handing customer box\", \"woman reading phone reviews\". Never use abstract "
         "concepts (strategy, call to action, SEO, routing, growth), screens of code, or brand "
         "names. Vary the scenes so consecutive ones look different."
+        f"{visual_rules}"
     )
     return system, user
 
@@ -88,11 +128,14 @@ def _validate_scene(index: int, scene: object, fallback_query: str) -> dict:
     narration = str(scene.get("narration", "")).strip()
     if not narration:
         raise ScriptError(f"Scene {index} has no narration.")
+    visual = str(scene.get("visual", "")).strip().lower()
     return {
         "section": str(scene.get("section", "")).strip().upper() or "MAIN",
         "narration": narration,
         "visual_query": str(scene.get("visual_query", "")).strip() or fallback_query,
         "on_screen_text": str(scene.get("on_screen_text", "")).strip(),
+        "visual": visual if visual in VISUALS else "stock",
+        "doodle_prompt": str(scene.get("doodle_prompt", "")).strip(),
     }
 
 
@@ -128,20 +171,64 @@ def unchecked_scenes(script: dict) -> list[int]:
     return [i + 1 for i, s in enumerate(script["scenes"]) if CHECK_MARKER in s["narration"]]
 
 
+def min_long_words(cfg: Config) -> int:
+    """Spoken words a long video needs to reach long_minutes (mid-roll ads need 8+)."""
+    return int(cfg.video["long_minutes"] * LONG_WORDS_PER_MINUTE)
+
+
+def min_long_scenes(cfg: Config) -> int:
+    """Enough scenes that even the shortest allowed scenes reach the minimum; scenes of
+    average length then land comfortably above it (about 9 minutes for 8)."""
+    return math.ceil(min_long_words(cfg) / LONG_SCENE_WORDS[0])
+
+
 def generate_script(cfg: Config, topic: str, fmt: str, attempts: int = 2) -> dict:
+    """A long script that comes back too short is sent back with its real word count;
+    after the last attempt the longest draft is used, with a warning."""
     system, user = build_prompt(cfg, topic, fmt)
+    attempts = max(attempts, LONG_ATTEMPTS) if fmt == "long" else attempts
     last_error: Exception | None = None
+    longest: dict | None = None
+    request = user
     for _ in range(attempts):
         try:
-            return validate_script(complete_json(cfg, system, user), fmt, topic)
+            script = validate_script(complete_json(cfg, system, request), fmt, topic)
         except (ScriptError, LLMError) as exc:
             last_error = exc
             print(f"  retrying: {exc}")
+            continue
+        if fmt != "long" or word_count(script) >= min_long_words(cfg):
+            return script
+        if longest is None or word_count(script) > word_count(longest):
+            longest = script
+        scenes, words = len(script["scenes"]), word_count(script)
+        print(f"  script too short ({scenes} scenes, {words} words), asking for "
+              f"{min_long_scenes(cfg)} scenes")
+        low, high = LONG_SCENE_WORDS
+        request = (f"{user}\n\nYour previous draft had only {scenes} scenes and {words} "
+                   f"spoken words, which makes the video too short. Write at least "
+                   f"{min_long_scenes(cfg)} scenes of {low} to {high} words each: add steps "
+                   "and concrete examples, do not pad.")
+    if longest is not None:
+        if last_error is not None:
+            print(f"  note: an attempt failed ({last_error})")
+        print(f"  WARNING: long script has {word_count(longest)} words, under "
+              f"{min_long_words(cfg)}; the video may be shorter than "
+              f"{cfg.video['long_minutes']} minutes")
+        return longest
     raise ScriptError(f"Could not get a valid script: {last_error}")
 
 
 def word_count(script: dict) -> int:
     return sum(len(s["narration"].split()) for s in script["scenes"])
+
+
+def _visual_line(scene: dict) -> str:
+    if scene.get("visual") == "doodle":
+        shown = f"*Doodle:* {scene.get('doodle_prompt') or scene['visual_query']}"
+    else:
+        shown = f"*Footage:* {scene['visual_query']}"
+    return f"{shown} · *On screen:* {scene['on_screen_text']}"
 
 
 def to_markdown(script: dict) -> str:
@@ -163,7 +250,7 @@ def to_markdown(script: dict) -> str:
             "",
             f"### {i:02d} · {scene['section']}",
             scene["narration"],
-            f"*Footage:* {scene['visual_query']} · *On screen:* {scene['on_screen_text']}",
+            _visual_line(scene),
         ]
     lines += ["", "## Description", script["description"], "", "## Tags", ", ".join(script["tags"])]
     return "\n".join(lines) + "\n"

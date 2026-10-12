@@ -25,6 +25,7 @@ class Config:
     cloudinary_url: str | None = None
     publish: dict | None = None
     youtube: YouTubeCredentials | None = None
+    doodle: dict | None = None
 
     @property
     def projects_dir(self) -> Path:
@@ -81,4 +82,5 @@ def load_config(root: Path = ROOT) -> Config:
         cloudinary_url=cloudinary_url,
         publish=data.get("publish", {}),
         youtube=load_credentials(root, env),
+        doodle=data.get("doodle", {}),
     )

@@ -16,7 +16,13 @@ from studio.config import Config
 from studio.ideas import generate_ideas
 from studio.pipeline import render_project
 from studio.project import load_script, new_project_dir, save_script
-from studio.publish import PublishError, build_post_input, build_texts, publish_project
+from studio.publish import (
+    PublishError,
+    build_post_input,
+    build_texts,
+    pinned_channels,
+    publish_project,
+)
 from studio.script import generate_script, unchecked_scenes
 from studio.shorts import plan_shorts, scene_durations
 
@@ -134,7 +140,7 @@ def build_week(cfg: Config, batch_path: Path, force: bool = False) -> dict:
 def check_free_limit(cfg: Config, services: list[str], new_posts: int) -> None:
     """Refuses to schedule more than Buffer's free plan allows per channel."""
     client = BufferClient(cfg.buffer_key or "")
-    channels = [c for c in client.all_channels() if c["service"] in services]
+    channels = pinned_channels(cfg, client.all_channels(), services)
     by_org: dict[str, list[dict]] = {}
     for channel in channels:
         by_org.setdefault(channel["organizationId"], []).append(channel)

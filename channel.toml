@@ -31,6 +31,12 @@ provider = "clone"
 fallback_provider = "edge"
 clone_repo = "oceanfarm1992-design/voice-reference-audio"
 clone_file = "reference_voice.mp3"
+# Speaking style from profile.json in the voice repo: default, talking, comedy or
+# presentation (facts narration, stronger delivery).
+clone_style = "presentation"
+# RVC voice conversion from the voice repo: "off" (default), "auto" or "on". It needs an
+# Applio checkout (APPLIO_DIR) that GitHub runners do not have, so it stays off for now.
+clone_rvc = "off"
 edge_voice = "en-US-AndrewNeural"
 edge_rate = "+4%"
 openai_model = "gpt-4o-mini-tts"
@@ -55,6 +61,14 @@ auto_schedule = true
 disclose_ai = false
 max_hashtags = 5
 
+[publish.channel_names]
+# Exact Buffer page names this channel may post to. Buffer picks pages by type, so any
+# other page of the same type in the account is skipped, and so is a service listed in
+# `services` but missing here.
+facebook = "Blue Ocean Marketing"
+instagram = "boma.rketing"
+linkedin = "premium-aqua-product"  # the Blue Ocean LinkedIn page, as Buffer names it
+
 [video]
 fps = 30
 long_size = [1920, 1080]
@@ -64,3 +78,31 @@ short_seconds = 50
 # Seconds of footage before cutting to the next stock clip
 long_clip_seconds = 6.0
 short_clip_seconds = 3.5
+# Let the script model look at each stock clip's preview and skip unrelated footage
+# (a fraction of a cent per video). Needs the OpenAI key.
+check_stock_with_ai = true
+
+[doodle]
+# Whiteboard doodle scenes: an AI line drawing that a hand draws on screen.
+# "mix" = the script writer picks doodle or stock footage per scene (ideas, offers, steps
+#         become doodles; real people doing real things stay stock footage)
+# "all" = every scene is a doodle   "off" = stock footage only
+mode = "mix"
+image_model = "gpt-image-1"
+# low ~$0.016, medium ~$0.063, high ~$0.25 per drawing. Drawings are cached per prompt,
+# so Shorts cut from the long video reuse its drawings for free.
+quality = "low"
+# Python clean-up that makes low-quality drawings crisp: solid marker lines, no grey haze
+# or smudges, one consistent blue accent.
+enhance = true
+# AI look at each finished drawing (~$0.0003); writing or a smeared face gets one redraw.
+review = true
+max_attempts = 2
+# Pace: doodle scenes follow the voice (drawing done by 75% of the line, no silent wait).
+# Very short lines last at least min_scene_seconds; hold_seconds is the gap before the cut.
+min_scene_seconds = 3.0
+hold_seconds = 0.2
+max_draw_seconds = 10.0
+# Skip stock clips whose Pexels title shares no words with the search, and draw a doodle
+# when nothing relevant is left (instead of a plain text card).
+replace_weak_stock = true

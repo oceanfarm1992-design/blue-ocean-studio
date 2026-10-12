@@ -9,6 +9,7 @@ captions, footage, finished MP4, thumbnail and upload text. Cost per video is ab
 | Ideas and scripts | OpenAI (`gpt-5-mini`, low reasoning) | ~$0.003–0.02 per script |
 | Voiceover + word timings | Microsoft Edge neural voices (edge-tts) | free |
 | Stock footage | Pexels API | free |
+| Whiteboard doodle scenes | OpenAI `gpt-image-1` (low) + Python clean-up | ~$0.02 per drawing |
 | Captions, editing, thumbnail | FFmpeg + Pillow, on your PC | free |
 
 ## Setup (once)
@@ -106,6 +107,36 @@ Run it once a week. Videos still in drafts, scheduled or failed are kept.
 Everything about the channel lives in `channel.toml`: niche, call to action, brand colors,
 fonts, voice, video length, model. To use OpenAI's voice instead of the free one, set
 `provider = "openai"` under `[voice]` (about $0.015 per minute of audio).
+
+## Doodle scenes
+
+Videos mix stock footage with whiteboard doodles: a line drawing that a hand draws on
+screen. The script writer marks each scene `"visual": "doodle"` or `"stock"`. Doodles go to
+hooks, ideas, offers, numbers and steps; stock footage to real people doing real things.
+You can change any scene in `script.json` before rendering (`doodle_prompt` is what gets
+drawn; keep it free of words and numbers, those belong in `on_screen_text`).
+
+- Drawings are cached in `cache/doodles` by prompt, so Shorts cut from the long video reuse
+  the long video's drawings for free.
+- A stock clip whose Pexels title shares no words with the search is skipped. If nothing
+  relevant is left, the scene becomes a doodle instead of a plain text card.
+- If a drawing fails (no key, quota), the scene falls back to stock footage.
+- Stock clips are ranked by how well their Pexels title matches the search, then the
+  script model looks at each clip's preview image and skips unrelated footage (a woman
+  packing a suitcase for "baker packing bag"). A scene uses fewer good clips rather than
+  padding with bad ones. Turn it off with `check_stock_with_ai = false` under `[video]`.
+- Drawings are made at `low` quality (a quarter of the price of `medium`) and cleaned up
+  in Python (`studio/doodle_enhance.py`): solid anti-aliased marker lines, pure white
+  paper without grey haze or smudges, one consistent blue accent, and empty margins
+  cropped so the drawing fills the frame. An AI look at each finished drawing
+  (`studio/doodle_review.py`) redraws it once if it contains writing or a smeared area.
+- Settings live under `[doodle]` in `channel.toml`: `mode` (`mix`, `all`, `off`), image
+  `quality`, `enhance`, `review`, and the pace
+  (`min_scene_seconds`, `hold_seconds`). Doodle scenes follow the voice: the drawing is
+  finished by 75% of the spoken line, so there is no silent wait before the next scene.
+
+A typical week (1 long video + 2 standalone Shorts) needs about 20–25 drawings in `mix`
+mode: roughly $0.55 a week (about $2.40 a month) including redraws and checks.
 
 ## Tests
 
