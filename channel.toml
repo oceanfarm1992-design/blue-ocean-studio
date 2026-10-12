@@ -61,6 +61,14 @@ auto_schedule = true
 disclose_ai = false
 max_hashtags = 5
 
+[publish.channel_names]
+# Exact Buffer page names this channel may post to. Buffer picks pages by type, so any
+# other page of the same type in the account (e.g. premium-aqua-product on LinkedIn) is
+# skipped, and so is a service listed in `services` but missing here.
+facebook = "Blue Ocean Marketing"
+instagram = "boma.rketing"
+linkedin = "Blue Ocean Marketing"
+
 [video]
 fps = 30
 long_size = [1920, 1080]

@@ -144,13 +144,40 @@ def _host_video(cfg: Config, project_dir: Path, state: dict) -> dict:
             "hosting_deleted": False}
 
 
-def _targets(client: BufferClient, services: list[str], state: dict, again: bool) -> list[dict]:
+def _same_name(a: str, b: str) -> bool:
+    return a.strip().casefold() == b.strip().casefold()
+
+
+def pinned_channels(cfg: Config, channels: list[dict], services: list[str]) -> list[dict]:
+    """Only the Buffer channels whose page name matches [publish.channel_names].
+
+    Buffer picks channels by type, so a different LinkedIn page connected in the same
+    account would otherwise receive this channel's posts. A service without a pinned
+    name is skipped rather than guessed."""
+    names = (cfg.publish or {}).get("channel_names", {})
+    kept = []
+    for channel in channels:
+        service = channel["service"]
+        if service not in services or channel.get("isDisconnected"):
+            continue
+        expected = names.get(service)
+        if expected is None:
+            print(f"  skipping {service}: no page name pinned under [publish.channel_names]")
+        elif not _same_name(channel.get("name") or "", expected):
+            print(f"  skipping {service} page '{channel.get('name')}' (expected '{expected}')")
+        else:
+            kept.append(channel)
+    return kept
+
+
+def _targets(cfg: Config, client: BufferClient, services: list[str], state: dict,
+             again: bool) -> list[dict]:
     if not services:
         return []
-    channels = [c for c in client.all_channels()
-                if c["service"] in services and not c.get("isDisconnected")]
+    channels = pinned_channels(cfg, client.all_channels(), services)
     if not channels:
-        raise PublishError(f"No connected Buffer channels for: {', '.join(services)}")
+        raise PublishError(f"No connected Buffer channels with the pinned page names for: "
+                           f"{', '.join(services)}")
     return [c for c in channels if again or c["id"] not in state["posts"]]
 
 
@@ -218,7 +245,7 @@ def publish_project(cfg: Config, project_dir: Path, services: list[str], when: s
     state_path = project_dir / "publish.json"
     state = _load_state(state_path)
     client = BufferClient(cfg.buffer_key or "")
-    targets = _targets(client, buffer_services_for(script, services), state, again)
+    targets = _targets(cfg, client, buffer_services_for(script, services), state, again)
     wants_youtube = _wants_youtube(services, state, again)
     if not targets and not wants_youtube:
         print("  already sent to every selected channel (use --again to repost)")

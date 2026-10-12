@@ -188,3 +188,52 @@ def test_old_stock_only_video_is_never_published(tmp_path, kinds, capsys):
         _validate(project, SHORT, dry_run=False)
     _validate(project, SHORT, dry_run=True)  # preview only warns
     assert "no doodle scenes" in capsys.readouterr().out
+
+
+def _channels():
+    return [
+        {"id": "li", "service": "linkedin", "name": "premium-aqua-product"},
+        {"id": "fb", "service": "facebook", "name": "Blue Ocean Marketing"},
+        {"id": "ig", "service": "instagram", "name": "boma.rketing"},
+        {"id": "ig2", "service": "instagram", "name": "boma.rketing", "isDisconnected": True},
+    ]
+
+
+def test_only_pinned_pages_receive_posts(capsys):
+    from dataclasses import replace
+
+    from studio.config import load_config
+    from studio.publish import pinned_channels
+
+    cfg = load_config()
+    cfg = replace(cfg, publish={**cfg.publish, "channel_names": {
+        "facebook": "blue ocean marketing ", "instagram": "boma.rketing",
+        "linkedin": "Blue Ocean Marketing"}})
+
+    kept = pinned_channels(cfg, _channels(), ["facebook", "instagram", "linkedin"])
+
+    assert [c["id"] for c in kept] == ["fb", "ig"]
+    assert "skipping linkedin page 'premium-aqua-product'" in capsys.readouterr().out
+
+
+def test_service_without_pinned_name_is_skipped(capsys):
+    from dataclasses import replace
+
+    from studio.config import load_config
+    from studio.publish import pinned_channels
+
+    cfg = replace(load_config(), publish={"channel_names": {"facebook": "Blue Ocean Marketing"}})
+
+    kept = pinned_channels(cfg, _channels(), ["facebook", "instagram"])
+
+    assert [c["id"] for c in kept] == ["fb"]
+    assert "skipping instagram: no page name pinned" in capsys.readouterr().out
+
+
+def test_channel_toml_pins_every_buffer_service():
+    from studio.config import load_config
+
+    cfg = load_config()
+    buffer_services = [s for s in cfg.publish["services"] if s != "youtube"]
+
+    assert set(buffer_services) <= set(cfg.publish["channel_names"])
