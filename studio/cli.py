@@ -251,7 +251,7 @@ def _cmd_week_schedule(cfg, args) -> int:
 
 
 def _add_week_parser(sub) -> None:
-    week = sub.add_parser("week", help="weekly batch: 1 long video + up to 7 Shorts (free plan)")
+    week = sub.add_parser("week", help="weekly batch: 1 long video + up to 6 Shorts, one post a day")
     week_sub = week.add_subparsers(dest="week_command", required=True)
 
     plan = week_sub.add_parser("plan", help="write this week's scripts for review")
@@ -263,7 +263,7 @@ def _add_week_parser(sub) -> None:
     build.add_argument("--force", action="store_true", help="render even with [CHECK] markers")
     build.set_defaults(func=_cmd_week_build)
 
-    schedule = week_sub.add_parser("schedule", help="send the week to Buffer, one Short a day")
+    schedule = week_sub.add_parser("schedule", help="send the week to Buffer, one post a day")
     schedule.add_argument("batch")
     schedule.add_argument("--start", help="first day, YYYY-MM-DD (default: the planned Monday)")
     schedule.add_argument("--long-time", help="time for the long video (default channel.toml)")

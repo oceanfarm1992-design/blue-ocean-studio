@@ -51,7 +51,7 @@ jobs:
             echo "**Before merging:**"
             echo "1. Open **Files changed** and read each \`script.md\`."
             echo "2. In each \`script.json\`, add one real example of your own and fix or remove every \`[CHECK: ...]\` sentence (tap ... then Edit file)."
-            echo "3. Merge. GitHub then renders 1 long video + 7 Shorts and puts dated drafts in Buffer (about 30 minutes)."
+            echo "3. Merge. GitHub then renders 1 long video + 6 Shorts (one post a day) and puts dated drafts in Buffer (about 30 minutes)."
             echo
             echo "If a \`[CHECK\` marker is left, the build stops and tells you which file."
           } > pr-body.md

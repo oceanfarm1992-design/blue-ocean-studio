@@ -80,7 +80,8 @@ videos by public URL, so each video is first uploaded to your Cloudinary account
 
 ## Weekly batch (fits the free plans)
 
-1 long video + up to 7 Shorts (5 cut from the long video, 2 standalone) = 8 posts per channel,
+1 long video + up to 6 Shorts (4 cut from the long video, 2 standalone) = 7 posts per channel,
+one post a day,
 under Buffer's free limit of 10. OpenAI cost about 3–5 cents a week.
 
 ```bash
@@ -91,7 +92,7 @@ under Buffer's free limit of 10. OpenAI cost about 3–5 cents a week.
 .venv\Scripts\python -m studio week schedule "projects/weeks/<date>.json" --schedule  # really schedule
 ```
 
-Schedule: long video Monday 17:00, then one Short a day at 18:00 (change with `--start`,
+Schedule: long video on Monday, then one Short a day Tuesday to Sunday (change with `--start`,
 `--long-time`, `--short-time`). `--schedule` refuses if a channel would go over 10 scheduled posts.
 
 ## Free-plan housekeeping

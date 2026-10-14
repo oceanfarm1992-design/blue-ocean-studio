@@ -51,7 +51,7 @@ jobs:
       - name: 3. Write this week's scripts
         run: python -m studio week plan --focus "$FOCUS"
 
-      - name: 4. Render the long video and 7 Shorts
+      - name: 4. Render the long video and 6 Shorts
         run: |
           batch=$(ls projects/weeks/*.json | sort | tail -1)
           echo "BATCH=$batch" >> "$GITHUB_ENV"

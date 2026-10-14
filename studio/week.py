@@ -26,7 +26,7 @@ from studio.publish import (
 from studio.script import generate_script, unchecked_scenes
 from studio.shorts import plan_shorts, scene_durations
 
-WEEK_SHORTS = 7
+WEEK_SHORTS = 6  # long video + 6 Shorts = one post a day
 STANDALONE_SHORTS = 2
 IDEAS_TO_DRAW_FROM = 8
 FREE_PLAN_POST_LIMIT = 10
@@ -49,9 +49,10 @@ def pick_ideas(ideas: list[dict], shorts: int = STANDALONE_SHORTS) -> tuple[dict
 
 def schedule_times(start: date, long_at: time, short_at: time,
                    shorts: int) -> tuple[datetime, list[datetime]]:
-    """Long video on day one; one Short a day from day one onwards."""
+    """One post a day: the long video on day one, then a Short on each following day."""
     long_time = datetime.combine(start, long_at)
-    short_times = [datetime.combine(start + timedelta(days=d), short_at) for d in range(shorts)]
+    short_times = [datetime.combine(start + timedelta(days=d + 1), short_at)
+                   for d in range(shorts)]
     return long_time, short_times
 
 

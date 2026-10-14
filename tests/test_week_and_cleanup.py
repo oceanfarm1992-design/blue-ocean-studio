@@ -32,12 +32,12 @@ def test_pick_ideas_falls_back_when_no_long_or_few_shorts():
         pick_ideas([])
 
 
-def test_schedule_times_one_short_per_day():
+def test_schedule_times_one_post_per_day():
     long_time, shorts = schedule_times(date(2026, 10, 5), time(17), time(18), 3)
 
     assert long_time == datetime(2026, 10, 5, 17)
-    assert shorts == [datetime(2026, 10, 5, 18), datetime(2026, 10, 6, 18),
-                      datetime(2026, 10, 7, 18)]
+    assert shorts == [datetime(2026, 10, 6, 18), datetime(2026, 10, 7, 18),
+                      datetime(2026, 10, 8, 18)]
 
 
 @pytest.mark.parametrize("statuses, expected", [
