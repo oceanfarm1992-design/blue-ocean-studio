@@ -22,9 +22,10 @@
   "video_url": "https://res.cloudinary.com/lie7vhcl/video/upload/v1791828298/blue-ocean-marketing/20261011-short-fill-last-minute-salon-slots-with-one-instagram-dm.mp4",
   "public_id": "blue-ocean-marketing/20261011-short-fill-last-minute-salon-slots-with-one-instagram-dm",
   "hosting_deleted": false,
-  "youtube_pending": {
+  "youtube_direct": {
+    "video_id": "K_73MV8TxSI",
+    "url": "https://youtu.be/K_73MV8TxSI",
     "publish_at": "2026-10-18T15:00:00.000Z",
-    "public_now": false,
-    "draft": false
+    "public_now": false
   }
 }
