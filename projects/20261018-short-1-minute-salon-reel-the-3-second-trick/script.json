@@ -1,0 +1,74 @@
+{
+  "format": "short",
+  "topic": "1-Minute Salon Reel: The 3-Second Trick That Doubles Booking Clicks",
+  "title": "1-Minute Salon Reel: The 3-Second Trick",
+  "title_options": [
+    "3-Second Reel Trick That Boosts Bookings",
+    "How 3 Seconds Doubles Salon Clicks",
+    "Quick Reel Hack for More Salon Bookings"
+  ],
+  "thumbnail_text": "3-Second Booking Boost",
+  "description": "Use the first three seconds of any salon reel to show one clear service and the exact booking button text. This simple swap costs nothing and takes under a minute to set up.\n\nI give a copyable example for a nail salon, plus the exact on-screen text and caption to use. Try it tomorrow and keep the first three seconds consistent across reels.",
+  "tags": [
+    "salon marketing",
+    "reels",
+    "shorts",
+    "social media marketing",
+    "booking tips",
+    "nail salon",
+    "beauty business",
+    "low budget marketing",
+    "video tips",
+    "content hack"
+  ],
+  "scenes": [
+    {
+      "section": "HOOK",
+      "narration": "Double booking clicks in three seconds?",
+      "visual_query": "salon chair empty",
+      "on_screen_text": "3-Second Trick",
+      "visual": "doodle",
+      "doodle_prompt": "stylist next to an empty salon chair, wall clock"
+    },
+    {
+      "section": "SCENE 2",
+      "narration": "Start your reel with a three-second clear offer. Show the exact service name and booking button text.",
+      "visual_query": "stylist blow-drying hair",
+      "on_screen_text": "Show exact service",
+      "visual": "stock",
+      "doodle_prompt": ""
+    },
+    {
+      "section": "SCENE 3",
+      "narration": "Example for a nail salon: film hands painting gel nails for three seconds. Put on-screen: Book GEL MANICURE.",
+      "visual_query": "hands painting gel nails",
+      "on_screen_text": "Book GEL MANICURE",
+      "visual": "doodle",
+      "doodle_prompt": "two hands, nail polish brush painting a nail"
+    },
+    {
+      "section": "SCENE 4",
+      "narration": "Then make your booking link point straight to that exact service page. Set the booking button text to match the words shown.",
+      "visual_query": "customer tapping phone",
+      "on_screen_text": "Match button text",
+      "visual": "stock",
+      "doodle_prompt": ""
+    },
+    {
+      "section": "SCENE 5",
+      "narration": "Caption to copy: 'Book GEL MANICURE — $45.' Use those same three words as the booking button. Keep it consistent across reels.",
+      "visual_query": "nail salon counter",
+      "on_screen_text": "$45 GEL MANICURE",
+      "visual": "doodle",
+      "doodle_prompt": "nail salon counter with a small tip jar and a single appointment card"
+    },
+    {
+      "section": "SCENE 6",
+      "narration": "Film three seconds that match the button text. Test one reel this week and watch clicks. Follow Blue Ocean Marketing for one marketing fix every day.",
+      "visual_query": "customer tapping appointment confirmation",
+      "on_screen_text": "Try it tomorrow",
+      "visual": "stock",
+      "doodle_prompt": ""
+    }
+  ]
+}

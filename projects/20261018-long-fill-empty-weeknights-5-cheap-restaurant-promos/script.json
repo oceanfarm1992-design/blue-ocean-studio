@@ -1,0 +1,250 @@
+{
+  "format": "long",
+  "topic": "Turn Empty Weeknights into Full Tables: 5 Low-Cost Restaurant Promos That Work",
+  "title": "Fill Empty Weeknights: 5 Cheap Restaurant Promos",
+  "title_options": [
+    "Cheap Weeknight Promos That Work",
+    "Turn Slow Weeknights into Full Tables",
+    "Low-Budget Restaurant Promos for Weeknights"
+  ],
+  "thumbnail_text": "Fill Weeknights Fast",
+  "description": "You run a small restaurant and weeknights feel quiet. This video gives five low-cost, actionable promo plays you can deploy this week to pull customers back in, with real wording, pricing examples, and where to post them.\nNo fluff. No expensive ad spend. These are simple offers for real places — a bakery, a neighborhood bistro, a pizza shop, a nail salon paired with dinner, and a pub — with steps you can copy, adapt, and test in under a week.",
+  "tags": [
+    "restaurant marketing",
+    "small business marketing",
+    "restaurant promotions",
+    "weeknight specials",
+    "cheap marketing tactics",
+    "how to fill tables",
+    "local restaurants",
+    "marketing for restaurants",
+    "restaurant tips",
+    "low budget promos"
+  ],
+  "scenes": [
+    {
+      "section": "HOOK",
+      "narration": "Empty tables on Tuesday and Wednesday are costing you real money. You need promos that pull people in without breaking the bank. Here are five cheap, tested playbooks you can run this week to turn slow weeknights into full tables.",
+      "visual_query": "doodle empty restaurant table",
+      "on_screen_text": "Empty Weeknights? Fix Now",
+      "visual": "doodle",
+      "doodle_prompt": "empty restaurant table, clock on wall"
+    },
+    {
+      "section": "STAKES",
+      "narration": "Weeknights add stable revenue and predictable staff scheduling. If you leave them empty, you lose profit and morale. Running a few low-cost promos creates habit among regulars and fills slow tables without major discounts that damage your brand.",
+      "visual_query": "restaurant owner looking worried",
+      "on_screen_text": "Why Weeknights Matter",
+      "visual": "stock",
+      "doodle_prompt": ""
+    },
+    {
+      "section": "STEP 1",
+      "narration": "Step one: launch a fixed-price weeknight menu. Pick two or three crowd-pleasers and bundle them at a slight discount. Example: a neighborhood bistro offers 'Two-Course Tuesday' with soup or salad and main for one low price to attract new visitors.",
+      "visual_query": "chef plating two dishes kitchen",
+      "on_screen_text": "Two-Course Tuesday",
+      "visual": "stock",
+      "doodle_prompt": ""
+    },
+    {
+      "section": "STEP 1",
+      "narration": "Example for a bakery: offer a 'Bakery Date Night' boxed pair for two — quiche, small salad, two pastries for $18. Promote on Instagram stories and a table tent. Keep food costs under 30 percent and list the bundle as limited weeknight availability.",
+      "visual_query": "baker packing box counter",
+      "on_screen_text": "Bakery Date Night $18",
+      "visual": "stock",
+      "doodle_prompt": ""
+    },
+    {
+      "section": "STEP 1",
+      "narration": "How to price and post it: calculate ingredient cost, add 50 to 70 percent margin, then set the promo price. Post a single image showing the two dishes, short caption, and the words 'Weeknights only, Tue–Thu.' Boost one post to a local 5-mile radius for $10.",
+      "visual_query": "person posting on phone outside restaurant",
+      "on_screen_text": "Post + $10 Boost",
+      "visual": "stock",
+      "doodle_prompt": ""
+    },
+    {
+      "section": "STEP 2",
+      "narration": "Step two: partner with a complementary business for a joint offer. Team up with a nearby nail salon, brewery, or movie house and exchange discounts. This doubles your promotion reach and brings in customers who already plan an outing on a weeknight.",
+      "visual_query": "two shop owners shaking hands",
+      "on_screen_text": "Partner Up",
+      "visual": "doodle",
+      "doodle_prompt": "restaurant owner shaking hands with salon owner"
+    },
+    {
+      "section": "STEP 2",
+      "narration": "Example: a pizza place partners with a local nail salon. Nail customers get a voucher for 20 percent off pizza after their appointment; pizza diners get 10 percent off a midweek manicure. Print 100 simple vouchers or use a QR code to track redemptions.",
+      "visual_query": "customer getting nails done smiling",
+      "on_screen_text": "Voucher Exchange",
+      "visual": "stock",
+      "doodle_prompt": ""
+    },
+    {
+      "section": "STEP 2",
+      "narration": "What to say: 'Bring your nail receipt tonight and get 20% off any large pizza after 5pm.' Keep the voucher valid only on Tue–Thu. Limit one voucher per table to avoid abuse. Track redemptions on a small sheet or a Google Form.",
+      "visual_query": "printed vouchers on counter",
+      "on_screen_text": "Bring Receipt = Discount",
+      "visual": "doodle",
+      "doodle_prompt": "hand holding voucher next to pizza"
+    },
+    {
+      "section": "STEP 3",
+      "narration": "Step three: weekly themed nights with built-in scarcity. Run a weekly theme like 'Local Farm Night' or 'Taco Lab Wednesday' with limited seats. Use reservations only to control flow and to make the event feel special and urgent for diners.",
+      "visual_query": "server setting table candles",
+      "on_screen_text": "Themed Night",
+      "visual": "doodle",
+      "doodle_prompt": "server hanging a small chalkboard sign reading blank"
+    },
+    {
+      "section": "STEP 3",
+      "narration": "Example for a small bistro: 'Local Farm Night' featuring one special farm-to-table main, 40 seats, reservations required, price $28. Promote through a Facebook event and email to your list. Mark 'Limited seats' in the copy to drive quicker bookings.",
+      "visual_query": "farmer handing vegetables to chef",
+      "on_screen_text": "Limited Seats",
+      "visual": "stock",
+      "doodle_prompt": ""
+    },
+    {
+      "section": "STEP 3",
+      "narration": "What to say in your event description: highlight unique ingredient or chef story, date and time, and required reservation. Example wording: 'Local Farm Night — one three-course menu featuring spring lamb. 40 seats. Reservations only. $28 per person.' Keep it clear and urgent.",
+      "visual_query": "person typing on laptop at cafe",
+      "on_screen_text": "Reservations Only",
+      "visual": "doodle",
+      "doodle_prompt": "laptop with calendar open, hand pointing"
+    },
+    {
+      "section": "STEP 4",
+      "narration": "Step four: introduce a loyalty micro-incentive that matters on weeknights. Offer a stamp or points card that gives customers a free appetizer after three weeknight visits. It rewards repeat business without cutting the regular menu price permanently.",
+      "visual_query": "server stamping loyalty card",
+      "on_screen_text": "Weeknight Loyalty Card",
+      "visual": "stock",
+      "doodle_prompt": ""
+    },
+    {
+      "section": "STEP 4",
+      "narration": "Example for a pub: hand out 'Weeknight Pint Card' stamped every Tue–Thu visit. After four stamps the customer gets a free appetizer. Print 250 cards for $30. Tell staff to offer the card at check-in and to stamp it visibly on the table for proof.",
+      "visual_query": "bartender stamping card smile",
+      "on_screen_text": "Free Appetizer After 4",
+      "visual": "doodle",
+      "doodle_prompt": "card with four empty circles, hand holding stamp"
+    },
+    {
+      "section": "STEP 4",
+      "narration": "How to promote it: place cards in takeout bags, add a line to receipts, and post a simple photo on Instagram with the caption 'Collect 4 stamps, get an appetizer — Tue–Thu only.' This keeps people coming back when they plan weeknight outings.",
+      "visual_query": "stack of takeaway bags at counter",
+      "on_screen_text": "Collect Stamps",
+      "visual": "stock",
+      "doodle_prompt": ""
+    },
+    {
+      "section": "STEP 5",
+      "narration": "Step five: use targeted paid social for a tiny budget and a clear offer. Run a one-week local ad with a single goal: reservations or calls. Keep the creative simple, the message tight, and the CTA only 'Reserve now' or 'Call to book.'",
+      "visual_query": "owner scrolling phone outside restaurant",
+      "on_screen_text": "Targeted $10 Ad",
+      "visual": "doodle",
+      "doodle_prompt": "phone showing map pin near restaurant"
+    },
+    {
+      "section": "STEP 5",
+      "narration": "Example: a small Italian restaurant spends $15 to boost a post advertising 'Midweek Pasta Night — 20% off second entree, Tue–Thu.' Target people within a 5-mile radius, age 25 to 55. Use a single image and a clear reservation link or phone number.",
+      "visual_query": "chef tossing pasta in pan",
+      "on_screen_text": "Pasta Night Promo",
+      "visual": "stock",
+      "doodle_prompt": ""
+    },
+    {
+      "section": "STEP 5",
+      "narration": "How to measure: run the ad for seven days and track reservations, calls, and the promo code redemptions. If it brings 10 new party bookings, you know it works. If not, test different imagery or change the call to action next week.",
+      "visual_query": "owner checking reservation book",
+      "on_screen_text": "Track Reservations",
+      "visual": "doodle",
+      "doodle_prompt": "reservation book open with hand pointing page"
+    },
+    {
+      "section": "STEP 6",
+      "narration": "Bonus tactic: turn your kitchen into a pickup hub on weeknights. Offer 'Order and Dine' bundles for people working late who prefer to bring food home. Promote these bundles to nearby offices with flyers and a one-click pickup phone line.",
+      "visual_query": "delivery driver picking up box",
+      "on_screen_text": "Pickup Bundles",
+      "visual": "stock",
+      "doodle_prompt": ""
+    },
+    {
+      "section": "STEP 6",
+      "narration": "Example for a deli: 'Late Shift Package' with sandwich, side, and drink for $12, available 5–9pm Tue–Thu. Create a simple pickup menu and charge a $1 phone-order convenience fee to encourage online ordering later. Hand out flyers to nearby businesses.",
+      "visual_query": "sandwich being wrapped counter",
+      "on_screen_text": "Late Shift $12",
+      "visual": "doodle",
+      "doodle_prompt": "wrap sandwich in paper, clock showing evening"
+    },
+    {
+      "section": "STEP 6",
+      "narration": "Where to post all offers: your Google Business Profile, Instagram, Facebook event, email list, and a printed sign in the window. Consistency matters. If customers can’t find the offer quickly, they won’t act. Keep the copy short and the price visible.",
+      "visual_query": "front window with printed sign",
+      "on_screen_text": "Post Everywhere",
+      "visual": "stock",
+      "doodle_prompt": ""
+    },
+    {
+      "section": "MISTAKE",
+      "narration": "Common mistake: discounting every menu item. That trains customers to wait and erodes margins. Instead, create time-limited bundles, partner swaps, and loyalty stamps that reward repeat weeknight visits without permanent price cuts or confusing multi-rule discounts.",
+      "visual_query": "owner looking at crowded discount menu",
+      "on_screen_text": "Don't Discount All",
+      "visual": "doodle",
+      "doodle_prompt": "menu board with too many slashed prices, owner facepalming"
+    },
+    {
+      "section": "MISTAKE",
+      "narration": "Another mistake: vague calls to action. 'Come by sometime' doesn’t work. Use clear phrases: 'Reserve tonight', 'Book your table for Tuesday', or 'Call now and say WEEKNIGHT' so staff know how to track the promotion at checkout.",
+      "visual_query": "host answering phone at host stand",
+      "on_screen_text": "Clear CTA Wins",
+      "visual": "stock",
+      "doodle_prompt": ""
+    },
+    {
+      "section": "MISTAKE",
+      "narration": "Don't forget staff buy-in. If servers don’t mention the promos or stamp loyalty cards, the campaign dies. Brief staff before service, give a physical script: two lines to say, and one line to close with. Give a small incentive for staff-sourced bookings.",
+      "visual_query": "team meeting in kitchen",
+      "on_screen_text": "Train Your Team",
+      "visual": "doodle",
+      "doodle_prompt": "small staff huddle, one person pointing to checklist"
+    },
+    {
+      "section": "RECAP",
+      "narration": "Recap: five plays — fixed-price weeknight menu, local partnerships, themed nights, loyalty micro-incentives, and tiny targeted ads. Add pickup bundles as a bonus. Each tactic is cheap, trackable, and repeatable. Pick one or two to test this week and measure results.",
+      "visual_query": "restaurant owner smiling at full dining room",
+      "on_screen_text": "Five Cheap Plays",
+      "visual": "stock",
+      "doodle_prompt": ""
+    },
+    {
+      "section": "RECAP",
+      "narration": "Quick action plan for the week: Monday finalize menu and price, Tuesday post and boost one offer, Wednesday run staff briefing and hand out vouchers, Thursday collect redemptions and review bookings. Repeat and tweak next week based on what booked fastest.",
+      "visual_query": "calendar with sticky notes",
+      "on_screen_text": "One-Week Plan",
+      "visual": "doodle",
+      "doodle_prompt": "calendar with four marked days, hand placing sticker"
+    },
+    {
+      "section": "RECAP",
+      "narration": "Simple copy you can use: 'Two-Course Tuesday — Soup or Salad + Main, $22. Tue–Thu, reservations recommended.' Or 'Weeknight Stamp Card — collect four stamps Tue–Thu, get a free appetizer.' Stick these on your menu, socials, and window sign this week.",
+      "visual_query": "hand writing on chalkboard menu",
+      "on_screen_text": "Copy You Can Use",
+      "visual": "stock",
+      "doodle_prompt": ""
+    },
+    {
+      "section": "RECAP",
+      "narration": "Low-cost boosts matter: $10 to $20 on a targeted social post amplifies your message to locals and often pays for itself with just a few party bookings. Keep creatives simple: one photo, one line of copy, one CTA. Test small and scale what works.",
+      "visual_query": "phone showing boosted post analytics",
+      "on_screen_text": "Boost Small, Track",
+      "visual": "doodle",
+      "doodle_prompt": "phone with simple graph and heart icon"
+    },
+    {
+      "section": "CTA",
+      "narration": "Want us to look at your marketing for free? Get a free audit from Blue Ocean Marketing, link in the description.",
+      "visual_query": "marketing consultant talking to cafe owner",
+      "on_screen_text": "Free Marketing Audit",
+      "visual": "stock",
+      "doodle_prompt": ""
+    }
+  ]
+}

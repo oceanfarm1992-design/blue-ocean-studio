@@ -1,0 +1,65 @@
+{
+  "format": "short",
+  "topic": "3 Cheap Coffee Shop Upsells That Add $1,000+/Month",
+  "title": "3 Cheap Coffee Shop Upsells That Add $1,000+/Month",
+  "title_options": [
+    "Easy Coffee Shop Upsells for $1k+ Monthly",
+    "Simple $1,000/Month Upsells for Cafes",
+    "Low-Cost Coffee Shop Add-Ons That Earn More"
+  ],
+  "thumbnail_text": "Add $1,000+/Month",
+  "description": "Three tiny, low-cost upsells a coffee shop can add today. Each one uses simple wording, tiny costs, and a real example you can copy.\nNo fancy tech. No hiring. Just one clear tip, one example with price and script, and how many sales you need to hit $1,000+ a month.",
+  "tags": [
+    "coffee shop marketing",
+    "cafe upsell",
+    "small business tips",
+    "restaurant marketing",
+    "increase average order",
+    "low cost marketing",
+    "upsell script",
+    "Blue Ocean Marketing",
+    "cafe revenue ideas"
+  ],
+  "scenes": [
+    {
+      "section": "HOOK",
+      "narration": "Want an extra $1,000 a month?",
+      "visual_query": "barista drawing chalkboard",
+      "on_screen_text": "Extra $1,000/month?",
+      "visual": "doodle",
+      "doodle_prompt": "barista behind counter, blank chalkboard"
+    },
+    {
+      "section": "TIP INTRO",
+      "narration": "Pick one simple upsell: a cookie add-on. Sell it at the POS so every coffee becomes a bigger sale.",
+      "visual_query": "barista handing coffee to customer",
+      "on_screen_text": "Offer a cookie add-on",
+      "visual": "stock",
+      "doodle_prompt": ""
+    },
+    {
+      "section": "EXAMPLE & COST",
+      "narration": "Example: charge $1.50 for a cookie with coffee. Cookie cost is about $0.25, so profit roughly $1.25 each.",
+      "visual_query": "baker placing cookies box",
+      "on_screen_text": "$1.50 cookie add-on",
+      "visual": "doodle",
+      "doodle_prompt": "baker placing a tray of cookies, empty price tag"
+    },
+    {
+      "section": "SCRIPT",
+      "narration": "Train staff to ask: \"Would you like a fresh cookie with that? It's $1.50 today.\" Say it cheerfully, not pushy.",
+      "visual_query": "barista smiling at customer counter",
+      "on_screen_text": "Would you like a cookie?",
+      "visual": "stock",
+      "doodle_prompt": ""
+    },
+    {
+      "section": "CLOSE + CTA",
+      "narration": "Sell 30 cookies daily at $1.25 margin and you make about $1,125 extra monthly. Follow Blue Ocean Marketing for one marketing fix every day.",
+      "visual_query": "customer leaving cafe with bag",
+      "on_screen_text": "Make extra $1,000+/mo",
+      "visual": "doodle",
+      "doodle_prompt": "customer walking out door with coffee cup, smiling"
+    }
+  ]
+}
