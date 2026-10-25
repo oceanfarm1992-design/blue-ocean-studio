@@ -1,0 +1,314 @@
+{
+  "format": "long",
+  "topic": "Turn Empty Weeknights into Full Tables: 5 Cheap Restaurant Promos That Work",
+  "title": "Turn Empty Weeknights into Full Tables",
+  "title_options": [
+    "Fill Weeknights: 5 Cheap Restaurant Promos",
+    "Cheap Weeknight Promos That Bring Diners In",
+    "Low-Cost Ideas to Pack Your Restaurant Weeknights"
+  ],
+  "thumbnail_text": "Fill Weeknights Fast",
+  "description": "Five practical, low-cost promotions you can run this week to get customers in on slow weeknights. Each promo includes exact wording, prices, setup steps, and examples for a bakery, a plumber-hosted pop-up, and a nail salon collaboration.\n\nNo tricks, no expensive ads. Just straightforward, testable tactics you can use with a small team and a small budget. Try one for a month and compare bookings. Adjust wording, hours, and partner choices to fit your business.",
+  "tags": [
+    "restaurant marketing",
+    "small business marketing",
+    "cheap promotions",
+    "weeknight specials",
+    "local marketing",
+    "restaurant tips",
+    "dine-in promotions",
+    "food marketing",
+    "low budget marketing",
+    "restaurant growth"
+  ],
+  "scenes": [
+    {
+      "section": "HOOK",
+      "narration": "Tables are empty Monday through Thursday, and payroll still needs paying. You need simple, cheap offers that bring regulars back. Here are five promos you can set up this week with clear wording, real examples, and low cost to try immediately.",
+      "visual_query": "doodle empty restaurant table",
+      "on_screen_text": "Empty weeknights?",
+      "visual": "doodle",
+      "doodle_prompt": "empty table with clock showing evening, calendar Monday-Thursday"
+    },
+    {
+      "section": "STAKES",
+      "narration": "If weeknights stay slow you lose revenue and trained staff leave. Slow nights also make you invisible to new customers who form habits around busy spots. You want steady covers across the week, not just the weekend rush, to stabilize cash flow.",
+      "visual_query": "owner looking at bills in back",
+      "on_screen_text": "Slow nights cost money",
+      "visual": "stock",
+      "doodle_prompt": ""
+    },
+    {
+      "section": "STAKES",
+      "narration": "Filling weekday seats is cheaper than recovering a staffed dinner on Friday. Small repeated wins—an extra ten covers each Monday and Tuesday—add up. Focus on predictable, repeatable promotions that customers can easily remember and book in advance.",
+      "visual_query": "manager checking reservation book",
+      "on_screen_text": "Small wins add up",
+      "visual": "stock",
+      "doodle_prompt": ""
+    },
+    {
+      "section": "STAKES",
+      "narration": "You also get marketing benefits: weekday guests post photos, leave reviews, and tell friends. That organic lift costs nothing and compounds. The goal is consistent visits, not one-off discounts that attract deal hunters and never return.",
+      "visual_query": "couple taking food photo at table",
+      "on_screen_text": "Weekday guests share",
+      "visual": "stock",
+      "doodle_prompt": ""
+    },
+    {
+      "section": "STAKES",
+      "narration": "These promos work when they’re simple, visible, and limited. Simplicity keeps staff confident. Visibility brings customers by your door or your socials. Limits create urgency. Each example below follows that formula and includes exact phrases and price ideas to copy.",
+      "visual_query": "doodle megaphone pointing to calendar",
+      "on_screen_text": "Simple, visible, limited",
+      "visual": "doodle",
+      "doodle_prompt": "megaphone pointing at calendar, clock"
+    },
+    {
+      "section": "STEP 1",
+      "narration": "Step one: run a Monday special that feels like a treat, not a discount. Example for a bakery: \"Monday Pastry Pair — Any croissant plus coffee for $6. Valid 2–6pm.\" Train staff to offer it at the counter and post one sign by the door.",
+      "visual_query": "baker at counter serving customer",
+      "on_screen_text": "Monday Pastry Pair $6",
+      "visual": "stock",
+      "doodle_prompt": ""
+    },
+    {
+      "section": "STEP 1",
+      "narration": "How to set it up: change your POS modifier to a $6 combo, add a printed tent card for $5, and schedule two social posts: morning and noon. Cost: printing $5, two boosted posts optional $10 total. Track sales daily for two weeks.",
+      "visual_query": "doodle POS tablet plus tent card",
+      "on_screen_text": "Setup cost $5–$15",
+      "visual": "doodle",
+      "doodle_prompt": "POS tablet next to a small tent card, coffee cup"
+    },
+    {
+      "section": "STEP 1",
+      "narration": "Why it works: people treat coffee and pastry as a small indulgence. A clear, low price removes friction. Keep time limits tight to manage staff load. If it sells out, you create social proof and demand for the next Monday.",
+      "visual_query": "customers enjoying coffee at bakery",
+      "on_screen_text": "Low price, clear time",
+      "visual": "stock",
+      "doodle_prompt": ""
+    },
+    {
+      "section": "STEP 1",
+      "narration": "Example script for staff: \"We’re doing a Pastry Pair special today: any croissant and a coffee for six dollars, 2 to 6 p.m. Would you like that to go or for here?\" This wording converts impulsive buyers politely.",
+      "visual_query": "doodle server speaking to customer",
+      "on_screen_text": "Staff script to use",
+      "visual": "doodle",
+      "doodle_prompt": "server leaning slightly toward customer, smiling"
+    },
+    {
+      "section": "STEP 2",
+      "narration": "Step two: create a two-for-one table night for couples or small groups. Example for a casual bistro: \"Tuesdays: Buy one entrée, get the second 50% off, two-person max, dine-in only.\" Limit seats and post on reservations and walk-in lists.",
+      "visual_query": "couple dining in cozy bistro",
+      "on_screen_text": "Buy 1 get 50% off",
+      "visual": "stock",
+      "doodle_prompt": ""
+    },
+    {
+      "section": "STEP 2",
+      "narration": "Setup steps: add the offer to your online reservation notes, create a menu insert for $3, and mention it in reservation confirmation texts. Sampling cost is the discounted meal margin; start with early service hours to protect peak nights.",
+      "visual_query": "doodle reservation phone text and menu insert",
+      "on_screen_text": "Menu insert $3",
+      "visual": "doodle",
+      "doodle_prompt": "phone with chat bubble, folded menu card beside it"
+    },
+    {
+      "section": "STEP 2",
+      "narration": "Staff guidance: seat promo guests in a specific zone to manage pacing. Keep the API for the discount at the register to apply automatically. Train servers to upsell a drink or side to increase average check despite the discount.",
+      "visual_query": "servers seating diners in section",
+      "on_screen_text": "Seat in one zone",
+      "visual": "stock",
+      "doodle_prompt": ""
+    },
+    {
+      "section": "STEP 2",
+      "narration": "Real script to use online: \"Tuesday Date Night: bring a friend and enjoy 50% off the second entrée. Reservations recommended. Offer runs 5–8pm. Two-person maximum, dine-in only.\" Clarity prevents misunderstandings and reduces refund requests.",
+      "visual_query": "doodle calendar with 5–8pm circled",
+      "on_screen_text": "Date Night 5–8pm",
+      "visual": "doodle",
+      "doodle_prompt": "calendar page with clock showing 5–8pm, heart icon"
+    },
+    {
+      "section": "STEP 3",
+      "narration": "Step three: partner with a nearby business for a joint event. Example for a nail salon and a small café: \"After Hours Sip & Polish — reserve a $25 coffee-and-nail combo on Wednesdays.\" Partner supplies space or a coupon swap with clear booking links.",
+      "visual_query": "nail tech and customer in salon",
+      "on_screen_text": "Sip & Polish $25",
+      "visual": "stock",
+      "doodle_prompt": ""
+    },
+    {
+      "section": "STEP 3",
+      "narration": "How to set up: approach a non-competing neighbor with similar customer profiles. Offer to cross-promote on socials. Print ten joint vouchers for $0.50 each. Costs: minimal printing and two social posts. Track redemptions with a simple code word.",
+      "visual_query": "doodle two businesses shaking hands",
+      "on_screen_text": "Cross-promote vouchers",
+      "visual": "doodle",
+      "doodle_prompt": "two shop fronts with handshake icon between them"
+    },
+    {
+      "section": "STEP 3",
+      "narration": "Example voucher wording: \"Sip & Polish: present this voucher for a $5 nail service add-on with any coffee purchase. Wednesdays 4–7pm. Ask for code SIPPOLISH at the register.\" Keep the code easy to remember and unique to track results.",
+      "visual_query": "barista handing voucher to customer",
+      "on_screen_text": "Use code SIPPOLISH",
+      "visual": "stock",
+      "doodle_prompt": ""
+    },
+    {
+      "section": "STEP 3",
+      "narration": "On the day: staff should remind customers as they enter and at payment. Collect simple contact info for follow-up. Thank the partner publicly on socials after the event and tag them. Repeat monthly if it brings new customers.",
+      "visual_query": "doodle hands exchanging voucher and phone",
+      "on_screen_text": "Follow up & repost",
+      "visual": "doodle",
+      "doodle_prompt": "hand passing voucher to another hand, phone with heart"
+    },
+    {
+      "section": "STEP 4",
+      "narration": "Step four: themed nights with low-cost entertainment. Example for a neighborhood pub: \"Trivia Night Wednesdays — teams of up to four, free to play, one winning table gets a $25 tab credit.\" Keep rules simple and prizes modest to control cost.",
+      "visual_query": "friends doing trivia in pub",
+      "on_screen_text": "Trivia Night Wednesdays",
+      "visual": "stock",
+      "doodle_prompt": ""
+    },
+    {
+      "section": "STEP 4",
+      "narration": "Setup: print a single poster for $3, recruit a volunteer host or use pre-made question packs, and schedule the event weekly. Promote on socials and in-person. Run a two-month test and measure covers and average spend compared to normal nights.",
+      "visual_query": "doodle poster on window and question box",
+      "on_screen_text": "Poster $3",
+      "visual": "doodle",
+      "doodle_prompt": "poster on a door, small box labeled 'questions' beside it"
+    },
+    {
+      "section": "STEP 4",
+      "narration": "Staff tips: offer a simple prix fixe snack or a themed cocktail to increase spend. Train the host to remind players to order early. A low-cost prize keeps the vibe competitive without eroding margins on every check.",
+      "visual_query": "bartender serving group at table",
+      "on_screen_text": "Offer a themed drink",
+      "visual": "stock",
+      "doodle_prompt": ""
+    },
+    {
+      "section": "STEP 4",
+      "narration": "Copy for socials: \"Trivia Night, Wednesdays, 7pm. Teams of up to four, free to play, fun prizes and drink specials. Reserve a table or just walk in.\" Clear reservation instructions reduce confusion and empty seats.",
+      "visual_query": "doodle social post with calendar icon",
+      "on_screen_text": "Post: Trivia 7pm",
+      "visual": "doodle",
+      "doodle_prompt": "phone showing a simple calendar and question mark"
+    },
+    {
+      "section": "STEP 5",
+      "narration": "Step five: loyalty sprint — limited-time punch-card or digital deal for weekdays. Example for a family diner: \"Weekday Reward Card: visit three weeknights in a month, get a free appetizer.\" Keep rules short and staff scanning simple.",
+      "visual_query": "family eating at diner booth",
+      "on_screen_text": "Visit 3 get free appetizer",
+      "visual": "stock",
+      "doodle_prompt": ""
+    },
+    {
+      "section": "STEP 5",
+      "narration": "Setup: print 50 paper cards for $10 or use your POS loyalty field. Tell guests at checkout and hand a card. Promote on your front window and social accounts. Limit to one card per household to avoid gaming the system.",
+      "visual_query": "doodle hand handing card to customer",
+      "on_screen_text": "Cards $10 print run",
+      "visual": "doodle",
+      "doodle_prompt": "hand giving a small card to another hand, smiling"
+    },
+    {
+      "section": "STEP 5",
+      "narration": "Script for staff: \"We’re running a Weeknight Reward Card this month—visit three weeknights and earn a free appetizer. Would you like a card to start tonight?\" Positive wording encourages participation without sounding like a discount store.",
+      "visual_query": "server talking to family at table",
+      "on_screen_text": "Start your card tonight?",
+      "visual": "stock",
+      "doodle_prompt": ""
+    },
+    {
+      "section": "STEP 5",
+      "narration": "Track results: note whether customers who redeem are new or returning. If repeat customers redeem, tweak the reward or qualification period. Small changes in rules can shift the economics quickly, so test only one variable at a time.",
+      "visual_query": "doodle ledger with new/returning columns",
+      "on_screen_text": "Track new vs returning",
+      "visual": "doodle",
+      "doodle_prompt": "open ledger with two simple columns labeled new and returning (no text)"
+    },
+    {
+      "section": "MISTAKE",
+      "narration": "Big mistake: running vague or unlimited discounts that attract deal hunters and lower perceived value. If your offer is unclear, customers expect more exceptions. Keep rules tight, visible, and consistently enforced to protect margins and staff morale.",
+      "visual_query": "restaurant owner frustrated in back",
+      "on_screen_text": "Avoid vague offers",
+      "visual": "stock",
+      "doodle_prompt": ""
+    },
+    {
+      "section": "MISTAKE",
+      "narration": "Another error: not training staff. Frontline confusion kills promotions. Do a ten-minute briefing before service, post the offer at the register, and role-play one script. Small rehearsals prevent mistakes and make teams confident selling the deal.",
+      "visual_query": "doodle staff huddle with checklist",
+      "on_screen_text": "10-minute briefing",
+      "visual": "doodle",
+      "doodle_prompt": "small group of three staff listening to manager with clipboard"
+    },
+    {
+      "section": "MISTAKE",
+      "narration": "Don’t forget to measure. Running promotions without numbers leaves you guessing. Track covers, average check, and redemption rate. If a promo costs more than it brings in, tweak timing, price, or channel, and run a fresh test for two weeks.",
+      "visual_query": "owner checking spreadsheet on laptop",
+      "on_screen_text": "Measure everything",
+      "visual": "stock",
+      "doodle_prompt": ""
+    },
+    {
+      "section": "MISTAKE",
+      "narration": "Avoid the 'set-and-forget' trap. Promotions need small ongoing attention—refresh social posts, repost customer photos, and tweak copy. If interest fades, change the prize or time block. Regular tweaks keep offers feeling new without big budget changes.",
+      "visual_query": "doodle social post with refresh icon",
+      "on_screen_text": "Refresh offers weekly",
+      "visual": "doodle",
+      "doodle_prompt": "phone with circular arrow refresh icon, small photo"
+    },
+    {
+      "section": "RECAP",
+      "narration": "Recap: run simple, time-limited offers you can explain in one sentence. Try a pastry combo, a buy-one-half-off night, a partner pop-up, trivia, and a loyalty sprint. Use clear staff scripts, track results, and protect margins with limits.",
+      "visual_query": "doodle checklist of five items",
+      "on_screen_text": "Five promos to test",
+      "visual": "doodle",
+      "doodle_prompt": "checklist with five boxes, pen ticking first box"
+    },
+    {
+      "section": "RECAP",
+      "narration": "Start with one promo for thirty days, measure covers and average spend, then iterate. Small consistent improvements beat one big experiment. Document what worked and repeat the winners while rotating low-cost variations to keep customers curious.",
+      "visual_query": "owner marking calendar with note",
+      "on_screen_text": "Test 30 days",
+      "visual": "stock",
+      "doodle_prompt": ""
+    },
+    {
+      "section": "RECAP",
+      "narration": "If a promotion brings new guests, collect permission to message them about future weeknight offers. A simple SMS or email follow-up can turn one visit into a habit. Use polite language and an obvious unsubscribe to stay compliant and friendly.",
+      "visual_query": "doodle phone with message and heart",
+      "on_screen_text": "Ask to message again",
+      "visual": "doodle",
+      "doodle_prompt": "phone with message bubble and small heart icon"
+    },
+    {
+      "section": "CTA",
+      "narration": "Want help picking the best promo for your restaurant? Send us a quick note with your busiest and slowest nights, average check, and staff availability. We’ll suggest a low-cost pilot you can run this week and the exact wording to use.",
+      "visual_query": "owner typing message on phone",
+      "on_screen_text": "Need help? Tell us",
+      "visual": "stock",
+      "doodle_prompt": ""
+    },
+    {
+      "section": "CTA",
+      "narration": "If you liked these ideas, subscribe for more practical, low-cost marketing playbooks for small businesses. We cover cafes, salons, gyms, contractors, and other local shops. Try one tactic and report back—small changes compound into steady growth.",
+      "visual_query": "doodle subscribe bell and small shop icons",
+      "on_screen_text": "Subscribe for more",
+      "visual": "doodle",
+      "doodle_prompt": "bell icon next to small shop outlines"
+    },
+    {
+      "section": "CTA",
+      "narration": "Want us to look at your marketing for free? Get a free audit from Blue Ocean Marketing, link in the description.",
+      "visual_query": "owner smiling in empty dining room",
+      "on_screen_text": "Free audit offer",
+      "visual": "stock",
+      "doodle_prompt": ""
+    },
+    {
+      "section": "CTA",
+      "narration": "Want us to look at your marketing for free? Get a free audit from Blue Ocean Marketing, link in the description.",
+      "visual_query": "doodle handshake and checklist",
+      "on_screen_text": "Free audit",
+      "visual": "doodle",
+      "doodle_prompt": "two hands shaking over a simple checklist"
+    }
+  ]
+}

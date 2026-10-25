@@ -1,0 +1,74 @@
+{
+  "format": "short",
+  "topic": "Salon Walk-in Funnel: A Simple 10-Minute Script + Local Google Trick",
+  "title": "Salon Walk-in Funnel: 10‑Second Script + Google Trick",
+  "title_options": [
+    "Get More Salon Walk‑Ins in 10 Minutes",
+    "Quick Walk‑In Script for Salons",
+    "One Google Trick to Boost Walk‑Ins"
+  ],
+  "thumbnail_text": "Quick Walk‑Ins Now",
+  "description": "A tiny 10‑minute funnel for salons: a 10‑second walk‑in script you can use and a quick Google tweak to get found by people nearby. Cheap, fast, and built for busy owners.\n\nIncludes exact words to say, a sample price idea, and a free local Google action you can do from your phone. No jargon—just a ready-to-use plan you can try today.",
+  "tags": [
+    "salon marketing",
+    "walk in customers",
+    "local marketing",
+    "Google Maps tip",
+    "salon growth",
+    "beauty salon tips",
+    "low budget marketing",
+    "walk in script",
+    "local SEO",
+    "small business marketing"
+  ],
+  "scenes": [
+    {
+      "section": "HOOK",
+      "narration": "Want more same‑day walk‑ins now?",
+      "visual_query": "small business owner",
+      "on_screen_text": "More walk‑ins today",
+      "visual": "doodle",
+      "doodle_prompt": "salon storefront with a single person waving, arrow pointing to door"
+    },
+    {
+      "section": "TIP",
+      "narration": "Quick tip: change one Google Business photo and add a current \"special\" so locals see availability.",
+      "visual_query": "owner on phone outside salon",
+      "on_screen_text": "Update photo + special",
+      "visual": "stock",
+      "doodle_prompt": ""
+    },
+    {
+      "section": "SCRIPT",
+      "narration": "10‑second walk‑in script: \"Hi! We have a 20‑minute blowout ready now for $25. Want it?\"",
+      "visual_query": "small business owner",
+      "on_screen_text": "20‑minute blowout $25",
+      "visual": "doodle",
+      "doodle_prompt": "stylist next to an empty salon chair, wall clock"
+    },
+    {
+      "section": "EXAMPLE",
+      "narration": "Bakery example: \"Fresh scone ready now for $2.50—take it to go?\" Same idea, same urgency.",
+      "visual_query": "baker handing customer box",
+      "on_screen_text": "Fresh scone $2.50",
+      "visual": "stock",
+      "doodle_prompt": ""
+    },
+    {
+      "section": "HOW TO DO IT FAST",
+      "narration": "Five minutes: update Google photo and add a special. Five minutes: train staff to use the 10‑second script.",
+      "visual_query": "small business owner",
+      "on_screen_text": "10 minutes total",
+      "visual": "doodle",
+      "doodle_prompt": "phone with map pin, clock showing 10 minutes"
+    },
+    {
+      "section": "OUTRO",
+      "narration": "Try it today. Follow Blue Ocean Marketing for one marketing fix every day.",
+      "visual_query": "stylist smiling at camera in salon",
+      "on_screen_text": "Try it today",
+      "visual": "stock",
+      "doodle_prompt": ""
+    }
+  ]
+}

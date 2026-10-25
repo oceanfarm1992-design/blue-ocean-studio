@@ -1,0 +1,74 @@
+{
+  "format": "short",
+  "topic": "How Contractors Get 5 Local Leads a Month Using Only One Craigslist Post",
+  "title": "One Craigslist Post = 5 Local Leads (Contractors)",
+  "title_options": [
+    "Get 5 Local Leads with One Craigslist Ad",
+    "Craigslist Hack for Contractors: 5 Leads a Month",
+    "Single Craigslist Post That Brings Local Calls"
+  ],
+  "thumbnail_text": "One Post, 5 Leads",
+  "description": "A simple Craigslist playbook for contractors who do marketing themselves. Use one well-crafted post, one clear offer, and one follow-up step to get local calls.\n\nThis short shows the exact wording, an example for a plumber, and real steps you can copy. Costs are low and setup takes about 20 minutes.",
+  "tags": [
+    "Craigslist marketing",
+    "local leads",
+    "contractor marketing",
+    "small business tips",
+    "plumber leads",
+    "handyman marketing",
+    "low budget marketing",
+    "lead generation",
+    "DIY marketing",
+    "Blue Ocean Marketing"
+  ],
+  "scenes": [
+    {
+      "section": "HOOK",
+      "narration": "One Craigslist post, five local leads?",
+      "visual_query": "doodle simple sketch",
+      "on_screen_text": "One post, 5 leads?",
+      "visual": "doodle",
+      "doodle_prompt": "a single paper post with five phone icons around it"
+    },
+    {
+      "section": "TIP",
+      "narration": "Make one targeted Craigslist ad. Offer a clear, limited-time fix: same-week service and a visible price range.",
+      "visual_query": "man reading phone outside house",
+      "on_screen_text": "Same-week service, price range",
+      "visual": "stock",
+      "doodle_prompt": ""
+    },
+    {
+      "section": "STEP",
+      "narration": "Use a short headline: Plumbing—Same-Day Leak Repair, $99–$249 estimate. Put towns you serve in the body.",
+      "visual_query": "doodle simple sketch",
+      "on_screen_text": "Plumbing — Same-Day Repair",
+      "visual": "doodle",
+      "doodle_prompt": "a plumber icon next to a house map pin"
+    },
+    {
+      "section": "EXAMPLE",
+      "narration": "Example text: \"Same-day leak repair. Estimates $99–$249. Serving Northside, Oak Park. Call or text 555‑1234 — available today.\"",
+      "visual_query": "plumber answering phone",
+      "on_screen_text": "Call or text 555‑1234",
+      "visual": "stock",
+      "doodle_prompt": ""
+    },
+    {
+      "section": "FOLLOW-UP",
+      "narration": "When calls come, confirm availability and send a quick Google Maps pin and a photo of your van — builds trust fast.",
+      "visual_query": "doodle simple sketch",
+      "on_screen_text": "Send map pin + van photo",
+      "visual": "doodle",
+      "doodle_prompt": "phone sending map pin to a house, van parked nearby"
+    },
+    {
+      "section": "OUTRO",
+      "narration": "One clear offer, one local post, follow-up trust steps. Follow Blue Ocean Marketing for one marketing fix every day.",
+      "visual_query": "hand unloading tools van",
+      "on_screen_text": "One fix every day",
+      "visual": "stock",
+      "doodle_prompt": ""
+    }
+  ]
+}
