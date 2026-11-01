@@ -1,0 +1,75 @@
+{
+  "format": "short",
+  "topic": "3 Instagram Reels Ideas That Fill a Café at 8am (No Fancy Gear)",
+  "title": "3 Reels That Pack Your Café at 8am",
+  "title_options": [
+    "Fill Your Café by 8am with One Reel",
+    "Early Bird Reels: Pack Your Coffee Shop",
+    "Cheap Reels That Drive Morning Foot Traffic"
+  ],
+  "thumbnail_text": "Pack 8am Fast",
+  "description": "One simple reel idea that brings real morning customers. No fancy gear, low cost, clear wording you can copy.\nUse this exact combo, caption and filming checklist to test for a week. Adjust price, limit or hours for your neighbourhood.",
+  "tags": [
+    "cafe marketing",
+    "instagram reels",
+    "coffee shop tips",
+    "small business marketing",
+    "local marketing",
+    "low budget marketing",
+    "morning promotion",
+    "reels ideas",
+    "foot traffic",
+    "blue ocean marketing",
+    "restaurant marketing"
+  ],
+  "scenes": [
+    {
+      "section": "HOOK",
+      "narration": "Want a packed café at 8am?",
+      "visual_query": "barista drawing coffee heart",
+      "on_screen_text": "Full by 8am",
+      "visual": "doodle",
+      "doodle_prompt": "barista behind counter, empty cafe chairs, small wall clock"
+    },
+    {
+      "section": "TIP",
+      "narration": "Run an Early Bird Combo: coffee plus pastry for $5, limited to first 20 customers who say this Reel.",
+      "visual_query": "baker handing croissant to customer",
+      "on_screen_text": "Early Bird Combo $5",
+      "visual": "stock",
+      "doodle_prompt": ""
+    },
+    {
+      "section": "HOW TO FILM",
+      "narration": "Make a 15-second Reel: close-up steam, pastry pull-apart, barista smile. Keep it raw, handheld, bright morning light.",
+      "visual_query": "hand holding phone filming espresso",
+      "on_screen_text": "15s Reel",
+      "visual": "doodle",
+      "doodle_prompt": "phone filming coffee and pastry on a small table, smiling barista nearby"
+    },
+    {
+      "section": "CAPTION",
+      "narration": "Copy this caption: \"First 20 say this Reel and get combo $5. Weekdays 7–9am. No app needed.\"",
+      "visual_query": "barista handing cup to smiling customer",
+      "on_screen_text": "Say this Reel",
+      "visual": "stock",
+      "doodle_prompt": ""
+    },
+    {
+      "section": "BOOST",
+      "narration": "Spend $5 to promote the Reel to people within 3 miles for one day. Target coffee lovers and nearby commuters.",
+      "visual_query": "phone with map pins near cafe",
+      "on_screen_text": "Promote $5",
+      "visual": "doodle",
+      "doodle_prompt": "map with three pins around a cafe, small phone with heart icons"
+    },
+    {
+      "section": "RESULT / CTA",
+      "narration": "Doors open, combos move fast, new faces return. Follow Blue Ocean Marketing for one marketing fix every day.",
+      "visual_query": "busy cafe morning queue",
+      "on_screen_text": "Use the Reel today",
+      "visual": "stock",
+      "doodle_prompt": ""
+    }
+  ]
+}

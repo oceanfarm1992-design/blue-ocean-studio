@@ -1,0 +1,285 @@
+{
+  "format": "long",
+  "topic": "How to Get 10 Local Customers in 30 Days Using Facebook Marketplace",
+  "title": "Get 10 Local Customers in 30 Days Using Facebook Marketplace",
+  "title_options": [
+    "10 Local Customers in 30 Days — No Ads",
+    "Facebook Marketplace: 30 Day Local Customer Playbook",
+    "How a Small Business Gets 10 Local Customers Fast"
+  ],
+  "thumbnail_text": "10 Local Customers Fast",
+  "description": "A practical, low-cost playbook to pull ten local customers in thirty days using Facebook Marketplace. No fancy ads, no big budget — just step-by-step posts, offers, scripts and follow-up you can do in an hour a day.\n\nEvery step includes real examples for bakeries, plumbers, nail salons, gyms, hair salons and electricians, with copy you can paste. Use this as your 30-day checklist and adapt the wording to your business voice.",
+  "tags": [
+    "Facebook Marketplace",
+    "local marketing",
+    "small business marketing",
+    "low budget marketing",
+    "local customers",
+    "marketing playbook",
+    "DIY marketing",
+    "restaurant marketing",
+    "service business marketing",
+    "how to get customers",
+    "Facebook tips",
+    "marketplace listings",
+    "local lead generation"
+  ],
+  "scenes": [
+    {
+      "section": "HOOK",
+      "narration": "You can get ten new local customers in thirty days with Facebook Marketplace. No paid ads. No huge following. You just need the right offer, clear photos, and a short follow-up plan that converts browsers into paying customers.",
+      "visual_query": "doodle offer card",
+      "on_screen_text": "10 customers in 30 days",
+      "visual": "doodle",
+      "doodle_prompt": "hand holding coupon, calendar with thirty-day mark"
+    },
+    {
+      "section": "STAKES",
+      "narration": "If you ignore Marketplace you miss people already nearby who want what you sell. That’s wasted revenue. For a small bakery or a plumber, ten customers can cover a week of payroll or a month of supplier bills. Treat this like a sales channel.",
+      "visual_query": "baker serving customer counter",
+      "on_screen_text": "Don’t miss nearby buyers",
+      "visual": "stock",
+      "doodle_prompt": ""
+    },
+    {
+      "section": "STEP 1",
+      "narration": "Step one: pick a simple, time-limited offer that solves a nearby need. Keep price, what they get, and expiry in the headline. Example: a baker offers a weekend pastry box for pickup, limited to the first ten customers this Saturday only.",
+      "visual_query": "baker arranging pastry box",
+      "on_screen_text": "Step 1: Time-limited offer",
+      "visual": "stock",
+      "doodle_prompt": ""
+    },
+    {
+      "section": "STEP 1 EXAMPLE",
+      "narration": "Bakery example: headline 'Weekend Pastry Box — $15 — 10 boxes only'. Body: list box contents, pick-up windows, how to reserve via Messenger. Cost: $3 per box extra on ingredient margin, or just break even to buy attention fast.",
+      "visual_query": "doodle pastry box, calendar",
+      "on_screen_text": "$15 • 10 boxes only",
+      "visual": "doodle",
+      "doodle_prompt": "box of pastries next to a calendar and a small cash pile"
+    },
+    {
+      "section": "STEP 1 TIPS",
+      "narration": "Do not overcomplicate the offer. Free trials or steep discounts lower perceived value. Instead, give a clear benefit, like 'fresh morning box for busy parents' and show exact pickup times. Keep it local: pickup or same-day delivery only.",
+      "visual_query": "woman reading phone outside bakery",
+      "on_screen_text": "Clear benefit, local pickup",
+      "visual": "stock",
+      "doodle_prompt": ""
+    },
+    {
+      "section": "STEP 2",
+      "narration": "Step two: create a Marketplace listing that looks like a real product page. Use three crisp photos, a short clear title, bullet points for what’s included, price, and a one-line call to message to reserve. List under appropriate category and location.",
+      "visual_query": "phone showing listing photos",
+      "on_screen_text": "Step 2: Good listing",
+      "visual": "doodle",
+      "doodle_prompt": "phone with three image frames and a chat bubble"
+    },
+    {
+      "section": "STEP 2 EXAMPLE",
+      "narration": "Plumber example: title 'Weekend Kitchen Leak Check + Minor Fix — $79'. Photos: friendly headshot, van, toolkit. Bullets: what’s covered, areas served, next available slots. Call to action: 'Message to book your spot — two openings Saturday morning.'",
+      "visual_query": "plumber with wrench at sink",
+      "on_screen_text": "$79 kitchen check",
+      "visual": "stock",
+      "doodle_prompt": ""
+    },
+    {
+      "section": "STEP 2 TACTIC",
+      "narration": "Use honest photos: you, your van, the workspace. Avoid stocky-looking staged images. People hire people, not concepts. A quick smiling headshot raises trust. If you can’t shoot, take three clear photos on your phone in natural light.",
+      "visual_query": "man taking photo of van",
+      "on_screen_text": "Real photos build trust",
+      "visual": "stock",
+      "doodle_prompt": ""
+    },
+    {
+      "section": "STEP 3",
+      "narration": "Step three: price to attract attention but protect margins. Offer limited extras: a free small add-on or a low-cost premium. That gives shoppers a reason to message now, not later. Put the offer expiry in both title and body for urgency.",
+      "visual_query": "doodle price tag with clock",
+      "on_screen_text": "Step 3: Pricing + urgency",
+      "visual": "doodle",
+      "doodle_prompt": "price tag with small clock next to it and a handshake"
+    },
+    {
+      "section": "STEP 3 EXAMPLE",
+      "narration": "Nail salon example: 'First-time mini-manicure $19 + free nail art dot'. Show before and after images. Limit to first twelve customers this week. Cost: offer absorbs $4 of margin but brings repeat clients who book full services later.",
+      "visual_query": "nail technician painting client nails",
+      "on_screen_text": "$19 mini-manicure",
+      "visual": "stock",
+      "doodle_prompt": ""
+    },
+    {
+      "section": "STEP 3 COPY",
+      "narration": "Copy to paste for Marketplace: 'First-time mini-manicure $19 — includes free nail art dot. 12 spots this week. Message to reserve your 30-minute slot. Walk-ins welcome if available.' Short, clear, action-oriented language converts better.",
+      "visual_query": "doodle chat bubble and phone",
+      "on_screen_text": "Message to reserve",
+      "visual": "doodle",
+      "doodle_prompt": "phone with chat bubble and a small clock"
+    },
+    {
+      "section": "STEP 4",
+      "narration": "Step four: respond fast and use a short reservation script. Marketplace shoppers expect quick replies. Speed equals trust. Use a templated response you can paste, then personalize one sentence. Confirm pickup windows, payment method and a next action.",
+      "visual_query": "woman replying on phone at counter",
+      "on_screen_text": "Step 4: Fast responses",
+      "visual": "stock",
+      "doodle_prompt": ""
+    },
+    {
+      "section": "STEP 4 EXAMPLE",
+      "narration": "Gym example: someone messages about a 7-day trial. Reply script: 'Thanks! We’ve got two trial spots Thursday 5pm and Saturday 9am. Which works? Drop your first name and I’ll hold the spot. Bring comfy clothes, free towel on us.'",
+      "visual_query": "trainer greeting gym member",
+      "on_screen_text": "Hold the spot",
+      "visual": "stock",
+      "doodle_prompt": ""
+    },
+    {
+      "section": "STEP 4 SCRIPT",
+      "narration": "Copyable reply for bookings: 'Hi NAME — thanks for asking. I can hold a spot for you on DAY at TIME. Please reply with your first name and I’ll reserve it. We accept cash or card. See you then!' Fast and clear.",
+      "visual_query": "doodle phone with handwritten name tag",
+      "on_screen_text": "Quick booking script",
+      "visual": "doodle",
+      "doodle_prompt": "phone with a small name tag and a checkmark"
+    },
+    {
+      "section": "STEP 5",
+      "narration": "Step five: confirm and reduce no-shows with a one-day reminder. Send a friendly message 24 hours before pickup or appointment. Reminders cut no-shows and keep your schedule full. Keep the reminder short and include what to bring and where to go.",
+      "visual_query": "barista sending message to customer",
+      "on_screen_text": "Step 5: Remind 24 hours",
+      "visual": "stock",
+      "doodle_prompt": ""
+    },
+    {
+      "section": "STEP 5 EXAMPLE",
+      "narration": "Hair salon example: Send 'Hi Sarah — reminder for your 2pm haircut tomorrow at Main Street Salon. Arrive five minutes early if possible. Reply 1 to confirm or 2 to reschedule.' That one-button reply makes confirmations painless and fast.",
+      "visual_query": "stylist setting appointment card",
+      "on_screen_text": "Confirm tomorrow 2pm",
+      "visual": "stock",
+      "doodle_prompt": ""
+    },
+    {
+      "section": "STEP 5 TEMPLATE",
+      "narration": "Reminder template to copy: 'Hi NAME — friendly reminder of your booking on DATE at TIME. Reply YES to confirm or RES to reschedule. Address and parking details: ADDRESS. Thanks!' Include a short reschedule option to keep the slot usable.",
+      "visual_query": "doodle calendar with checkmark",
+      "on_screen_text": "Reply YES to confirm",
+      "visual": "doodle",
+      "doodle_prompt": "calendar page with a checkmark and small map pin"
+    },
+    {
+      "section": "STEP 6",
+      "narration": "Step six: convert first-timers into repeat customers with a low-friction follow-up offer. After service, send a thank you message plus a next-step coupon. Make rebooking easy with one-click times or a short reply keyword like 'BOOK' to reserve their next visit.",
+      "visual_query": "barber waving goodbye to client",
+      "on_screen_text": "Step 6: Convert to repeat",
+      "visual": "stock",
+      "doodle_prompt": ""
+    },
+    {
+      "section": "STEP 6 EXAMPLE",
+      "narration": "Electrician example: After a safety check, message 'Thanks for choosing us. Book your next check in six months and get $10 off — reply BOOK to reserve. If you refer a neighbor and they book, you get $20 credit.' Clear incentives raise rebooking rates.",
+      "visual_query": "electrician packing tools",
+      "on_screen_text": "$10 off next check",
+      "visual": "stock",
+      "doodle_prompt": ""
+    },
+    {
+      "section": "STEP 6 FOLLOW-UP",
+      "narration": "Follow-up message sample: 'Thanks NAME — glad we could help. Save $10 on your next visit by replying BOOK and we’ll hold a slot. Referral credit also available. We’ll message available times once you reply.' Keep it short and actionable.",
+      "visual_query": "doodle envelope with heart",
+      "on_screen_text": "Save $10 next visit",
+      "visual": "doodle",
+      "doodle_prompt": "small envelope with a heart and a dollar sign nearby"
+    },
+    {
+      "section": "MISTAKE",
+      "narration": "Big mistake: treating Marketplace like classifieds and ignoring messages for hours. That kills sales. Another error is vague listings with no price or photo. Both reduce trust. Show up fast, be clear, and give shoppers an easy next step to reserve or pay.",
+      "visual_query": "man ignoring phone at counter",
+      "on_screen_text": "Don’t ignore messages",
+      "visual": "stock",
+      "doodle_prompt": ""
+    },
+    {
+      "section": "MISTAKE EXAMPLE",
+      "narration": "Example mistake: a pizza shop posts 'special available' with no price or pickup times and replies after two days. People already moved on. Fix it: price, pickup windows, message-to-reserve line, and reply within an hour during business hours.",
+      "visual_query": "doodle sad pizza box and clock",
+      "on_screen_text": "Be fast and specific",
+      "visual": "doodle",
+      "doodle_prompt": "pizza box looking sad next to a ticking clock"
+    },
+    {
+      "section": "RECAP 1",
+      "narration": "Recap the funnel: make a clear limited offer, list it with solid photos and a short title, respond fast with a booking script, send a 24-hour reminder, then follow up to create repeat business. Each step reduces friction and increases likelihood of sale.",
+      "visual_query": "doodle funnel with icons",
+      "on_screen_text": "Offer → List → Book → Remind → Follow-up",
+      "visual": "doodle",
+      "doodle_prompt": "simple funnel with five icons representing each step"
+    },
+    {
+      "section": "RECAP 2",
+      "narration": "Small practical notes: limit to local pickup or same-day service to keep logistics simple. Use timed scarcity, like 'first twelve' or 'this weekend only'. Track where customers came from by asking one quick question during booking for future targeting.",
+      "visual_query": "shop owner writing notes at desk",
+      "on_screen_text": "Keep logistics simple",
+      "visual": "stock",
+      "doodle_prompt": ""
+    },
+    {
+      "section": "RECAP 3",
+      "narration": "Budget check: most actions cost only your time and small discounts. A $3 cost per customer to get ten local buyers is often cheaper than other channels. Focus on converting interest to booking, not on deep discounting which trains bargain hunters.",
+      "visual_query": "doodle small coin stack",
+      "on_screen_text": "$3–$10 test budget",
+      "visual": "doodle",
+      "doodle_prompt": "small stack of coins and a tiny calendar"
+    },
+    {
+      "section": "RECAP 4",
+      "narration": "Measure what matters: number of messages, number of reserved spots, confirmations, and actual show-ups. If you get ten messages but three show, tweak reminder messaging and booking clarity. If you get few messages, improve photos and headline clarity.",
+      "visual_query": "business owner checking notebook",
+      "on_screen_text": "Track messages → bookings → shows",
+      "visual": "stock",
+      "doodle_prompt": ""
+    },
+    {
+      "section": "BONUS TIP",
+      "narration": "Bonus: cross-post your listing to local buy-and-sell groups and your business page, but keep inventory limited to avoid overbooking. Use the same language and image for consistency. That increases reach without extra ad spend and keeps your message clear.",
+      "visual_query": "doodle phone sharing listing",
+      "on_screen_text": "Cross-post for reach",
+      "visual": "doodle",
+      "doodle_prompt": "phone with arrows pointing to two small group icons"
+    },
+    {
+      "section": "COMMON QUESTION",
+      "narration": "You might ask: 'Won’t Marketplace attract bargain hunters?' Yes, sometimes. That’s why you lead with value, not deepest discount. Offer a helpful freebie or small bonus that builds future revenue and filters in customers interested in your services, not just price.",
+      "visual_query": "customer looking at phone in store",
+      "on_screen_text": "Attract value seekers",
+      "visual": "stock",
+      "doodle_prompt": ""
+    },
+    {
+      "section": "FINAL CHECKLIST",
+      "narration": "Quick checklist: one clear offer, three good photos, headline with price and expiry, fast reply script, 24-hour reminder, and a follow-up coupon. Spend one hour to set all this up and then 15 minutes daily to handle messages and confirmations.",
+      "visual_query": "doodle checklist and stopwatch",
+      "on_screen_text": "1 hour setup, 15min daily",
+      "visual": "doodle",
+      "doodle_prompt": "checklist with a small stopwatch showing 1:00 and 0:15"
+    },
+    {
+      "section": "NEXT STEPS",
+      "narration": "Start today: pick one low-cost offer, take three honest photos, draft the short listing, and set aside an hour this afternoon to post. Respond quickly for the first 48 hours and test one small tweak if you don’t see messages — change the photo or tighten the headline.",
+      "visual_query": "owner preparing phone to post",
+      "on_screen_text": "Post today, respond fast",
+      "visual": "stock",
+      "doodle_prompt": ""
+    },
+    {
+      "section": "CLOSING",
+      "narration": "This is a practical channel you can run for almost no budget. It works best when you treat it as selling in person: clear offer, good photos, prompt replies, and a follow-up plan. Do the steps consistently for thirty days and measure results.",
+      "visual_query": "business owner smiling at counter",
+      "on_screen_text": "Treat Marketplace like selling",
+      "visual": "stock",
+      "doodle_prompt": ""
+    },
+    {
+      "section": "CTA",
+      "narration": "Want us to look at your marketing for free? Get a free audit from Blue Ocean Marketing, link in the description.",
+      "visual_query": "doodle person handing clipboard",
+      "on_screen_text": "Free marketing audit",
+      "visual": "doodle",
+      "doodle_prompt": "one person handing clipboard to another person"
+    }
+  ]
+}

@@ -1,0 +1,74 @@
+{
+  "format": "short",
+  "topic": "Local SEO Quick Win: Get on Google Maps in 48 Hours",
+  "title": "Get on Google Maps in 48 Hours (Local SEO Quick Win)",
+  "title_options": [
+    "Google Maps Fast: 48 Hour Setup",
+    "Claim Your Spot on Google Maps Fast",
+    "Local SEO Quick Win: Maps in 2 Days"
+  ],
+  "thumbnail_text": "Maps in 48 Hours",
+  "description": "One simple, low-cost tactic to get your business visible on Google Maps fast. Follow this step-by-step example you can copy today.\nYou don't need an agency. This short shows the exact action, words to use, and realistic time expectations for a bakery, plumber, or salon.",
+  "tags": [
+    "local seo",
+    "google maps",
+    "google my business",
+    "small business marketing",
+    "local marketing",
+    "bakery marketing",
+    "plumber marketing",
+    "nail salon marketing",
+    "quick win",
+    "DIY marketing"
+  ],
+  "scenes": [
+    {
+      "section": "HOOK",
+      "narration": "Want on Google Maps in 48 hours?",
+      "visual_query": "owner pointing at map doodle",
+      "on_screen_text": "Maps in 48 hours",
+      "visual": "doodle",
+      "doodle_prompt": "map pin on storefront, small person pointing"
+    },
+    {
+      "section": "TIP",
+      "narration": "One tip: claim your Google Business Profile and verify it. That single step can get you on Maps quickly.",
+      "visual_query": "person typing on laptop at kitchen table",
+      "on_screen_text": "Claim & verify",
+      "visual": "stock",
+      "doodle_prompt": ""
+    },
+    {
+      "section": "EXAMPLE",
+      "narration": "Example: a bakery. Use business name, address, category 'Bakery', phone, hours, and upload one clean photo of your storefront.",
+      "visual_query": "baker arranging bread at counter",
+      "on_screen_text": "Category: Bakery",
+      "visual": "doodle",
+      "doodle_prompt": "small bakery storefront, baker holding a loaf"
+    },
+    {
+      "section": "STEPS",
+      "narration": "Step-by-step: open Google Business Profile, click 'Add your business', fill details, choose verification by postcard or phone, then submit.",
+      "visual_query": "hands on laptop filling form",
+      "on_screen_text": "Fill details, submit",
+      "visual": "stock",
+      "doodle_prompt": ""
+    },
+    {
+      "section": "COST & TIME",
+      "narration": "Cost: free. Time: 10–30 minutes to set up, verification often completes in 48 hours. Have one clear storefront photo ready.",
+      "visual_query": "camera taking photo of shop exterior",
+      "on_screen_text": "Free • 48 hours",
+      "visual": "doodle",
+      "doodle_prompt": "camera pointing at a small shop exterior, sun overhead"
+    },
+    {
+      "section": "CLOSE",
+      "narration": "Do this now: claim the profile, add details, verify. Follow Blue Ocean Marketing for one marketing fix every day.",
+      "visual_query": "small business owner smiling outside shop",
+      "on_screen_text": "Do it now",
+      "visual": "stock",
+      "doodle_prompt": ""
+    }
+  ]
+}
