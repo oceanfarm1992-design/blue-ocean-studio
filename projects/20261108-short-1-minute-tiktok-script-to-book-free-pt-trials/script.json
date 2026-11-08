@@ -1,0 +1,74 @@
+{
+  "format": "short",
+  "topic": "1-Minute TikTok Script to Book a Free Personal Training Trial",
+  "title": "1-Minute TikTok Script to Book Free PT Trials",
+  "title_options": [
+    "How to Book Free Personal Training Trials Fast",
+    "One Text That Fills Your PT Trial Slots",
+    "Easy Script to Book Trial Clients Today"
+  ],
+  "thumbnail_text": "Fill Trial Slots Fast",
+  "description": "A super-short TikTok/Shorts script you can copy to book free personal training trials. Designed for trainers with little time and zero ad budget.\n\nIncludes a single, cheap tactic, exact words to send, and visuals you can film in one take. Use this to get more trial bookings without complicated funnels.",
+  "tags": [
+    "personal training",
+    "fitness marketing",
+    "TikTok script",
+    "shorts",
+    "free trial",
+    "local business marketing",
+    "gym marketing",
+    "appointment booking",
+    "small business tips",
+    "low budget marketing"
+  ],
+  "scenes": [
+    {
+      "section": "HOOK",
+      "narration": "Fill every free PT slot in one week?",
+      "visual_query": "trainer thinking at gym",
+      "on_screen_text": "Fill Trial Slots Fast",
+      "visual": "doodle",
+      "doodle_prompt": "trainer with empty calendar, worried"
+    },
+    {
+      "section": "PROBLEM",
+      "narration": "You run a gym or train clients and free trial slots sit empty because people forget to book.",
+      "visual_query": "trainer at empty gym floor",
+      "on_screen_text": "Trials sit empty",
+      "visual": "stock",
+      "doodle_prompt": ""
+    },
+    {
+      "section": "TIP",
+      "narration": "Send a one-line SMS that creates urgency and makes booking one tap. Keep it personal and time-limited.",
+      "visual_query": "phone with message bubble",
+      "on_screen_text": "One-line SMS",
+      "visual": "doodle",
+      "doodle_prompt": "phone with a single message bubble and clock"
+    },
+    {
+      "section": "EXAMPLE",
+      "narration": "Copy this: “Hey Sam — I’ve got a free 45-min PT trial Friday at 5PM. Reply YES to claim it.”",
+      "visual_query": "trainer texting client at desk",
+      "on_screen_text": "Reply YES to claim",
+      "visual": "stock",
+      "doodle_prompt": ""
+    },
+    {
+      "section": "FOLLOW-UP",
+      "narration": "If they reply YES, send: “Great — what’s your best phone number? I’ll text a quick confirmation and the gym address.”",
+      "visual_query": "trainer smiling, checking phone",
+      "on_screen_text": "Confirm details",
+      "visual": "doodle",
+      "doodle_prompt": "trainer handing clipboard to a person, phone visible"
+    },
+    {
+      "section": "CLOSE",
+      "narration": "Film the message on-screen, show the empty slot filled, say: Follow Blue Ocean Marketing for one marketing fix every day.",
+      "visual_query": "trainer celebrating with new client",
+      "on_screen_text": "Slot Filled!",
+      "visual": "stock",
+      "doodle_prompt": ""
+    }
+  ]
+}
