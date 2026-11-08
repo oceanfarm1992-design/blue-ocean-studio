@@ -1,0 +1,74 @@
+{
+  "format": "short",
+  "topic": "3 Cheap Instagram Reels That Bring Walk‑In Customers to a Cafe",
+  "title": "3 Cheap Reels That Bring Walk‑Ins to Your Cafe",
+  "title_options": [
+    "Make Reels That Drive Cafe Walk‑Ins",
+    "Quick Instagram Reels for Cafe Foot Traffic",
+    "Low‑Cost Reels to Get Customers Now"
+  ],
+  "thumbnail_text": "Reels = Walk‑Ins",
+  "description": "Three cheap, 15‑second Instagram Reel ideas you can film today. Each reel highlights a limited‑time in‑shop offer to turn scrollers into customers.\nNo fancy gear. No paid ads. One clear example shows wording, shot list, and estimated costs so you can film and post in under an hour.",
+  "tags": [
+    "cafe marketing",
+    "instagram reels",
+    "walk in customers",
+    "small business marketing",
+    "coffee shop tips",
+    "low budget marketing",
+    "local marketing",
+    "social media for cafes",
+    "reels ideas",
+    "foot traffic"
+  ],
+  "scenes": [
+    {
+      "section": "HOOK",
+      "narration": "Want more cafe walk‑ins today?",
+      "visual_query": "blank storefront sketch",
+      "on_screen_text": "More Walk‑Ins Today?",
+      "visual": "doodle",
+      "doodle_prompt": "small cafe storefront, sidewalk with one person walking"
+    },
+    {
+      "section": "TIP",
+      "narration": "Make a 15‑second lunchtime Reel offering a one‑day free pastry with any medium coffee purchase.",
+      "visual_query": "barista handing coffee cup counter",
+      "on_screen_text": "Free pastry with coffee",
+      "visual": "stock",
+      "doodle_prompt": ""
+    },
+    {
+      "section": "SHOT LIST",
+      "narration": "Shoot three quick clips: coffee pour, pastry close‑up, smiling customer at door. Use natural light, phone on tripod.",
+      "visual_query": "close up pastry on plate",
+      "on_screen_text": "3 Quick Clips",
+      "visual": "doodle",
+      "doodle_prompt": "coffee cup pouring, pastry on plate, customer opening door"
+    },
+    {
+      "section": "SCRIPT",
+      "narration": "Voice line: \"Today only — free pastry with any medium coffee until 2PM.\" Keep it urgent and friendly.",
+      "visual_query": "barista smiling to camera counter",
+      "on_screen_text": "Today only until 2PM",
+      "visual": "stock",
+      "doodle_prompt": ""
+    },
+    {
+      "section": "CAPTION & HASHTAGS",
+      "narration": "Caption: \"Free pastry with medium coffee today until 2PM. Pop in — no code needed.\" Add local hashtags and location tag.",
+      "visual_query": "phone showing social post over counter",
+      "on_screen_text": "Add location + hashtags",
+      "visual": "doodle",
+      "doodle_prompt": "phone in hand, heart icons floating, small map pin nearby"
+    },
+    {
+      "section": "FINAL",
+      "narration": "Film one staff member saying \"See you soon!\" at the door. Follow Blue Ocean Marketing for one marketing fix every day.",
+      "visual_query": "barista waving at door",
+      "on_screen_text": "See you soon!",
+      "visual": "stock",
+      "doodle_prompt": ""
+    }
+  ]
+}
